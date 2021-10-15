@@ -8,9 +8,9 @@ public class Cells {
   public int myID;
 
 
-  public Cells(int ID, int initialState){
+  public Cells( int initialState){
     currentState = initialState;
-    this.myID = ID;
+    //this.myID = ID;
   }
 
   public void updateState(List<Cells> myNeighbors){
@@ -22,7 +22,7 @@ public class Cells {
   }
 
   public int getCurrentState(){
-    return 1;
+    return currentState;
   }
 
 

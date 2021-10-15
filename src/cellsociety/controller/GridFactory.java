@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class GridFactory {
     private Cells[][] myGrid;
+    private String rowCount;
+    private String colCount;
 
     public void setUpGrid(String file){
         try {
@@ -16,7 +18,9 @@ public class GridFactory {
             CSVReader csvReader = new CSVReader(fileReader);
 
             initializeRowAndColumnCounts(csvReader);
+            initializeGrid();
             initializeCells(csvReader);
+            printGrid();
 
         }
         catch(FileNotFoundException e){
@@ -24,12 +28,20 @@ public class GridFactory {
         }
     }
 
+    private void printGrid() {
+        for (int i = 0; i < myGrid.length; i++){
+            for (int j = 0; j < myGrid[i].length; j++){
+                System.out.print(myGrid[i][j].getCurrentState());
+            }
+            System.out.println();
+        }
+    }
+
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-            for(String c : rowAndColumn){
-                System.out.println(c);
-            }
+            rowCount = rowAndColumn[0]; // set variables to remove magic numbers
+            colCount = rowAndColumn[1];
 
         }
         catch(Exception e){
@@ -37,14 +49,20 @@ public class GridFactory {
         }
     }
 
+    private void initializeGrid() {
+        myGrid = new Cells[Integer.parseInt(rowCount)][Integer.parseInt(colCount)];
+    }
+
+
     private void initializeCells(CSVReader csvReader){
        try {
            String nextCell[];
+           int i = 0;
            while ((nextCell = csvReader.readNext()) != null) {
-               for (String cell : nextCell) {
-                   System.out.print(cell);
+               for (int j = 0; j < nextCell.length; j++) {
+                   myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
                }
-               System.out.println();
+               i++;
            }
        }
        catch(Exception e){
