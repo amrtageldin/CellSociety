@@ -1,4 +1,7 @@
 package cellsociety.model;
 
-public class CellSocietyModel {
+abstract public class CellSocietyModel {
+  public CellSocietyModel(){
+
+  }
 }
