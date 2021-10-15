@@ -14,8 +14,8 @@ public class GameFactory {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             String[] gameType = line.split("=");
-            myType = gameType[1];
-            myModel = (CellSocietyModel) Class.forName(String.format("%sModel", myType)).getConstructor().newInstance();
+            myType = gameType[1] + "Model";
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%s", myType)).getConstructor().newInstance();
             System.out.println(myModel);
         }
         catch (Exception e){
