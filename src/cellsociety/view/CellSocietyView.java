@@ -1,7 +1,10 @@
 package cellsociety.view;
 
+import cellsociety.controller.CellSocietyController;
+import cellsociety.model.CellSocietyModel;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Cell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -19,6 +22,8 @@ public class CellSocietyView {
 
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
+  private CellSocietyController myController;
+  private CellSocietyModel myModel;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -32,7 +37,9 @@ public class CellSocietyView {
    * @param language What language property will be used (English or Spanish).
    * @param stage    Stage from Main class to call upon files.
    */
-  public CellSocietyView(String language, Stage stage) {
+  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language, Stage stage) {
+    this.myController = controller;
+    this.myModel = model;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
   }
@@ -63,8 +70,14 @@ public class CellSocietyView {
 
   private void chooseFile(Stage stage) {
     FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(stage);
+    myController.createGridFromFile(selectedFile.toString());
     // would need to send selectedFile to Controller.
+  }
+
+  public void setMyController(CellSocietyController controller){
+    myController = controller;
   }
 
 
