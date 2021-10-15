@@ -72,13 +72,10 @@ public class CellSocietyView {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(stage);
-    myController.createGridFromFile(selectedFile.toString());
-    // would need to send selectedFile to Controller.
+    myController.loadFileType(selectedFile.toString());
   }
 
-  public void setMyController(CellSocietyController controller){
-    myController = controller;
-  }
+
 
 
 }
