@@ -12,7 +12,7 @@ public class GridFactory {
     private String rowCount;
     private String colCount;
 
-    public void setUpGrid(String file){
+    public Cells[][] setUpGrid(String file){
         try {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReader(fileReader);
@@ -20,22 +20,14 @@ public class GridFactory {
             initializeRowAndColumnCounts(csvReader);
             initializeGrid();
             initializeCells(csvReader);
-            printGrid();
 
         }
         catch(FileNotFoundException e){
             e.printStackTrace(); //NEED TO COME BACK AND FIX!!!
         }
+        return myGrid;
     }
 
-    private void printGrid() {
-        for (int i = 0; i < myGrid.length; i++){
-            for (int j = 0; j < myGrid[i].length; j++){
-                System.out.print(myGrid[i][j].getCurrentState());
-            }
-            System.out.println();
-        }
-    }
 
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {

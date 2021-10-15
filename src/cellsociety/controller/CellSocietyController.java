@@ -2,12 +2,14 @@ package cellsociety.controller;
 
 import cellsociety.model.CellSocietyModel;
 
+import cellsociety.model.Cells;
 import java.util.ResourceBundle;
 
 public class CellSocietyController {
     private CellSocietyModel myModel;
     private ResourceBundle myFileType;
     private GridFactory myGridFactory;
+    private Cells[][] myGrid;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
 
@@ -39,7 +41,10 @@ public class CellSocietyController {
     }
 
     private void createGridFromFile(String file){
-        myGridFactory.setUpGrid(file);
+        myGrid = myGridFactory.setUpGrid(file);
+    }
+    public Cells[][] getMyGrid(){
+        return myGrid;
     }
 
     private void createSimFromFile(String file){
