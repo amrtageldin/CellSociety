@@ -7,11 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.ResourceBundle;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  * Class that creates individual components for the View.
  *
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  */
 public class FactoryComponents {
 
@@ -36,6 +41,18 @@ public class FactoryComponents {
    */
   public Label makeLabel(String id) {
     Label label = new Label(myResources.getString(id));
+    return (Label) setId(id, label);
+  }
+
+  /**
+   * Method that creates a title.
+   *
+   * @param id Label identifier.
+   * @return Label with identifier.
+   */
+  public Label makeTitle(String id) {
+    Label label = new Label(myResources.getString(id));
+    label.setFont(Font.font("Arial", FontWeight.BOLD, 18));
     return (Label) setId(id, label);
   }
 

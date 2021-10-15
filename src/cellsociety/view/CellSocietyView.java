@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Cell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -55,11 +56,12 @@ public class CellSocietyView {
    *
    * @return scene that contains the file buttons for the user to choose a game.
    */
-  public Scene setupDisplay() {
+  public Scene setupDisplay(Paint backgroundColor) {
     VBox root = new VBox();
-    Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
+    root.setAlignment(Pos.CENTER);
+    Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
     root.getChildren().addAll(displayLabel, setupGameModePanel());
-    Scene scene = new Scene(root);
+    Scene scene = new Scene(root, backgroundColor);
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
     return scene;
@@ -84,8 +86,6 @@ public class CellSocietyView {
     File selectedFile = fileChooser.showOpenDialog(stage);
     myController.loadFileType(selectedFile.toString());
   }
-
-
 
 
 }

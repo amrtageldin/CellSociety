@@ -6,6 +6,8 @@ import cellsociety.model.CellSocietyModel;
 import cellsociety.model.GameOfLifeModel;
 import cellsociety.view.CellSocietyView;
 import javafx.application.Application;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 /**
@@ -24,7 +26,7 @@ public class Main extends Application {
     CellSocietyModel model = new GameOfLifeModel();
     CellSocietyController controller = new CellSocietyController(model);
     CellSocietyView display = new CellSocietyView(controller, model, LANGUAGE, stage);
-    stage.setScene(display.setupDisplay());
+    stage.setScene(display.setupDisplay(Color.BEIGE));
     stage.setTitle(TITLE);
     stage.show();
   }
