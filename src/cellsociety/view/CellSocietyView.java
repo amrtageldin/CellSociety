@@ -2,6 +2,8 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.CellSocietyModel;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Cell;
@@ -15,6 +17,7 @@ import java.util.Objects;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that sets up the display for all Cell Society Game types.
  */
@@ -24,6 +27,9 @@ public class CellSocietyView {
   private final Stage myStage;
   private CellSocietyController myController;
   private CellSocietyModel myModel;
+
+  private static final int topButtonPadding = 30;
+  private static final int buttonSpacing = 10;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -61,10 +67,14 @@ public class CellSocietyView {
 
   private Node setupGameModePanel() {
     HBox panel = new HBox();
+    int sidePadding = (int) (myStage.getWidth() / 2);
     Node simulationType = myFactoryComponents.makeButton("SimulationType",
         e -> chooseFile(myStage));
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
     panel.getChildren().addAll(simulationType, initialGrid);
+    panel.setAlignment(Pos.CENTER);
+    panel.setSpacing(buttonSpacing);
+    panel.setPadding(new Insets(topButtonPadding, sidePadding, topButtonPadding, sidePadding));
     return panel;
   }
 
