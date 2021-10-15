@@ -51,4 +51,11 @@ public class CellSocietyController {
         System.out.println(file);
         System.out.println("actuallyhere");
     }
+
+    public void step(){
+        // for each cell in step; call the model to run the rules
+        // its gonna need the neighbors for the gameofLifemodel;
+
+
+    }
 }
