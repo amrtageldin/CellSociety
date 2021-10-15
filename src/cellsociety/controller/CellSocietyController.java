@@ -9,6 +9,7 @@ public class CellSocietyController {
     private CellSocietyModel myModel;
     private ResourceBundle myFileType;
     private GridFactory myGridFactory;
+    private GameFactory myGameFactory;
     private Cells[][] myGrid;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
@@ -22,6 +23,7 @@ public class CellSocietyController {
         myModel = model;
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
         myGridFactory = new GridFactory();
+        myGameFactory = new GameFactory();
     }
 
     /**
@@ -48,8 +50,7 @@ public class CellSocietyController {
     }
 
     private void createSimFromFile(String file){
-        System.out.println(file);
-        System.out.println("actuallyhere");
+        myGameFactory.setUpModel(file);
     }
 
     public void step(){

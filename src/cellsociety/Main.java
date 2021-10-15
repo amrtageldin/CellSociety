@@ -21,7 +21,7 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage stage) {
-    CellSocietyModel model = new GameOfLifeModel();
+    CellSocietyModel model = new CellSocietyModel();
     CellSocietyController controller = new CellSocietyController(model);
     CellSocietyView display = new CellSocietyView(controller, model, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
