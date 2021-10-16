@@ -2,12 +2,15 @@ package cellsociety.controller;
 
 import cellsociety.model.CellSocietyModel;
 
+import cellsociety.model.Cells;
 import java.util.ResourceBundle;
 
 public class CellSocietyController {
     private CellSocietyModel myModel;
     private ResourceBundle myFileType;
     private GridFactory myGridFactory;
+    private GameFactory myGameFactory;
+    private Cells[][] myGrid;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
 
@@ -20,6 +23,7 @@ public class CellSocietyController {
         myModel = model;
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
         myGridFactory = new GridFactory();
+        myGameFactory = new GameFactory();
     }
 
     /**
@@ -39,11 +43,20 @@ public class CellSocietyController {
     }
 
     private void createGridFromFile(String file){
-        myGridFactory.setUpGrid(file);
+        myGrid = myGridFactory.setUpGrid(file);
+    }
+    public Cells[][] getMyGrid(){
+        return myGrid;
     }
 
     private void createSimFromFile(String file){
-        System.out.println(file);
-        System.out.println("actuallyhere");
+        myGameFactory.setUpModel(file);
+    }
+
+    public void step(){
+        // for each cell in step; call the model to run the rules
+        // its gonna need the neighbors for the gameofLifemodel;
+
+
     }
 }
