@@ -12,6 +12,14 @@ public class GridFactory {
     private String rowCount;
     private String colCount;
 
+    /**
+     * This method initially sets up the grid that has a state value for each cell. It reads in
+     * a .csv file to find the number of rows and columns in the grid, and what the initial state
+     * of each cell is.
+     * @param file: .csv file that contains grid row/column numbers as well as initial state for each
+     *            cell
+     * @return: myGrid - a Cells[][] object with original states for all cells
+     */
     public Cells[][] setUpGrid(String file){
         try {
             FileReader fileReader = new FileReader(file);

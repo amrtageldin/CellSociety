@@ -47,6 +47,11 @@ public class CellSocietyController {
         myGrid = myGridFactory.setUpGrid(file);
     }
 
+    /**
+     * This method is called by the CellSocietyView to get the current state of each
+     * cell in the grid, so that it can be displayed on the game scene
+     * @return myGrid - grid of Cells with current states
+     */
     public Cells[][] getMyGrid(){
         return myGrid;
     }
@@ -63,6 +68,11 @@ public class CellSocietyController {
         return myModel;
     }
 
+    /**
+     * This method is called by the view so that the view knows which game the user has
+     * loaded up to play
+     * @return myGameType: the title of the current game being played
+     */
     public String getMyGameType(){
         return myGameType;
     }

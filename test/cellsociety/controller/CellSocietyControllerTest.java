@@ -31,10 +31,59 @@ public class CellSocietyControllerTest {
     }
 
     @Test
+       void gridSetUpInvalidFileTest(){
+        try {
+            GameOfLifeModel g = new GameOfLifeModel();
+            CellSocietyController c = new CellSocietyController(g);
+            c.loadFileType("data/game_of_life/fake.csv");
+        }
+        catch (Exception e){
+            assert(true);
+        }
+    }
+
+    @Test
+    void gridSetUpBlankFileTest(){
+        try {
+            GameOfLifeModel g = new GameOfLifeModel();
+            CellSocietyController c = new CellSocietyController(g);
+            c.loadFileType("data/game_of_life/blank.csv");
+        }
+        catch(Exception e){
+            assert(true);
+        }
+    }
+
+    @Test
+    void gridSetUpOnlyRowsAndColumnsTest(){
+        try {
+            GameOfLifeModel g = new GameOfLifeModel();
+            CellSocietyController c = new CellSocietyController(g);
+            c.loadFileType("data/game_of_life/only-rows-and-columns.csv");
+        }
+        catch (NumberFormatException e){
+            assert(true);
+        }
+    }
+
+    @Test
     void gameSetUpPassTest(){
         GameOfLifeModel g = new GameOfLifeModel();
         CellSocietyController c = new CellSocietyController(g);
         c.loadFileType("data/game_of_life/blinkers.sim");
         assertEquals(c.getMyGameType(), "GameOfLifeModel");
+    }
+
+    @Test
+    void gameSetUpFailTest(){
+        try {
+            GameOfLifeModel g = new GameOfLifeModel();
+            CellSocietyController c = new CellSocietyController(g);
+            c.loadFileType("data/game_of_life/fake.sim");
+        }
+        catch (Exception e){
+            assert(true);
+        }
+
     }
 }
