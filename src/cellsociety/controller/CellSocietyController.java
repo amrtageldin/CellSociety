@@ -11,6 +11,7 @@ public class CellSocietyController {
     private GridFactory myGridFactory;
     private GameFactory myGameFactory;
     private Cells[][] myGrid;
+    private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
 
@@ -45,18 +46,39 @@ public class CellSocietyController {
     private void createGridFromFile(String file){
         myGrid = myGridFactory.setUpGrid(file);
     }
+
+    /**
+     * This method is called by the CellSocietyView to get the current state of each
+     * cell in the grid, so that it can be displayed on the game scene
+     * @return myGrid - grid of Cells with current states
+     */
     public Cells[][] getMyGrid(){
         return myGrid;
     }
 
-    private void createSimFromFile(String file){
-        myGameFactory.setUpModel(file);
+    private CellSocietyModel createSimFromFile(String file){
+        try {
+            String gameType = myGameFactory.setUpModel(file);
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%s", gameType)).getConstructor().newInstance();
+            myGameType = gameType;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return myModel;
+    }
+
+    /**
+     * This method is called by the view so that the view knows which game the user has
+     * loaded up to play
+     * @return myGameType: the title of the current game being played
+     */
+    public String getMyGameType(){
+        return myGameType;
     }
 
     public void step(){
         // for each cell in step; call the model to run the rules
         // its gonna need the neighbors for the gameofLifemodel;
-
-
     }
 }
