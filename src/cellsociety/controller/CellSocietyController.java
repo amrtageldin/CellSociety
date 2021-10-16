@@ -11,6 +11,7 @@ public class CellSocietyController {
     private GridFactory myGridFactory;
     private GameFactory myGameFactory;
     private Cells[][] myGrid;
+    private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
 
@@ -45,18 +46,29 @@ public class CellSocietyController {
     private void createGridFromFile(String file){
         myGrid = myGridFactory.setUpGrid(file);
     }
+
     public Cells[][] getMyGrid(){
         return myGrid;
     }
 
-    private void createSimFromFile(String file){
-        myGameFactory.setUpModel(file);
+    private CellSocietyModel createSimFromFile(String file){
+        try {
+            String gameType = myGameFactory.setUpModel(file);
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%s", gameType)).getConstructor().newInstance();
+            myGameType = gameType;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return myModel;
+    }
+
+    public String getMyGameType(){
+        return myGameType;
     }
 
     public void step(){
         // for each cell in step; call the model to run the rules
         // its gonna need the neighbors for the gameofLifemodel;
-
-
     }
 }
