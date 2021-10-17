@@ -1,9 +1,8 @@
 package cellsociety.model;
 
-import cellsociety.rules.GameOfLifeRules;
+import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.Cell;
 
 public class GameOfLifeModel extends CellSocietyModel{
     private final int ALIVE = 1;
@@ -28,6 +27,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     }
 
     private List<Cells> generateNeighbors(int row, int col, Cells[][] myGrid) {
+        // square
         int[] xChanges = new int[]{-1,0,1};
         int[] yChanges = new int[]{-1,0,1};
         List<Cells> myCells = new ArrayList<>();
