@@ -28,6 +28,7 @@ public class CellSocietyView {
   private final Stage myStage;
   private CellSocietyController myController;
   private CellSocietyModel myModel;
+  private File selectedFile;
 
   private static final int topButtonPadding = 30;
   private static final int buttonSpacing = 10;
@@ -44,7 +45,8 @@ public class CellSocietyView {
    * @param language What language property will be used (English or Spanish).
    * @param stage    Stage from Main class to call upon files.
    */
-  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language, Stage stage) {
+  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
+      Stage stage) {
     this.myController = controller;
     this.myModel = model;
     myFactoryComponents = new FactoryComponents(language);
@@ -59,6 +61,7 @@ public class CellSocietyView {
   // Take out the background color, that needs to be done in CSS
   public Scene setupDisplay(Paint backgroundColor) {
     VBox root = new VBox();
+    root.setId("MainPane");
     root.setAlignment(Pos.CENTER);
     Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
     root.getChildren().addAll(displayLabel, setupGameModePanel());
@@ -84,9 +87,12 @@ public class CellSocietyView {
   private void chooseFile(Stage stage) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
-    File selectedFile = fileChooser.showOpenDialog(stage);
+    selectedFile = fileChooser.showOpenDialog(stage);
     myController.loadFileType(selectedFile.toString());
   }
 
+  public File getMyFile() {
+    return selectedFile;
+  }
 
 }
