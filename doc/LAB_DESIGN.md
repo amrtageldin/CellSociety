@@ -1,23 +1,25 @@
 # Cell Society Design Discussion
-### Team Number: 9
+### Team Number: 9 
 ### Names: Reya Magan, Amr Tagel-Din, Luke Josephy, Evelyn Cupil-Garcia
 
 
 ### Discussion Questions
 
- * How does a Cell know what rules to apply for its simulation?
+ * __How does a Cell know what rules to apply for its simulation?__
+    
+   We are planning to have an abstract rules class that each rule type will extend. We are planning to have a model superclass that each game extends for its own model.
 
- * How does a Cell know about its neighbors?
+ * __How does a Cell know about its neighbors?__
 
- * How can a Cell update itself without affecting its neighbors update?
+ * __How can a Cell update itself without affecting its neighbors update?__
 
- * What behaviors does the Grid itself have?
+ * __What behaviors does the Grid itself have?__
 
- * How can a Grid update all the Cells it contains?
+ * __How can a Grid update all the Cells it contains?__
 
- * How is configuration information used to set up a simulation?
+ * __How is configuration information used to set up a simulation?__
 
- * How is the GUI updated after all the cells have been updated?
+ * __How is the GUI updated after all the cells have been updated?__
 
 
 ### Alternate Designs
