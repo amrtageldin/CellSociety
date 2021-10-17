@@ -7,9 +7,7 @@ public class CellSocietyModel {
 
   }
 
-  public int getNextState(){
-    //
-
+  public int getNextState(Cells myCell){
     return 1;
   }
 

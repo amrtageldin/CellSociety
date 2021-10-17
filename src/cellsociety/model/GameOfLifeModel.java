@@ -15,6 +15,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     }
 
 
+    @Override
     public int getNextState(Cells myCell){
         return myCell.getMyNextState();
     }
