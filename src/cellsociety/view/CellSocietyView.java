@@ -56,6 +56,7 @@ public class CellSocietyView {
    *
    * @return scene that contains the file buttons for the user to choose a game.
    */
+  // Take out the background color, that needs to be done in CSS
   public Scene setupDisplay(Paint backgroundColor) {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
