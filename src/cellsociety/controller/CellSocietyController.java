@@ -88,8 +88,18 @@ public class CellSocietyController {
                 System.out.print(myModel.getNextState(thisCell));
             }
             System.out.println();
-        }
+            updateGrid();
 
+        }
+    }
+
+    private void updateGrid(){
+        for (int i = 0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid[0].length; j++) {
+                Cells thisCell = myGrid[i][j];
+                thisCell.updateMyCurrentState();
+            }
+        }
 
     }
 }

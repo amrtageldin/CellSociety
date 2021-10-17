@@ -16,6 +16,13 @@ public class Cells {
     return myNextState;
   }
 
+  public void updateMyCurrentState(){
+    if(myNextState != null){
+      currentState = myNextState;
+      myNextState = null;
+    }
+  }
+
   public void setMyNextState(Integer myNextState) {
     if (myNextState != null){
       this.myNextState = myNextState;
