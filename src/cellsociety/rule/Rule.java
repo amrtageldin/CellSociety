@@ -2,7 +2,7 @@ package cellsociety.rule;
 
 abstract public class Rule {
   protected int myComparator;
-  protected int myConditionIsMetResult;
+  protected Integer myConditionIsMetResult;
 
   public Rule(int comparator, Integer conditionResult){
     myComparator = comparator;

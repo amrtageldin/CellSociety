@@ -16,7 +16,7 @@ public class Cells {
     return myNextState;
   }
 
-  public void setMyNextState(int myNextState) {
+  public void setMyNextState(Integer myNextState) {
     this.myNextState = myNextState;
   }
 

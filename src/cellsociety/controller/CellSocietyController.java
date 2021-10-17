@@ -85,7 +85,9 @@ public class CellSocietyController {
             for (int j = 0; j < myGrid[0].length; j++){
                 Cells thisCell = myGrid[i][j];
                 myModel.setNextState(thisCell, i, j, myGrid);
+                System.out.print(thisCell.nextState);
             }
+            System.out.println();
         }
 
 

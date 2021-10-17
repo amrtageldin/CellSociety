@@ -10,7 +10,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     private GameOfLifeRules myRules;
 
     public GameOfLifeModel(){
-        System.out.println("heree");
+        System.out.println("yes");
         myRules = new GameOfLifeRules();
     }
 
