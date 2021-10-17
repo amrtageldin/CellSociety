@@ -42,7 +42,7 @@ rule execution for the game.
 for each type of rule (conditional, probability, time, etc). Since the rules within these types are fairly similar, we could just split them into methods within the type classes. We could use reflection to determine which of these classes to call.
 
 
- * Trade-offs: Extending different types of rules and then having methods for each rule might not be the best design. It could make each type class really long, and could cause a decent amount of repeated code. It could also be too specific and hard to extend if we get a totally different type of rule introduced.  If we have each rule in its own class, we can easily add more and keep it fairly easy to follow. It could get long, so maybe we could organize them into packages for better readability. 
+ * Trade-offs: Extending different types of rules and then having methods for each rule might not be the best design. It could make each type class really long, and could cause a decent amount of repeated code. It could also be too specific and hard to extend if we get a totally different type of rule introduced.  If we have each rule in its own class, we can easily add more and keep it fairly easy to follow. It could get long, so maybe we could organize them into packages for better readability. We could also have a basic rules class that each game type extends, with common methods present in the superclass.
 
 
 #### Design Issue #2
