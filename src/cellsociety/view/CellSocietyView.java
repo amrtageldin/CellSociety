@@ -91,6 +91,12 @@ public class CellSocietyView {
     myController.loadFileType(selectedFile.toString());
   }
 
+  /**
+   * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
+   * hunted through the internet but didn't have much luck on something better.
+   *
+   * @return selectedFile from FileChooser.
+   */
   public File getMyFile() {
     return selectedFile;
   }
