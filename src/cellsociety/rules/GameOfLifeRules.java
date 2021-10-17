@@ -18,9 +18,9 @@ public class GameOfLifeRules {
     else if (quantityOfLivingCells == 3){
       return ALIVE;
     }
-    else if (quantityOfLivingCells >= 4){
+    else {
       return DEAD;
     }
-
+    
   }
 }
