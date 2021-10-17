@@ -25,6 +25,9 @@ public class GameOfLifeRules {
     Integer productOfGeneratingState = null;
     for (Rule x : myRules){
       productOfGeneratingState = x.generateState(quantityOfLivingCells);
+      if (productOfGeneratingState != null){
+        break;
+      }
     }
 
     return productOfGeneratingState;

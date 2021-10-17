@@ -17,7 +17,12 @@ public class Cells {
   }
 
   public void setMyNextState(Integer myNextState) {
-    this.myNextState = myNextState;
+    if (myNextState != null){
+      this.myNextState = myNextState;
+    }
+    else{
+      this.myNextState = currentState;
+    }
   }
 
 
