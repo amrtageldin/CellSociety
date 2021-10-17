@@ -77,7 +77,8 @@ public class CellSocietyView {
     Node simulationType = myFactoryComponents.makeButton("SimulationType",
         e -> chooseFile(myStage));
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
-    panel.getChildren().addAll(simulationType, initialGrid);
+    Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
+    panel.getChildren().addAll(simulationType, initialGrid, playButton);
     panel.setAlignment(Pos.CENTER);
     panel.setSpacing(buttonSpacing);
     panel.setPadding(new Insets(topButtonPadding, sidePadding, topButtonPadding, sidePadding));
@@ -89,6 +90,10 @@ public class CellSocietyView {
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
     selectedFile = fileChooser.showOpenDialog(stage);
     myController.loadFileType(selectedFile.toString());
+  }
+
+  private void startGame(){
+    myController.step();
   }
 
   /**

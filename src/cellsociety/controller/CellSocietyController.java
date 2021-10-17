@@ -80,12 +80,11 @@ public class CellSocietyController {
     public void step(){
         // for each cell in step; call the model to run the rules
         // its gonna need the neighbors for the gameofLifemodel;
-
+        System.out.println("check");
         for (int i = 0; i < myGrid.length; i++){
             for (int j = 0; j < myGrid[0].length; j++){
                 Cells thisCell = myGrid[i][j];
                 myModel.setNextState(thisCell, i, j, myGrid);
-
             }
         }
 
