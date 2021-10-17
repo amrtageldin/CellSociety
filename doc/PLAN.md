@@ -68,7 +68,7 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
  * Team Member #1: Reya - working primarily on the backend, Controller connections between model and view. Setting up abstractions to allow extendability for different game and rule types.
 
- * Team Member #2
+ * Team Member #2: Evelyn - working primarly on the frontend, displaying grid mechanics for each game.
 
  * Team Member #3
 

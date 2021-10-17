@@ -28,6 +28,7 @@ public class CellSocietyView {
   private final Stage myStage;
   private CellSocietyController myController;
   private CellSocietyModel myModel;
+  private File selectedFile;
 
   private static final int topButtonPadding = 30;
   private static final int buttonSpacing = 10;
@@ -44,7 +45,8 @@ public class CellSocietyView {
    * @param language What language property will be used (English or Spanish).
    * @param stage    Stage from Main class to call upon files.
    */
-  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language, Stage stage) {
+  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
+      Stage stage) {
     this.myController = controller;
     this.myModel = model;
     myFactoryComponents = new FactoryComponents(language);
@@ -56,8 +58,10 @@ public class CellSocietyView {
    *
    * @return scene that contains the file buttons for the user to choose a game.
    */
+  // Take out the background color, that needs to be done in CSS
   public Scene setupDisplay(Paint backgroundColor) {
     VBox root = new VBox();
+    root.setId("MainPane");
     root.setAlignment(Pos.CENTER);
     Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
     root.getChildren().addAll(displayLabel, setupGameModePanel());
@@ -73,7 +77,8 @@ public class CellSocietyView {
     Node simulationType = myFactoryComponents.makeButton("SimulationType",
         e -> chooseFile(myStage));
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
-    panel.getChildren().addAll(simulationType, initialGrid);
+    Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
+    panel.getChildren().addAll(simulationType, initialGrid, playButton);
     panel.setAlignment(Pos.CENTER);
     panel.setSpacing(buttonSpacing);
     panel.setPadding(new Insets(topButtonPadding, sidePadding, topButtonPadding, sidePadding));
@@ -83,9 +88,22 @@ public class CellSocietyView {
   private void chooseFile(Stage stage) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
-    File selectedFile = fileChooser.showOpenDialog(stage);
+    selectedFile = fileChooser.showOpenDialog(stage);
     myController.loadFileType(selectedFile.toString());
   }
 
+  private void startGame(){
+    myController.step();
+  }
+
+  /**
+   * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
+   * hunted through the internet but didn't have much luck on something better.
+   *
+   * @return selectedFile from FileChooser.
+   */
+  public File getMyFile() {
+    return selectedFile;
+  }
 
 }

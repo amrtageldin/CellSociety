@@ -61,7 +61,9 @@ public class GridFactory {
            while ((nextCell = csvReader.readNext()) != null) {
                for (int j = 0; j < nextCell.length; j++) {
                    myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
+                   System.out.print(myGrid[i][j].currentState);
                }
+               System.out.println();
                i++;
            }
        }
