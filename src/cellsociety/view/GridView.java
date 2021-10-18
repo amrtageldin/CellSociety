@@ -29,7 +29,7 @@ public class GridView {
    * Function that creates the grid to give to CellSociety
    * @return pane that holds the cells
    */
-  public GridPane createGrid() {
+  public GridPane setupGrid() {
     GridPane pane = new GridPane();
     pane.setId("Grid");
     determineColumnNum(pane);

@@ -53,7 +53,6 @@ public class CellSocietyController {
      * @return myGrid - grid of Cells with current states
      */
     public Cells[][] getMyGrid(){
-        System.out.println(myGrid);
         return myGrid;
     }
 

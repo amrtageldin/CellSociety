@@ -34,7 +34,7 @@ public class CellSocietyView {
   private CellSocietyController myController;
   private CellSocietyModel myModel;
   private File selectedFile;
-  private GridView myGrid;
+  private GridView myGridView;
 
   /**The default size of the window.**/
   public static final int DEFAULT_X = 800;
@@ -59,11 +59,10 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
       Stage stage) {
-    this.myController = controller;
-    this.myModel = model;
+    myController = controller;
+    myModel = model;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
-    this.myGrid = new GridView(this.myController);
   }
 
   /**
@@ -103,7 +102,8 @@ public class CellSocietyView {
   }
 
   private void startGame(){
-    root.getChildren().add(myGrid.createGrid());
+    myGridView = new GridView(myController);
+    root.setCenter(myGridView.setupGrid());
     myController.step();
   }
 
