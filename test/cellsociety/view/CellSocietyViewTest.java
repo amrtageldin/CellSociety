@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

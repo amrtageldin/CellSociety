@@ -36,7 +36,9 @@ public class CellSocietyView {
   private File selectedFile;
   private GridView myGridView;
 
-  /**The default size of the window.**/
+  /**
+   * The default size of the window.
+   **/
   public static final int DEFAULT_X = 800;
   public static final int DEFAULT_Y = 600;
 
@@ -54,8 +56,8 @@ public class CellSocietyView {
    * Stage.
    *
    * @param controller CellSocietyController
-   * @param language What language property will be used (English or Spanish).
-   * @param stage    Stage from Main class to call upon files.
+   * @param language   What language property will be used (English or Spanish).
+   * @param stage      Stage from Main class to call upon files.
    */
   public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
       Stage stage) {
@@ -101,7 +103,7 @@ public class CellSocietyView {
     myController.loadFileType(selectedFile.toString());
   }
 
-  private void startGame(){
+  private void startGame() {
     myGridView = new GridView(myController);
     root.setCenter(myGridView.setupGrid());
   }
@@ -123,25 +125,16 @@ public class CellSocietyView {
     Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
     displayLabel.getStyleClass().add("textProps");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
-    vbox.setMaxHeight(myStage.getHeight()/4);
+    vbox.setMaxHeight(myStage.getHeight() / 4);
     vbox.getStyleClass().add("topPane");
     return vbox;
-  }
-
-  private Node setupGridArea() {
-    Label gridArea = new Label("THIS IS WHERE THE GRID WILL BE");
-    gridArea.getStyleClass().add("gridPane");
-    gridArea.setMinSize(3*myStage.getWidth()/4, 3*myStage.getHeight()/4);
-    gridArea.setAlignment(Pos.CENTER);
-    gridArea.setMaxSize(MAXVALUE,MAXVALUE);
-    return gridArea;
   }
 
   private Node setupAboutSection() {
     Label bottomText = new Label("Ex: This is Game of Life! Watch the simulation work!");
     bottomText.getStyleClass().add("aboutPane");
     bottomText.setAlignment(Pos.CENTER);
-    bottomText.setMaxSize(MAXVALUE,MAXVALUE);
+    bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
   }
 
