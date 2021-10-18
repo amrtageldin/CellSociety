@@ -1,6 +1,6 @@
 # Cell Society Design Plan
-### Team Number
-### Names
+### Team Number: 9
+### Names: Reya Magan, Amr Tagel-Din, Luke Josephy, Evelyn Cupil-Garcia
 
 
 ## Design Overview
@@ -31,20 +31,25 @@ made from [a tool that generates UML from existing code](http://staruml.io/).
 
 ## Design Considerations
 
-#### Design Issue #1
+#### Design Issue #1: How should we deal with all of the rules within the game
 
- * Alernative #1
+ * Alternative #1: We can have an abstract rules class that has an abstract executeRule method.
+We can have all of the possible rules extend this class (one alive neighbor, three alive neighbors, probability rules etc.) Each rule would have their own executeRule method that does the correct
+rule execution for the game.
 
- * Alernative #2
 
- * Trade-offs
+ * Alternative #2: We can have an abstract rules class with the same abstract executeRule method as Alternative #1. However, instead of having every rule exist as its own class, we could have different classes
+for each type of rule (conditional, probability, time, etc). Since the rules within these types are fairly similar, we could just split them into methods within the type classes. We could use reflection to determine which of these classes to call.
+
+
+ * Trade-offs: Extending different types of rules and then having methods for each rule might not be the best design. It could make each type class really long, and could cause a decent amount of repeated code. It could also be too specific and hard to extend if we get a totally different type of rule introduced.  If we have each rule in its own class, we can easily add more and keep it fairly easy to follow. It could get long, so maybe we could organize them into packages for better readability. We could also have a basic rules class that each game type extends, with common methods present in the superclass.
 
 
 #### Design Issue #2
 
- * Alernative #1
+ * Alternative #1
 
- * Alernative #2
+ * Alternative #2
 
  * Trade-offs
 
@@ -61,9 +66,9 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 ## Team Responsibilities
 
- * Team Member #1
+ * Team Member #1: Reya - working primarily on the backend, Controller connections between model and view. Setting up abstractions to allow extendability for different game and rule types.
 
- * Team Member #2
+ * Team Member #2: Evelyn - working primarly on the frontend, displaying grid mechanics for each game.
 
  * Team Member #3
 

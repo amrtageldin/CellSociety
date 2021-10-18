@@ -1,4 +1,4 @@
-package cellsociety.rules;
+package cellsociety.ruleStructure;
 
 public class CellSocietyRules {
 }
