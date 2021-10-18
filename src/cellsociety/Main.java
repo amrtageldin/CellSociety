@@ -26,7 +26,7 @@ public class Main extends Application {
     CellSocietyModel model = new CellSocietyModel();
     CellSocietyController controller = new CellSocietyController(model);
     CellSocietyView display = new CellSocietyView(controller, model, LANGUAGE, stage);
-    stage.setScene(display.setupDisplay(Color.BEIGE));
+    stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
     stage.show();
   }

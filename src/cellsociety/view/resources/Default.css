@@ -13,6 +13,25 @@
   -fx-padding: 10px;
 }
 
+.aboutPane {
+  -fx-background-color: lightblue;
+  -fx-font-size: 20;
+}
+.topPane {
+  -fx-background-color: lightblue;
+}
+.gridPane {
+  -fx-background-color: lightgray;
+  -fx-text-fill: black;
+  -fx-font-size: 40;
+}
+
+.textProps {
+  -fx-text-fill: black;
+  -fx-font-family: "Segoe UI Semibold";
+}
+
+
 /*Example of Styling a panel with id of GameModePanel*/
 /*#GameModePanel {*/
 /*  -fx-spacing: 10px;*/
