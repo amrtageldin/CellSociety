@@ -2,7 +2,6 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.CellSocietyModel;
-import java.awt.Dimension;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

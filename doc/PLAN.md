@@ -59,18 +59,15 @@ for each type of rule (conditional, probability, time, etc). Since the rules wit
 
 Here is our amazing UI:
 
-![This is cool, too bad you can't see it](images/29-sketched-ui-wireframe.jpg "An alternate design")
-
-taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
-
+![This is cool, too bad you can't see it](images/CellSocietyUIPlan.png "Our planned design")
 
 ## Team Responsibilities
 
  * Team Member #1: Reya - working primarily on the backend, Controller connections between model and view. Setting up abstractions to allow extendability for different game and rule types.
 
- * Team Member #2: Evelyn - working primarly on the frontend, displaying grid mechanics for each game.
+ * Team Member #2: Evelyn - working primarily on the frontend, displaying grid mechanics for each game.
 
- * Team Member #3
+ * Team Member #3: Luke - working primarily on the frontend, developing overall screen structure and styling
 
  * Team Member #4
 
