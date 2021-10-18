@@ -11,6 +11,7 @@ import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -33,6 +34,7 @@ public class CellSocietyView {
   private CellSocietyController myController;
   private CellSocietyModel myModel;
   private File selectedFile;
+  private GridView myGrid;
 
   /**The default size of the window.**/
   public static final int DEFAULT_X = 800;
@@ -51,6 +53,7 @@ public class CellSocietyView {
    * Constructor for the CellSocietyView class that initializes FactoryComponents and retrieves
    * Stage.
    *
+   * @param controller CellSocietyController
    * @param language What language property will be used (English or Spanish).
    * @param stage    Stage from Main class to call upon files.
    */
@@ -60,6 +63,7 @@ public class CellSocietyView {
     this.myModel = model;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
+    this.myGrid = new GridView(this.myController);
   }
 
   /**
@@ -70,7 +74,6 @@ public class CellSocietyView {
   public Scene setupDisplay() {
     root = new BorderPane();
     root.setTop(setupTopText());
-    root.setCenter(setupGridArea());
     root.setBottom(setupAboutSection());
     Scene scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     scene.getStylesheets()
@@ -100,6 +103,7 @@ public class CellSocietyView {
   }
 
   private void startGame(){
+    root.getChildren().add(myGrid.createGrid());
     myController.step();
   }
 
