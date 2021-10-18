@@ -2,9 +2,12 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
-import javafx.scene.layout.ColumnConstraints;
+import java.util.List;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author Evelyn Cupil-Garcia
@@ -14,6 +17,15 @@ import javafx.scene.layout.RowConstraints;
 public class GridView {
   private CellSocietyController myController;
   private Cells[][] myGrid;
+  private GridPane pane;
+  private static final int GAP = 1;
+  private static final int SCREEN_WIDTH = 1500;
+  private static final int SCREEN_HEIGHT = 600;
+
+  private final List<Color> STATE_COLORS = List.of(
+      Color.WHITE,			// alive cell color
+      Color.BLACK	      // dead cell color
+  );
 
   /**
    * Constructor that initializes the Grid.
@@ -30,31 +42,39 @@ public class GridView {
    * @return pane that holds the cells
    */
   public GridPane setupGrid() {
-    GridPane pane = new GridPane();
+    pane = new GridPane();
     pane.setId("Grid");
-    determineColumnNum(pane);
-    determineRowNum(pane);
+    pane.setVgap(GAP);
+    pane.setHgap(GAP);
     pane.setGridLinesVisible(true);
+    drawGrid();
     return pane;
   }
 
-  private void determineColumnNum(GridPane pane) {
-    for(int i = 0; i < myGrid[0].length; i++) {
-      ColumnConstraints columnNum = new ColumnConstraints();
-      pane.getColumnConstraints().add(columnNum);
-    }
-  }
-
-  private void determineRowNum(GridPane pane) {
+  private void drawGrid() {
     for (int i = 0; i < myGrid.length; i++) {
-      RowConstraints rowNum = new RowConstraints();
-      pane.getRowConstraints().add(rowNum);
+      for (int j = 0; j < myGrid[0].length; j++) {
+        int currState = myGrid[i][j].currentState;
+        System.out.println(myGrid[i][j].currentState);
+        Rectangle cell = drawCell(STATE_COLORS.get(currState));
+        pane.add(cell, j, i);
+      }
     }
   }
 
+  private Rectangle drawCell(Paint currState) {
+    Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
+    cell.setFill(currState);
+    return cell;
+  }
 
-
-
-
-
+  private int findCellDimension() {
+    int width = SCREEN_WIDTH / myGrid.length;
+    int height = SCREEN_HEIGHT / myGrid[0].length;
+    if (width > height) {
+      return height;
+    } else {
+      return width;
+    }
+  }
 }

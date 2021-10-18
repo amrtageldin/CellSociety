@@ -104,7 +104,6 @@ public class CellSocietyView {
   private void startGame(){
     myGridView = new GridView(myController);
     root.setCenter(myGridView.setupGrid());
-    myController.step();
   }
 
   /**
