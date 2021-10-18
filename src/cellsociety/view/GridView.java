@@ -4,17 +4,17 @@ import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
  * @author Evelyn Cupil-Garcia
- *
+ * <p>
  * Class that displays the grid for the games.
  */
 public class GridView {
+
   private CellSocietyController myController;
   private Cells[][] myGrid;
   private GridPane pane;
@@ -23,12 +23,13 @@ public class GridView {
   private static final int SCREEN_HEIGHT = 600;
 
   private final List<Color> STATE_COLORS = List.of(
-      Color.WHITE,			// alive cell color
-      Color.BLACK	      // dead cell color
+      Color.WHITE,      // alive cell color
+      Color.BLACK        // dead cell color
   );
 
   /**
    * Constructor that initializes the Grid.
+   *
    * @param controller
    */
   public GridView(CellSocietyController controller) {
@@ -39,6 +40,7 @@ public class GridView {
 
   /**
    * Function that creates the grid to give to CellSociety
+   *
    * @return pane that holds the cells
    */
   public GridPane setupGrid() {
