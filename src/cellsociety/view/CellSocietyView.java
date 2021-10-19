@@ -70,6 +70,7 @@ public class CellSocietyView {
     myStage = stage;
   }
 
+
   /**
    * Method that sets up the Display.
    *
@@ -141,7 +142,7 @@ public class CellSocietyView {
     }
     isPlaying = !isPlaying;
   }
-  
+
   /**
    * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
    * hunted through the internet but didn't have much luck on something better.
