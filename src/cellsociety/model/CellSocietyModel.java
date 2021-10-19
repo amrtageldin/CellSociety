@@ -12,10 +12,6 @@ public class CellSocietyModel {
   }
 
 
-  public void updateState(List<Cells> myNeighbors){
-
-  }
-
   public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
 
   }

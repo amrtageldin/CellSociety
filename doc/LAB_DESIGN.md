@@ -7,9 +7,10 @@
 
  * __How does a Cell know what rules to apply for its simulation?__
     
-   We are planning to have an abstract rules class that each rule type will extend. We are planning to have a model superclass that each game extends for its own model.
+   We are planning to have an abstract rules class that each rule type will extend. We are planning to have a model superclass that each game extends for its own model, this model class will call its respective rules class within the rule structure package. This rules class will only call the relevant rules for its own game.
 
  * __How does a Cell know about its neighbors?__
+
 
  * __How can a Cell update itself without affecting its neighbors update?__
 
