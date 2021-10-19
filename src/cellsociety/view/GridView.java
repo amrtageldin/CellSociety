@@ -23,8 +23,8 @@ public class GridView {
   private static final int SCREEN_HEIGHT = 600;
 
   private final List<Color> STATE_COLORS = List.of(
-      Color.WHITE,      // alive cell color
-      Color.BLACK        // dead cell color
+      Color.BLACK,      // dead cell color
+      Color.WHITE       // alive cell color
   );
 
   /**
