@@ -8,12 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -106,14 +104,24 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     simulationTypeAction();
     clickOn(myStart);
     clickOn(myPause);
-    assertEquals(true, assertGridViewExists());
+    assertTrue(assertGridViewExists());
   }
 
   private boolean assertGridViewExists() {
     GridPane grid = lookup("#Grid").query();
-    if (grid.getChildren() != null) {
-      return true;
-    }
-    return false;
+    return grid.getChildren() != null;
+  }
+
+  /**
+   * Test that checks that initial grid matches Grid information received from Controller.
+   */
+  @Test
+  public void checkGridInitialization() {
+    initialGridAction();
+    simulationTypeAction();
+    clickOn(myStart);
+    clickOn(myPause);
+    
+
   }
 }
