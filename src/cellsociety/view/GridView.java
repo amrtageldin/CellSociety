@@ -15,8 +15,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class GridView {
 
-  private CellSocietyController myController;
-  private Cells[][] myGrid;
+  private final Cells[][] myGrid;
   private GridPane pane;
   private static final int GAP = 1;
   private static final int SCREEN_WIDTH = 1500;
@@ -30,11 +29,10 @@ public class GridView {
   /**
    * Constructor that initializes the Grid.
    *
-   * @param controller
+   * @param controller CellSocietyController that provides grid parsed from csv file.
    */
   public GridView(CellSocietyController controller) {
-    myController = controller;
-    myGrid = myController.getMyGrid();
+    myGrid = controller.getMyGrid();
 
   }
 
@@ -72,10 +70,6 @@ public class GridView {
   private int findCellDimension() {
     int width = SCREEN_WIDTH / myGrid.length;
     int height = SCREEN_HEIGHT / myGrid[0].length;
-    if (width > height) {
-      return height;
-    } else {
-      return width;
-    }
+    return Math.min(width, height);
   }
 }

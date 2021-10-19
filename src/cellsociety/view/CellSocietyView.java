@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.CellSocietyModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -30,8 +29,7 @@ public class CellSocietyView {
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
   private BorderPane root;
-  private CellSocietyController myController;
-  private CellSocietyModel myModel;
+  private final CellSocietyController myController;
   private File selectedFile;
   private GridView myGridView;
   private Timeline myAnimation;
@@ -62,13 +60,13 @@ public class CellSocietyView {
    * @param language   What language property will be used (English or Spanish).
    * @param stage      Stage from Main class to call upon files.
    */
-  public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
+  public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
     myController = controller;
-    myModel = model;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
   }
+
 
   /**
    * Method that sets up the Display.
@@ -141,7 +139,7 @@ public class CellSocietyView {
     }
     isPlaying = !isPlaying;
   }
-  
+
   /**
    * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
    * hunted through the internet but didn't have much luck on something better.
