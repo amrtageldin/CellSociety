@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -37,7 +36,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     CellSocietyModel model = new CellSocietyModel();
     CellSocietyController controller = new CellSocietyController(model);
     display = new CellSocietyView(controller, model, LANGUAGE, stage);
-    stage.setScene(display.setupDisplay(Color.BEIGE));
+    stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
     stage.setFullScreen(true);
     stage.show();

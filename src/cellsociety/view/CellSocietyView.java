@@ -6,10 +6,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Cell;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -26,10 +26,19 @@ public class CellSocietyView {
 
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
+  private BorderPane root;
   private CellSocietyController myController;
   private CellSocietyModel myModel;
   private File selectedFile;
+  private GridView myGridView;
 
+  /**
+   * The default size of the window.
+   **/
+  public static final int DEFAULT_X = 800;
+  public static final int DEFAULT_Y = 600;
+
+  private static final int MAXVALUE = 5000;
   private static final int topButtonPadding = 30;
   private static final int buttonSpacing = 10;
 
@@ -42,13 +51,14 @@ public class CellSocietyView {
    * Constructor for the CellSocietyView class that initializes FactoryComponents and retrieves
    * Stage.
    *
-   * @param language What language property will be used (English or Spanish).
-   * @param stage    Stage from Main class to call upon files.
+   * @param controller CellSocietyController
+   * @param language   What language property will be used (English or Spanish).
+   * @param stage      Stage from Main class to call upon files.
    */
   public CellSocietyView(CellSocietyController controller, CellSocietyModel model, String language,
       Stage stage) {
-    this.myController = controller;
-    this.myModel = model;
+    myController = controller;
+    myModel = model;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
   }
@@ -58,14 +68,11 @@ public class CellSocietyView {
    *
    * @return scene that contains the file buttons for the user to choose a game.
    */
-  // Take out the background color, that needs to be done in CSS
-  public Scene setupDisplay(Paint backgroundColor) {
-    VBox root = new VBox();
-    root.setId("MainPane");
-    root.setAlignment(Pos.CENTER);
-    Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
-    root.getChildren().addAll(displayLabel, setupGameModePanel());
-    Scene scene = new Scene(root, backgroundColor);
+  public Scene setupDisplay() {
+    root = new BorderPane();
+    root.setTop(setupTopText());
+    root.setBottom(setupAboutSection());
+    Scene scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
     return scene;
@@ -92,8 +99,9 @@ public class CellSocietyView {
     myController.loadFileType(selectedFile.toString());
   }
 
-  private void startGame(){
-    myController.step();
+  private void startGame() {
+    myGridView = new GridView(myController);
+    root.setCenter(myGridView.setupGrid());
   }
 
   /**
@@ -104,6 +112,26 @@ public class CellSocietyView {
    */
   public File getMyFile() {
     return selectedFile;
+  }
+
+  private Node setupTopText() {
+    VBox vbox = new VBox();
+    vbox.setId("MainPane");
+    vbox.setAlignment(Pos.CENTER);
+    Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
+    displayLabel.getStyleClass().add("textProps");
+    vbox.getChildren().addAll(displayLabel, setupGameModePanel());
+    vbox.setMaxHeight(myStage.getHeight() / 4);
+    vbox.getStyleClass().add("topPane");
+    return vbox;
+  }
+
+  private Node setupAboutSection() {
+    Label bottomText = new Label("Ex: This is Game of Life! Watch the simulation work!");
+    bottomText.getStyleClass().add("aboutPane");
+    bottomText.setAlignment(Pos.CENTER);
+    bottomText.setMaxSize(MAXVALUE, MAXVALUE);
+    return bottomText;
   }
 
 }
