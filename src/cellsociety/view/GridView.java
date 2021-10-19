@@ -3,6 +3,7 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 public class GridView {
 
   private final Cells[][] myGrid;
+  private Rectangle[][] myPaneNodes;
   private GridPane pane;
   private static final int GAP = 1;
   private static final int SCREEN_WIDTH = 1500;
@@ -33,7 +35,7 @@ public class GridView {
    */
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
-
+    myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
   }
 
   /**
@@ -56,7 +58,8 @@ public class GridView {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
-        pane.add(cell, j, i);
+        myPaneNodes[i][j] = cell;
+        pane.add(myPaneNodes[i][j], j, i);
       }
     }
   }
@@ -71,5 +74,9 @@ public class GridView {
     int width = SCREEN_WIDTH / myGrid.length;
     int height = SCREEN_HEIGHT / myGrid[0].length;
     return Math.min(width, height);
+  }
+
+  public Rectangle[][] getMyPaneNodes() {
+    return myPaneNodes;
   }
 }

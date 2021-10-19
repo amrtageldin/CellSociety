@@ -150,6 +150,10 @@ public class CellSocietyView {
     return selectedFile;
   }
 
+  public GridView getMyGridView() {
+    return myGridView;
+  }
+
   private Node setupTopText() {
     VBox vbox = new VBox();
     vbox.setId("MainPane");
