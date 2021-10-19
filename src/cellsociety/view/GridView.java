@@ -3,6 +3,7 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -15,27 +16,26 @@ import javafx.scene.shape.Rectangle;
  */
 public class GridView {
 
-  private CellSocietyController myController;
-  private Cells[][] myGrid;
+  private final Cells[][] myGrid;
+  private Rectangle[][] myPaneNodes;
   private GridPane pane;
   private static final int GAP = 1;
   private static final int SCREEN_WIDTH = 1500;
   private static final int SCREEN_HEIGHT = 600;
 
   private final List<Color> STATE_COLORS = List.of(
-      Color.WHITE,      // alive cell color
-      Color.BLACK        // dead cell color
+      Color.BLACK,      // dead cell color
+      Color.WHITE       // alive cell color
   );
 
   /**
    * Constructor that initializes the Grid.
    *
-   * @param controller
+   * @param controller CellSocietyController that provides grid parsed from csv file.
    */
   public GridView(CellSocietyController controller) {
-    myController = controller;
-    myGrid = myController.getMyGrid();
-
+    myGrid = controller.getMyGrid();
+    myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
   }
 
   /**
@@ -56,10 +56,10 @@ public class GridView {
   private void drawGrid() {
     for (int i = 0; i < myGrid.length; i++) {
       for (int j = 0; j < myGrid[0].length; j++) {
-        int currState = myGrid[i][j].currentState;
-        System.out.println(myGrid[i][j].currentState);
+        int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
-        pane.add(cell, j, i);
+        myPaneNodes[i][j] = cell;
+        pane.add(myPaneNodes[i][j], j, i);
       }
     }
   }
@@ -73,10 +73,10 @@ public class GridView {
   private int findCellDimension() {
     int width = SCREEN_WIDTH / myGrid.length;
     int height = SCREEN_HEIGHT / myGrid[0].length;
-    if (width > height) {
-      return height;
-    } else {
-      return width;
-    }
+    return Math.min(width, height);
+  }
+
+  public Rectangle[][] getMyPaneNodes() {
+    return myPaneNodes;
   }
 }

@@ -3,11 +3,8 @@ package cellsociety;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.CellSocietyModel;
-import cellsociety.model.GameOfLifeModel;
 import cellsociety.view.CellSocietyView;
 import javafx.application.Application;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 /**
@@ -25,7 +22,7 @@ public class Main extends Application {
   public void start(Stage stage) {
     CellSocietyModel model = new CellSocietyModel();
     CellSocietyController controller = new CellSocietyController(model);
-    CellSocietyView display = new CellSocietyView(controller, model, LANGUAGE, stage);
+    CellSocietyView display = new CellSocietyView(controller, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
     stage.show();

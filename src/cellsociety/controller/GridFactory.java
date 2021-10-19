@@ -5,7 +5,6 @@ import com.opencsv.CSVReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class GridFactory {
     private Cells[][] myGrid;
@@ -40,8 +39,8 @@ public class GridFactory {
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-            rowCount = rowAndColumn[0]; // set variables to remove magic numbers
-            colCount = rowAndColumn[1];
+            rowCount = rowAndColumn[1]; // set variables to remove magic numbers
+            colCount = rowAndColumn[0];
 
         }
         catch(Exception e){
@@ -61,9 +60,7 @@ public class GridFactory {
            while ((nextCell = csvReader.readNext()) != null) {
                for (int j = 0; j < nextCell.length; j++) {
                    myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
-                   System.out.print(myGrid[i][j].currentState);
                }
-               System.out.println();
                i++;
            }
        }

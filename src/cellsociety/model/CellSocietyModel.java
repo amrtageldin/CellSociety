@@ -1,6 +1,5 @@
 package cellsociety.model;
 
-import java.util.List;
 
 public class CellSocietyModel {
   public CellSocietyModel(){

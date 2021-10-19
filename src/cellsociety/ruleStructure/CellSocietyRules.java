@@ -1,4 +1,6 @@
 package cellsociety.ruleStructure;
 
-public class CellSocietyRules {
+abstract public class CellSocietyRules {
+
+    protected abstract Integer generateNextState(int quantityOfLivingCells);
 }
