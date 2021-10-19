@@ -44,14 +44,15 @@ for each type of game (Game Of Life, Percolation, etc.). We could then have an a
  * Trade-offs: Extending different types of rules and then having methods for each rule might not be the best design. It could make each type class really long, and could cause a decent amount of repeated code. It could also be too specific and hard to extend if we get a totally different type of rule introduced.  If we have each rule in its own class, we can easily add more and keep it fairly easy to follow. It could get long, so maybe we could organize them into packages for better readability. If we keep the rule structure set up to have each game type call certain rules we would be able to have multiple rules extending the abstract rules class, and always call the correct rules for a game.
 
 
-#### Design Issue #2
+#### Design Issue #2: How should we implement the grid on the front-end
 
- * Alternative #1
+ * Alternative #1: We can develop the grid structure as a GridPane within our main CellSocietyView class and add it to our BorderPane right there
 
- * Alternative #2
 
- * Trade-offs
+ * Alternative #2: We can develop a new GridView class that sets up the GridPane and then call the setupGrid method in CellSocietyView 
 
+
+ * Trade-offs: Developing and implementing the grid in the overall view class may not be the best idea, as it will lead to a cluttering of a design and may hinder extendability if the added features require so. 
 
 
 ## User Interface
