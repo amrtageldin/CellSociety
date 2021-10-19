@@ -1,0 +1,43 @@
+.root {
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background: #d3e8e5;
+  text_color: black;
+}
+
+/*Default button styling*/
+.button {
+  -fx-text-fill: text_color;
+  -fx-border-color: darkgray;
+  -fx-border-width: 2px;
+  -fx-background-color: lightgray;
+  -fx-padding: 10px;
+}
+
+.aboutPane {
+  -fx-background-color: lightblue;
+  -fx-font-size: 20;
+}
+.topPane {
+  -fx-background-color: lightblue;
+}
+.gridPane {
+  -fx-background-color: lightgray;
+  -fx-text-fill: black;
+  -fx-font-size: 40;
+}
+
+.textProps {
+  -fx-text-fill: black;
+  -fx-font-family: "Segoe UI Semibold";
+}
+
+#Grid {
+  -fx-alignment: center;
+}
+
+
+/*Example of Styling a panel with id of GameModePanel*/
+/*#GameModePanel {*/
+/*  -fx-spacing: 10px;*/
+/*}*/
+/*Can also use -fx-alignment, -fx-pref-width, -fx-padding*/
