@@ -56,8 +56,7 @@ public class GridView {
   private void drawGrid() {
     for (int i = 0; i < myGrid.length; i++) {
       for (int j = 0; j < myGrid[0].length; j++) {
-        int currState = myGrid[i][j].currentState;
-        System.out.println(myGrid[i][j].currentState);
+        int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
         pane.add(cell, j, i);
       }

@@ -5,7 +5,6 @@ import com.opencsv.CSVReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class GridFactory {
     private Cells[][] myGrid;
@@ -61,7 +60,6 @@ public class GridFactory {
            while ((nextCell = csvReader.readNext()) != null) {
                for (int j = 0; j < nextCell.length; j++) {
                    myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
-                   System.out.print(myGrid[i][j].currentState);
                }
                System.out.println();
                i++;
