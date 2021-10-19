@@ -3,9 +3,7 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -16,7 +14,7 @@ import javafx.scene.shape.Rectangle;
  * Class that displays the grid for the games.
  */
 public class GridView {
-  
+
   private final Cells[][] myGrid;
   private GridPane pane;
   private static final int GAP = 1;
@@ -54,12 +52,6 @@ public class GridView {
   }
 
   private void drawGrid() {
-    ColumnConstraints column = new ColumnConstraints(myGrid[0].length);
-    pane.getColumnConstraints().add(column);
-
-    RowConstraints row = new RowConstraints(myGrid.length);
-    pane.getRowConstraints().add(row);
-
     for (int i = 0; i < myGrid.length; i++) {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();

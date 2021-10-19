@@ -48,7 +48,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   public void start(Stage stage) {
     CellSocietyModel model = new CellSocietyModel();
     controller = new CellSocietyController(model);
-    display = new CellSocietyView(controller, model, LANGUAGE, stage);
+    display = new CellSocietyView(controller, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
     stage.setFullScreen(true);
