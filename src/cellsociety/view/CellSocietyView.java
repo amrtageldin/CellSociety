@@ -47,7 +47,7 @@ public class CellSocietyView {
   private static final int MAXVALUE = 5000;
   private static final int topButtonPadding = 30;
   private static final int buttonSpacing = 10;
-  private static final double secondDelay = 0.5;
+  private static final double secondDelay = 2;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -125,8 +125,11 @@ public class CellSocietyView {
   }
 
   private void step() {
-    myController.step();
-    myAnimation.stop();
+    if (myController != null) {
+      myController.step();
+      myAnimation.stop();
+    }
+    myAnimation.play();
     root.setCenter(myGridView.setupGrid());
   }
 
