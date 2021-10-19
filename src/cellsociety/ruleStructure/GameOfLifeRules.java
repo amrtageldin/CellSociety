@@ -7,7 +7,7 @@ import cellsociety.rule.RuleLessThan;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameOfLifeRules {
+public class GameOfLifeRules extends CellSocietyRules {
   private final int ALIVE = 1;
   private final int DEAD = 0;
   private List<Rule> myRules;
@@ -21,6 +21,7 @@ public class GameOfLifeRules {
   }
 
 
+  @Override
   public Integer generateNextState(int quantityOfLivingCells) {
     Integer productOfGeneratingState = null;
     for (Rule x : myRules){
