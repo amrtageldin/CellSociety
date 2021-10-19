@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -121,7 +122,21 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     simulationTypeAction();
     clickOn(myStart);
     clickOn(myPause);
-    
+    assertTrue(checkGridMatches());
+  }
 
+  private boolean checkGridMatches() {
+    Rectangle[][] gridNodes = display.getMyGridView().getMyPaneNodes();
+
+    for (int i = 0; i < controller.getMyGrid().length; i++) {
+      for (int j = 0; j < controller.getMyGrid()[0].length; j++) {
+        Rectangle cell = gridNodes[i][j];
+        int color = controller.getMyGrid()[i][j].getCurrentState();
+        if (cell.getFill() != STATE_COLORS.get(color)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
