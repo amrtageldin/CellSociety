@@ -31,6 +31,10 @@
   -fx-font-family: "Segoe UI Semibold";
 }
 
+#Grid {
+  -fx-alignment: center;
+}
+
 
 /*Example of Styling a panel with id of GameModePanel*/
 /*#GameModePanel {*/

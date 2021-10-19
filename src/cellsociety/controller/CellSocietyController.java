@@ -77,6 +77,11 @@ public class CellSocietyController {
         return myGameType;
     }
 
+    /**
+     * This method is called by the view to actually run the simulation type that is loaded. This step() method
+     * goes through each cell within a grid and sets its next state dependent on its neighbors and the applied rules
+     * within the model. At the end the grid is updated such that every cell's next state is now its current state.
+     */
     public void step(){
         // for each cell in step; call the model to run the rules
         // its gonna need the neighbors for the gameofLifemodel;

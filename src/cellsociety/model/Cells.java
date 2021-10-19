@@ -9,6 +9,11 @@ public class Cells {
   public Integer myNextState;
 
 
+  public Cells( int initialState){
+    currentState = initialState;
+    //this.myID = ID;
+  }
+
   public int getMyNextState() {
     if (myNextState == null){
       return currentState;
@@ -30,12 +35,6 @@ public class Cells {
     else{
       this.myNextState = currentState;
     }
-  }
-
-
-  public Cells( int initialState){
-    currentState = initialState;
-    //this.myID = ID;
   }
 
   public int getCurrentState(){
