@@ -41,10 +41,7 @@ public class CellSocietyView {
   public static final int DEFAULT_X = 800;
   public static final int DEFAULT_Y = 600;
 
-
   private static final int MAXVALUE = 5000;
-  private static final int topButtonPadding = 30;
-  private static final int buttonSpacing = 10;
   private static final double secondDelay = 2;
 
 
@@ -67,7 +64,6 @@ public class CellSocietyView {
     myStage = stage;
   }
 
-
   /**
    * Method that sets up the Display.
    *
@@ -85,16 +81,13 @@ public class CellSocietyView {
 
   private Node setupGameModePanel() {
     HBox panel = new HBox();
-    int sidePadding = (int) (myStage.getWidth() / 2);
+    panel.setId("ButtonPanel");
     Node simulationType = myFactoryComponents.makeButton("SimulationType",
         e -> chooseFile(myStage));
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
     Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
     panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton);
-    panel.setAlignment(Pos.CENTER);
-    panel.setSpacing(buttonSpacing);
-    panel.setPadding(new Insets(topButtonPadding, sidePadding, topButtonPadding, sidePadding));
     return panel;
   }
 
@@ -157,22 +150,16 @@ public class CellSocietyView {
   private Node setupTopText() {
     VBox vbox = new VBox();
     vbox.setId("MainPane");
-    vbox.setAlignment(Pos.CENTER);
     Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
-    displayLabel.getStyleClass().add("textProps");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
     vbox.setMaxHeight(myStage.getHeight() / 4);
-    vbox.getStyleClass().add("topPane");
     return vbox;
   }
 
   private Node setupAboutSection() {
     Label bottomText = new Label("Ex: This is Game of Life! Watch the simulation work!");
-    bottomText.getStyleClass().add("aboutPane");
-    bottomText.setAlignment(Pos.CENTER);
+    bottomText.setId("aboutPane");
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
   }
-
-
 }

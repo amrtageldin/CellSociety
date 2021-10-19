@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.ResourceBundle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 /**
  * Class that creates individual components for the View.
@@ -50,7 +48,7 @@ public class FactoryComponents {
    */
   public Label makeTitle(String id) {
     Label label = new Label(myResources.getString(id));
-    label.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+    label.getStyleClass().add("textProps");
     return (Label) setId(id, label);
   }
 
