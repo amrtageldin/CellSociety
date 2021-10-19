@@ -40,8 +40,8 @@ public class GridFactory {
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-            rowCount = rowAndColumn[0]; // set variables to remove magic numbers
-            colCount = rowAndColumn[1];
+            rowCount = rowAndColumn[1]; // set variables to remove magic numbers
+            colCount = rowAndColumn[0];
 
         }
         catch(Exception e){
