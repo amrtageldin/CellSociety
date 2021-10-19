@@ -83,17 +83,11 @@ public class CellSocietyController {
      * within the model. At the end the grid is updated such that every cell's next state is now its current state.
      */
     public void step(){
-        // for each cell in step; call the model to run the rules
-        // its gonna need the neighbors for the gameofLifemodel;
-        System.out.println("check");
         for (int i = 0; i < myGrid.length; i++){
             for (int j = 0; j < myGrid[0].length; j++){
                 Cells thisCell = myGrid[i][j];
-                System.out.println(thisCell.getCurrentState());
                 myModel.setNextState(thisCell, i, j, myGrid);
-                //System.out.print(myModel.getNextState(thisCell));
             }
-           // System.out.println();
         }
         updateGrid();
     }

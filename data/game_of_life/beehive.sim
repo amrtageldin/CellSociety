@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Beehive
+Author=John Conway
+Description=Examples of a still-life
+InitialStates=game_of_life/beehive.csv

@@ -61,7 +61,6 @@ public class GridFactory {
                for (int j = 0; j < nextCell.length; j++) {
                    myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
                }
-               System.out.println();
                i++;
            }
        }
