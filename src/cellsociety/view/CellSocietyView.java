@@ -2,6 +2,8 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.CellSocietyModel;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Objects;
+import javafx.util.Duration;
 
 /**
  * @author Evelyn Cupil-Garcia
@@ -31,6 +34,8 @@ public class CellSocietyView {
   private CellSocietyModel myModel;
   private File selectedFile;
   private GridView myGridView;
+  private Timeline myAnimation;
+  private boolean isPlaying;
 
   /**
    * The default size of the window.
@@ -38,9 +43,11 @@ public class CellSocietyView {
   public static final int DEFAULT_X = 800;
   public static final int DEFAULT_Y = 600;
 
+
   private static final int MAXVALUE = 5000;
   private static final int topButtonPadding = 30;
   private static final int buttonSpacing = 10;
+  private static final double secondDelay = 0.5;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -85,7 +92,8 @@ public class CellSocietyView {
         e -> chooseFile(myStage));
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
     Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
-    panel.getChildren().addAll(simulationType, initialGrid, playButton);
+    Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
+    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton);
     panel.setAlignment(Pos.CENTER);
     panel.setSpacing(buttonSpacing);
     panel.setPadding(new Insets(topButtonPadding, sidePadding, topButtonPadding, sidePadding));
@@ -102,8 +110,35 @@ public class CellSocietyView {
   private void startGame() {
     myGridView = new GridView(myController);
     root.setCenter(myGridView.setupGrid());
+    startSimulation();
   }
 
+  private void startSimulation() {
+    if (myAnimation != null) {
+      myAnimation.stop();
+    }
+    myAnimation = new Timeline();
+    myAnimation.setCycleCount(Timeline.INDEFINITE);
+    myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(secondDelay), e -> step()));
+    myAnimation.play();
+    isPlaying = true;
+  }
+
+  private void step() {
+    myController.step();
+    myAnimation.stop();
+    root.setCenter(myGridView.setupGrid());
+  }
+
+  private void togglePlay() {
+    if (isPlaying) {
+      myAnimation.stop();
+    } else {
+      myAnimation.play();
+    }
+    isPlaying = !isPlaying;
+  }
+  
   /**
    * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
    * hunted through the internet but didn't have much luck on something better.
@@ -133,5 +168,6 @@ public class CellSocietyView {
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
   }
+
 
 }
