@@ -20,6 +20,7 @@ public class GameOfLifeModel extends CellSocietyModel{
         return myCell.getMyNextState();
     }
 
+    @Override
     public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
         List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
         int quantityOfLivingCells = relevantClumpQuantityInDesiredState(ALIVE, myNeighbors);
@@ -42,7 +43,6 @@ public class GameOfLifeModel extends CellSocietyModel{
 
             }
         }
-
         return myCells;
     }
 
@@ -64,8 +64,4 @@ public class GameOfLifeModel extends CellSocietyModel{
         return runningCountOfState;
     }
 
-
-    public void updateState(List<Cells> myNeighbors){
-
-    }
 }
