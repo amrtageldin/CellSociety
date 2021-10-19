@@ -38,6 +38,7 @@ public class GameOfLifeModel extends CellSocietyModel{
                 for (int j : yChanges){
                     if (colIsValid(col + j, myGrid) && !(i == 0 && j == 0)){
                         myCells.add(myGrid[row + i][ col + j]);
+                        System.out.println(myGrid[row + i][col + j].getCurrentState());
                     }
                 }
 
