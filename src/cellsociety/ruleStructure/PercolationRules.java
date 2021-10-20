@@ -2,17 +2,18 @@ package cellsociety.ruleStructure;
 
 import cellsociety.rule.Rule;
 import cellsociety.rule.RuleGreaterThan;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PercolationRules extends CellSocietyRules {
   private final int OPEN = 3;
   private final int CLOSED = 0;
   private final int PERCOLATED = 2;
-  private List<Rule> myRules;
 
   public PercolationRules(){
-    myRules = new ArrayList<>();
+    super();
+  }
+
+  @Override
+  protected void initializeMyRules() {
     myRules.add(new RuleGreaterThan(0, PERCOLATED));
   }
 
