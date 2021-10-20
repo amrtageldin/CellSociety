@@ -23,7 +23,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
         List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
         int quantityOfLivingCells = relevantClumpQuantityInDesiredState(ALIVE, myNeighbors);
-        myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells));
+        myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState()));
 
     }
 

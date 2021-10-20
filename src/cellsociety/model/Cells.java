@@ -35,10 +35,8 @@ public class Cells {
    * of a cell to what its next state was found to be.
    */
   public void updateMyCurrentState(){
-    if(myNextState != null){
       currentState = myNextState;
       myNextState = null;
-    }
   }
 
   /**
@@ -48,12 +46,7 @@ public class Cells {
    * @param myNextState: Integer value of the cell's next state (either ALIVE:1 or DEAD:0)
    */
   public void setMyNextState(Integer myNextState) {
-    if (myNextState != null){
       this.myNextState = myNextState;
-    }
-    else{
-      this.myNextState = currentState;
-    }
   }
 
   /**

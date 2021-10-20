@@ -42,7 +42,7 @@ public class CellSocietyView {
   public static final int DEFAULT_Y = 600;
 
   private static final int MAXVALUE = 5000;
-  private static final double secondDelay = 2;
+  private static final double secondDelay = 0.5;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
