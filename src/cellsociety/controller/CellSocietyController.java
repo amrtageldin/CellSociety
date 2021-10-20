@@ -66,6 +66,10 @@ public class CellSocietyController {
         return myModel;
     }
 
+    public CellSocietyModel getMyModel(){
+        return myModel;
+    }
+
     /**
      * This method is called by the view so that the view knows which game the user has
      * loaded up to play
