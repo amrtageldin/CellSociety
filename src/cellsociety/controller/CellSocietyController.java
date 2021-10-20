@@ -20,8 +20,7 @@ public class CellSocietyController {
      * to be used within the class.
      * @param model: the CellSociety game model which keeps track of the state for each cell
      */
-    public CellSocietyController(CellSocietyModel model){
-        myModel = model;
+    public CellSocietyController(){
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
         myGridFactory = new GridFactory();
         myGameFactory = new GameFactory();
