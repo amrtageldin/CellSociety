@@ -1,15 +1,19 @@
 package cellsociety.model;
 
 import cellsociety.controller.CellSocietyController;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameOfLifeModelTest {
+    private CellSocietyController c;
+    @BeforeEach
+    void setUp(){
+         c = new CellSocietyController();
+    }
 
     @Test
     void getNextStateTest() {
-        GameOfLifeModel g = new GameOfLifeModel();
-        CellSocietyController c = new CellSocietyController(g);
         c.loadFileType("data/game_of_life/test.csv");
         Cells[][] cell = c.getMyGrid();
         g.setNextState(cell[0][1], 0, 1, cell);

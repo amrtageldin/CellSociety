@@ -4,19 +4,14 @@ package cellsociety.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CellSocietyModel {
+public abstract class CellSocietyModel {
   public CellSocietyModel(){
 
   }
 
-  public int getNextState(Cells myCell){
-    return 1;
-  }
+  public abstract int getNextState(Cells myCell);
 
-
-  public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
-
-  }
+  public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
