@@ -24,6 +24,6 @@ public class GameOfLifeRules extends CellSocietyRules {
 
   @Override
   public Integer generateNextState(int quantityOfLivingCells, int currentState) {
-    return generatedStateRunThroughRules(quantityOfLivingCells);
+    return generatedStateRunThroughRules(quantityOfLivingCells, currentState);
   }
 }

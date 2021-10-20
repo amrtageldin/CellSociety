@@ -24,7 +24,7 @@ public class PercolationRules extends CellSocietyRules {
       return currentState;
     }
 
-    return generatedStateRunThroughRules(quantityOfPercolatedCells);
+    return generatedStateRunThroughRules(quantityOfPercolatedCells, currentState);
   }
 
 

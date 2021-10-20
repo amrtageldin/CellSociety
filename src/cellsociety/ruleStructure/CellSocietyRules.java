@@ -16,16 +16,15 @@ abstract public class CellSocietyRules {
 
     protected abstract Integer generateNextState(int quantityOfLivingCells, int currentState);
 
-    protected Integer generatedStateRunThroughRules(int quantityOfPercolatedCells) {
-        Integer productOfGeneratingState = null;
+    protected Integer generatedStateRunThroughRules(int quantityOfPercolatedCells, int currentState) {
         for (Rule x : myRules){
-            productOfGeneratingState = x.generateState(quantityOfPercolatedCells);
-            if (productOfGeneratingState != null){
-                break;
+            Integer ruleOutcome = x.generateState(quantityOfPercolatedCells);
+            if (ruleOutcome != null){
+                return ruleOutcome;
             }
         }
+            return currentState;
 
-        return productOfGeneratingState;
     }
 
 }
