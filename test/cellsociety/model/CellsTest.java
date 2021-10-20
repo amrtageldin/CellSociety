@@ -21,12 +21,6 @@ public class CellsTest {
         assertEquals(cell.getCurrentState(), 0);
     }
 
-    @Test
-    void setNextStateNullTest(){
-        Cells cell = new Cells(0);
-        cell.setMyNextState(null);
-        assertEquals(cell.getMyNextState(), cell.getCurrentState());
-    }
 
     @Test
     void updateMyCurrentStateTest(){
