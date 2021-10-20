@@ -25,7 +25,9 @@ public class GridView {
 
   private final List<Color> STATE_COLORS = List.of(
       Color.BLACK,      // dead cell color
-      Color.WHITE       // alive cell color
+      Color.WHITE,       // alive cell color
+      Color.BLUE,          // water cell color
+      Color.GRAY
   );
 
   /**

@@ -27,8 +27,8 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   public static final String TITLE = "Cell Society";
   public static final String LANGUAGE = "English";
   public static final int FILE_X = 200;
-  public static final int SIM_Y = 155;
-  public static final int GRID_Y = 190;
+  public static final int SIM_Y = 220;
+  public static final int GRID_Y = 200;
   public static final int OK_X = 480;
   public static final int OK_Y = 330;
   private CellSocietyView display;
@@ -68,7 +68,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   public void initialGridAction() {
     File expectedFile = new File("data/game_of_life/blinkers.csv");
     clickOn(myInitialGrid);
-    clickOn(FILE_X, SIM_Y, MouseButton.PRIMARY);
+    clickOn(FILE_X, GRID_Y, MouseButton.PRIMARY);
     clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
     File actualFile = display.getMyFile();
     try {
@@ -86,7 +86,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   public void simulationTypeAction() {
     File expectedFile = new File("data/game_of_life/blinkers.sim");
     clickOn(mySimulation);
-    clickOn(FILE_X, GRID_Y, MouseButton.PRIMARY);
+    clickOn(FILE_X, SIM_Y, MouseButton.PRIMARY);
     clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
     File actualFile = display.getMyFile();
     try {
