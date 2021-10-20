@@ -24,17 +24,6 @@ public class GameOfLifeRules extends CellSocietyRules {
 
   @Override
   public Integer generateNextState(int quantityOfLivingCells, int currentState) {
-    Integer productOfGeneratingState = null;
-    for (Rule x : myRules){
-      productOfGeneratingState = x.generateState(quantityOfLivingCells);
-      if (productOfGeneratingState != null){
-        break;
-      }
-    }
-    if (productOfGeneratingState == null){
-      return currentState;
-    }
-
-    return productOfGeneratingState;
+    return generatedStateRunThroughRules(quantityOfLivingCells);
   }
 }

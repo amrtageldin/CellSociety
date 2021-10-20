@@ -24,14 +24,8 @@ public class PercolationRules extends CellSocietyRules {
       return currentState;
     }
 
-    Integer productOfGeneratingState = null;
-    for (Rule x : myRules){
-      productOfGeneratingState = x.generateState(quantityOfPercolatedCells);
-      if (productOfGeneratingState != null){
-        break;
-      }
-    }
-
-    return productOfGeneratingState;
+    return generatedStateRunThroughRules(quantityOfPercolatedCells);
   }
+
+
 }
