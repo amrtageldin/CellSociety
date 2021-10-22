@@ -122,7 +122,7 @@ public class CellSocietyControllerTest {
     @Test
     void gameSetUpPassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/blinkers.sim");
-        assertEquals(myCellSocietyController.getMyGameType(), "GameOfLifeModel");
+        assertEquals(myCellSocietyController.getMyGameType(), "GameOfLife");
     }
 
     @Test

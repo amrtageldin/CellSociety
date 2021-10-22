@@ -4,9 +4,6 @@ import cellsociety.ruleStructure.PercolationRules;
 import java.util.List;
 
 public class PercolationModel extends CellSocietyModel{
-  private final int OPEN = 3;
-  private final int CLOSED = 0;
-  private final int PERCOLATED = 2;
 
   public PercolationModel(String type){
     super(type);
@@ -21,7 +18,8 @@ public class PercolationModel extends CellSocietyModel{
   @Override
   public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
     List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
-    int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(PERCOLATED, myNeighbors);
+    int initialState = Integer.parseInt(statesBundle.getString(initialStateString));
+    int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
     myCell.setMyNextState(myRules.generateNextState(quantityOfPercolatedCells, myCell.getCurrentState()));
   }
 

@@ -5,16 +5,29 @@ import cellsociety.ruleStructure.CellSocietyRules;
 import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public abstract class CellSocietyModel {
   protected CellSocietyRules myRules;
+  protected ResourceBundle statesBundle;
+  protected final String modelResourceBundleBase = "cellsociety.model.resources.";
+  protected String initialStateString;
+
 
   public CellSocietyModel(String myType){
     try{
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
+      statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
+      prepInitialState();
     }
     catch (Exception e){
       e.printStackTrace();
+    }
+  }
+
+  protected void prepInitialState(){
+    for(String initial : statesBundle.keySet()){
+      initialStateString = initial;
     }
   }
 
