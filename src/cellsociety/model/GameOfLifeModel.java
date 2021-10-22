@@ -6,10 +6,9 @@ import java.util.List;
 public class GameOfLifeModel extends CellSocietyModel{
     private final int ALIVE = 1;
     private final int DEAD = 0;
-    private GameOfLifeRules myRules;
 
-    public GameOfLifeModel(){
-        myRules = new GameOfLifeRules();
+    public GameOfLifeModel(String type){
+        super(type);
     }
 
 
