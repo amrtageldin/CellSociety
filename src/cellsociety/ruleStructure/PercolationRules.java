@@ -14,6 +14,7 @@ public class PercolationRules extends CellSocietyRules {
 
   protected void initializeRuleBundle() {
     ruleBundle = initializeBundle(ruleResourceBundleBase, "PercolationRules");
+    valueBundle = initializeBundle(ruleResourceBundleBase, "PercolationValues");
   }
 
 

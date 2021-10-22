@@ -9,6 +9,7 @@ abstract public class CellSocietyRules {
     protected List<Rule> myRules;
     protected ResourceBundle ruleBundle;
     protected ResourceBundle translationBundle;
+    protected ResourceBundle valueBundle;
     protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
     public CellSocietyRules(){
@@ -25,10 +26,14 @@ abstract public class CellSocietyRules {
         for (String eachKey : ruleBundle.keySet()){
             String ruleString = ruleBundle.getString(eachKey);
             String[] array = ruleString.split(" ");
-            Rule myRule;
+
+            Class [] paramTypesSub = {int.class, Integer.class};
+            Object [] paramValuesSub = {Integer.parseInt(array[1]), Integer.parseInt(valueBundle.getString(array[2]))};
 
             try{
-                 myRule = (Rule) Class.forName(String.format("cellsociety.rule.Rule%s", translationBundle.getString(array[0]))).getConstructor().newInstance(array);
+                 Rule myRule = (Rule) Class.forName(String.format
+                         ("cellsociety.rule.Rule%s", translationBundle.getString(array[0]))
+                     ).getConstructor(paramTypesSub).newInstance(paramValuesSub);
                  myRules.add(myRule);
             }
             catch (Exception e){

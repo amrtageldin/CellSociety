@@ -3,15 +3,13 @@ package cellsociety.ruleStructure;
 import java.util.ResourceBundle;
 
 public class GameOfLifeRules extends CellSocietyRules {
-  private final int ALIVE = 1;
-  private final int DEAD = 0;
-
   public GameOfLifeRules(){
     super();
   }
 
   protected void initializeRuleBundle() {
     ruleBundle = initializeBundle(ruleResourceBundleBase, "GameOfLifeRules");
+    valueBundle = initializeBundle(ruleResourceBundleBase, "GameOfLifeValues");
   }
 
 
