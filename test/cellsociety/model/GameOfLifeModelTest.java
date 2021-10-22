@@ -11,6 +11,14 @@ public class GameOfLifeModelTest {
     private CellSocietyController myCellSocietyController;
     private CellSocietyModel g;
 
+
+
+    private CellSocietyModel getMyModel(String myFile){
+        myCellSocietyController.loadFileType("data/game_of_life/" + myFile + ".csv");
+        myCellSocietyController.loadFileType("data/game_of_life/" + myFile + ".sim");
+        return myCellSocietyController.getMyModel();
+    }
+
     @BeforeEach
     void setUp(){
          myCellSocietyController = new CellSocietyController();
@@ -18,9 +26,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void getNextStateTest() {
-        myCellSocietyController.loadFileType("data/game_of_life/test.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/test.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("test");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         g.setNextState(cell[0][1], 0, 1, cell);
         assertEquals(g.getNextState(cell[0][1]), 1);
@@ -29,9 +35,7 @@ public class GameOfLifeModelTest {
     @Test
     void getNextStateFailTest(){
         try {
-            myCellSocietyController.loadFileType("data/game_of_life/blank.csv");
-            myCellSocietyController.loadFileType("data/game_of_life/blank.sim");
-            g = myCellSocietyController.getMyModel();
+            g = getMyModel("blank");
             Cells[][] cell = myCellSocietyController.getMyGrid();
             g.setNextState(cell[0][1], 0, 1, cell);
         }
@@ -42,19 +46,15 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsTest(){
-            myCellSocietyController.loadFileType("data/game_of_life/test.csv");
-            myCellSocietyController.loadFileType("data/game_of_life/test.sim");
-            g = myCellSocietyController.getMyModel();
-            Cells[][] cell = myCellSocietyController.getMyGrid();
+            g = getMyModel("test");
+        Cells[][] cell = myCellSocietyController.getMyGrid();
             myCellSocietyController.step();
             assertEquals(g.getNextState(cell[0][1]), 1);
     }
 
     @Test
     void updateAllCellsToadTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/toad.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/toad.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("toad");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[2][1]), 1);
@@ -62,9 +62,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsBeeHiveTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/beehive.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/beehive.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("beehive");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[2][1]), cell[2][1].getCurrentState());
@@ -72,9 +70,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsCornerSameTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/corner-same.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/corner-same.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("corner-same");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[0][0]), cell[0][0].getCurrentState());
@@ -82,18 +78,14 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsCornerDifferentTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/corner-different.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/corner-different.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("corner-different");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[0][0]), 0);
     }
     @Test
     void updateAllCellsFailTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/test.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/test.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("test");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[0][1]), 1);
@@ -101,9 +93,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsToadFailTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/toad.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/toad.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("toad");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertNotEquals(g.getNextState(cell[2][2]), 1);
@@ -111,9 +101,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsBeeHiveFailTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/beehive.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/beehive.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("beehive");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertNotEquals(g.getNextState(cell[2][1]), 0);
@@ -121,9 +109,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsCornerSameFailTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/corner-same.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/corner-same.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("corner-same");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertNotEquals(g.getNextState(cell[0][0]), 0);
@@ -131,9 +117,7 @@ public class GameOfLifeModelTest {
 
     @Test
     void updateAllCellsCornerDifferentFailTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/corner-different.csv");
-        myCellSocietyController.loadFileType("data/game_of_life/corner-different.sim");
-        g = myCellSocietyController.getMyModel();
+        g = getMyModel("corner-different");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertNotEquals(g.getNextState(cell[0][1]), 1);
