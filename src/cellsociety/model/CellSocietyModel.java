@@ -15,8 +15,8 @@ public abstract class CellSocietyModel {
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
-    for (Cells x : myRelevantCluster){
-      if (x.getCurrentState() == state) {
+    for (Cells eachCell : myRelevantCluster){
+      if (eachCell.getCurrentState() == state) {
         runningCountOfState++;
       }
     }

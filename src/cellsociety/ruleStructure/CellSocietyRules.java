@@ -32,9 +32,9 @@ abstract public class CellSocietyRules {
             Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
 
             try{
-                 Rule myRule = (Rule) Class.forName(String.format
-                         ("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))
-                     ).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+                 Rule myRule = (Rule) Class.forName(
+                     String.format("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))).
+                     getConstructor(paramTypesSub).newInstance(paramValuesSub);
                  myRules.add(myRule);
             }
             catch (Exception e){
