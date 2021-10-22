@@ -11,28 +11,29 @@ abstract public class CellSocietyRules {
     protected ResourceBundle translationBundle;
     protected ResourceBundle valueBundle;
     protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
+    protected final String ruleBundleBase = "cellsociety.rule.Rule";
 
     public CellSocietyRules(){
         myRules = new ArrayList<>();
-        initializeRuleBundle();
+        prepBundles();
         initializeMyRules();
     }
 
-    protected abstract void initializeRuleBundle();
+    protected abstract void prepBundles();
 
     protected void initializeMyRules(){
         translationBundle = initializeBundle(ruleResourceBundleBase, "TranslationRules");
 
         for (String eachKey : ruleBundle.keySet()){
             String ruleString = ruleBundle.getString(eachKey);
-            String[] array = ruleString.split(" ");
+            String[]ruleSet = ruleString.split(" ");
 
             Class [] paramTypesSub = {int.class, Integer.class};
-            Object [] paramValuesSub = {Integer.parseInt(array[1]), Integer.parseInt(valueBundle.getString(array[2]))};
+            Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
 
             try{
                  Rule myRule = (Rule) Class.forName(String.format
-                         ("cellsociety.rule.Rule%s", translationBundle.getString(array[0]))
+                         ("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))
                      ).getConstructor(paramTypesSub).newInstance(paramValuesSub);
                  myRules.add(myRule);
             }
@@ -60,6 +61,10 @@ abstract public class CellSocietyRules {
         return ResourceBundle.getBundle(String.format("%s%s", bundleBase,packageName));
     }
 
+    protected void initializeRuleAndValueBundles(String base) {
+        ruleBundle = initializeBundle(ruleResourceBundleBase, String.format("%sRules", base));
+        valueBundle = initializeBundle(ruleResourceBundleBase, String.format("%sValues", base));
+    }
 
 
 

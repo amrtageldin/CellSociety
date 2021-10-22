@@ -1,26 +1,17 @@
 package cellsociety.ruleStructure;
 
-import cellsociety.rule.RuleGreaterThan;
-import java.util.ResourceBundle;
-
 public class PercolationRules extends CellSocietyRules {
-  private final int OPEN = 3;
-  private final int CLOSED = 0;
-  private final int PERCOLATED = 2;
-
   public PercolationRules(){
     super();
   }
 
-  protected void initializeRuleBundle() {
-    ruleBundle = initializeBundle(ruleResourceBundleBase, "PercolationRules");
-    valueBundle = initializeBundle(ruleResourceBundleBase, "PercolationValues");
+  protected void prepBundles() {
+    initializeRuleAndValueBundles("Percolation");
   }
-
 
   @Override
   public Integer generateNextState(int quantityOfPercolatedCells, int currentState) {
-    if (currentState != OPEN){
+    if (currentState != Integer.parseInt(valueBundle.getString("OPEN"))){
       return currentState;
     }
 
