@@ -5,6 +5,8 @@ import cellsociety.rule.RuleEqual;
 import cellsociety.rule.RuleGreaterThan;
 import cellsociety.rule.RuleLessThan;
 
+import java.util.List;
+
 public class GameOfLifeRules extends CellSocietyRules {
   private final int ALIVE = 1;
   private final int DEAD = 0;
@@ -15,10 +17,9 @@ public class GameOfLifeRules extends CellSocietyRules {
 
   @Override
   protected void initializeMyRules() {
-    myRules.add(new RuleLessThan(2, DEAD));
-    myRules.add(new RuleEqual(2, null));
-    myRules.add(new RuleEqual(3, ALIVE));
-    myRules.add(new RuleGreaterThan(3, DEAD));
+    myRules.addAll(List.of(new RuleLessThan(2, DEAD),
+                    new RuleEqual(2, null),
+            new RuleEqual(3, ALIVE),new RuleGreaterThan(3, DEAD)));
   }
 
 
