@@ -1,11 +1,6 @@
 package cellsociety.ruleStructure;
 
-import cellsociety.rule.Rule;
-import cellsociety.rule.RuleEqual;
-import cellsociety.rule.RuleGreaterThan;
-import cellsociety.rule.RuleLessThan;
-
-import java.util.List;
+import java.util.ResourceBundle;
 
 public class GameOfLifeRules extends CellSocietyRules {
   private final int ALIVE = 1;
@@ -15,11 +10,8 @@ public class GameOfLifeRules extends CellSocietyRules {
     super();
   }
 
-  @Override
-  protected void initializeMyRules() {
-    myRules.addAll(List.of(new RuleLessThan(2, DEAD),
-                    new RuleEqual(2, null),
-            new RuleEqual(3, ALIVE),new RuleGreaterThan(3, DEAD)));
+  protected void initializeRuleBundle() {
+    ruleBundle = initializeBundle(ruleResourceBundleBase, "GameOfLifeRules");
   }
 
 

@@ -1,7 +1,7 @@
 package cellsociety.ruleStructure;
 
-import cellsociety.rule.Rule;
 import cellsociety.rule.RuleGreaterThan;
+import java.util.ResourceBundle;
 
 public class PercolationRules extends CellSocietyRules {
   private final int OPEN = 3;
@@ -12,9 +12,8 @@ public class PercolationRules extends CellSocietyRules {
     super();
   }
 
-  @Override
-  protected void initializeMyRules() {
-    myRules.add(new RuleGreaterThan(0, PERCOLATED));
+  protected void initializeRuleBundle() {
+    ruleBundle = initializeBundle(ruleResourceBundleBase, "PercolationRules");
   }
 
 
