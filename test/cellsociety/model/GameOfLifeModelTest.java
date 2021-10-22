@@ -11,8 +11,6 @@ public class GameOfLifeModelTest {
     private CellSocietyController myCellSocietyController;
     private CellSocietyModel g;
 
-
-
     private CellSocietyModel getMyModel(String myFile){
         myCellSocietyController.loadFileType("data/game_of_life/" + myFile + ".csv");
         myCellSocietyController.loadFileType("data/game_of_life/" + myFile + ".sim");
