@@ -7,10 +7,9 @@ public class PercolationModel extends CellSocietyModel{
   private final int OPEN = 3;
   private final int CLOSED = 0;
   private final int PERCOLATED = 2;
-  private PercolationRules myRules;
 
-  public PercolationModel(){
-    myRules = new PercolationRules();
+  public PercolationModel(String type){
+    super(type);
   }
 
 

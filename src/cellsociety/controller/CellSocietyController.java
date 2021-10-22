@@ -57,7 +57,11 @@ public class CellSocietyController {
     private CellSocietyModel createSimFromFile(String file){
         try {
             String gameType = myGameFactory.setUpModel(file);
-            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%s", gameType)).getConstructor().newInstance();
+            System.out.println(gameType);
+            Class [] paramTypesSub = {String.class};
+            Object [] paramValuesSub = {gameType};
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+
             myGameType = gameType;
         }
         catch(Exception e){

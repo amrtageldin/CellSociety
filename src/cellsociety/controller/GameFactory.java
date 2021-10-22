@@ -19,7 +19,7 @@ public class GameFactory {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             String[] gameType = line.split("=");
-            myType = String.format("%s%s",gameType[1],"Model"); //TODO: need to fix!
+            myType = String.format("%s",gameType[1]); //TODO: need to fix!
         }
         catch (Exception e){
             e.printStackTrace(); //CHANGE

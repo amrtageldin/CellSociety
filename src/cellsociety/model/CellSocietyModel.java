@@ -1,12 +1,21 @@
 package cellsociety.model;
 
 
+import cellsociety.ruleStructure.CellSocietyRules;
+import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CellSocietyModel {
-  public CellSocietyModel(){
+  protected CellSocietyRules myRules;
 
+  public CellSocietyModel(String myType){
+    try{
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
+    }
+    catch (Exception e){
+      e.printStackTrace();
+    }
   }
 
   public abstract int getNextState(Cells myCell);

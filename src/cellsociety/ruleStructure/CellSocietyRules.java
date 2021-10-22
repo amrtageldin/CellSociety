@@ -44,7 +44,7 @@ abstract public class CellSocietyRules {
         }
     }
 
-    protected abstract Integer generateNextState(int quantityOfLivingCells, int currentState);
+    public abstract Integer generateNextState(int quantityOfLivingCells, int currentState);
 
     protected Integer generatedStateRunThroughRules(int quantityOfPercolatedCells, int currentState) {
         for (Rule x : myRules){
