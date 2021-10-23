@@ -41,18 +41,6 @@ public class FactoryComponents {
   }
 
   /**
-   * Method that creates a title.
-   *
-   * @param id Label identifier.
-   * @return Label with identifier.
-   */
-  public Label makeTitle(String id) {
-    Label label = new Label(myResources.getString(id));
-    label.getStyleClass().add("textProps");
-    return (Label) setId(id, label);
-  }
-
-  /**
    * Method that creates a Button.
    *
    * @param label   Button identifier for id/text.

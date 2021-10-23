@@ -3,8 +3,6 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -150,7 +148,7 @@ public class CellSocietyView {
   private Node setupTopText() {
     VBox vbox = new VBox();
     vbox.setId("MainPane");
-    Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
+    Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
     vbox.setMaxHeight(myStage.getHeight() / 4);
     return vbox;
