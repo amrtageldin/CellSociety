@@ -13,13 +13,13 @@ public class SchellingSegregationModel extends CellSocietyModel{
     public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
         int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
-        int propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
-        int state = myRules.generateNextState(10*propSameCells, myCell.getCurrentState());
+        double propSameCells = percentSameNeighbors(numSameCells, myNeighbors.size());
+        int state = myRules.generateNextState((int) (10*propSameCells), myCell.getCurrentState());
         checkState(myCell, state, myGrid);
     }
 
-    private int percentSameNeighbors(int sameCells, List<Cells> neighbors){
-        int prop = sameCells / (neighbors.size());
+    private double percentSameNeighbors(int sameCells, int neighbors){
+        double prop = ((double) sameCells /neighbors);
         return prop;
     }
 
