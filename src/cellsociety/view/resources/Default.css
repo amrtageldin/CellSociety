@@ -7,6 +7,7 @@
 /*Default button styling*/
 .button {
   -fx-text-fill: text_color;
+  -fx-font-size: 12;
   -fx-border-color: darkgray;
   -fx-border-width: 2px;
   -fx-background-color: lightgray;
@@ -34,10 +35,6 @@
   -fx-font-weight: bold;
 }
 
-#Grid {
-  -fx-alignment: center;
-}
-
 #MainPane {
   -fx-background-color: lightblue;
   -fx-text-fill: black;
@@ -47,8 +44,21 @@
   -fx-alignment: center;
 }
 
-#ButtonPanel {
+#TopButtonPanel {
   -fx-alignment: center;
   -fx-spacing: 15;
-  -fx-padding: 20 10;
+  -fx-padding: 15 10 5 10;
+}
+
+#BottomButtonPanel {
+  -fx-alignment: center;
+  -fx-spacing: 15;
+  -fx-padding: 5 10 15 10;
+}
+
+#DisplayLabel {
+  -fx-text-fill: black;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
 }

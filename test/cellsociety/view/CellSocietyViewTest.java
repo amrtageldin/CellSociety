@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.CellSocietyModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
