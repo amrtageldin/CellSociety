@@ -52,7 +52,7 @@ public class FactoryComponents {
    * @return Label with identifier.
    */
   public void setLabel(Label label, String id) {
-    label.setText(id);
+    label.setText(myResources.getString(id));
   }
 
   /**
