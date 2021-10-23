@@ -38,6 +38,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j].getCurrentState() == 0) {
                     grid[i][j].setMyNextState(cell.getCurrentState());
+                    break;
                 }
             }
         }
