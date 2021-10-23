@@ -2,6 +2,7 @@ package cellsociety.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
@@ -41,15 +42,16 @@ public class SchellingSegregationModel extends CellSocietyModel{
     }
 
     private void findEmpty(Cells cell, Cells[][] grid) {
-        boolean stop = false;
-        for (int i = 0; i < grid.length && !stop; i++) {
-            for (int j = 0; j < grid[0].length && !stop; j++) {
-                if (grid[i][j].getCurrentState() == 0){
-                    grid[i][j].setMyNextState(cell.getCurrentState());
-                    grid[i][j].updateMyCurrentState();
-                    stop = true;
-                }
-            }
+        Random r = new Random();
+        int randRow = r.nextInt(grid.length);
+        int randCol = r.nextInt(grid[0].length);
+        if(grid[randRow][randCol].getCurrentState() == 0){
+            grid[randRow][randCol].setMyNextState(cell.getCurrentState());
+            grid[randRow][randCol].updateMyCurrentState();
         }
+        else{
+            findEmpty(cell, grid);
+        }
+
     }
 }
