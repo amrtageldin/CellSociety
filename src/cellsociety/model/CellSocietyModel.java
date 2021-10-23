@@ -14,6 +14,7 @@ public abstract class CellSocietyModel {
   protected String initialStateString;
 
 
+
   public CellSocietyModel(String myType){
     try{
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
