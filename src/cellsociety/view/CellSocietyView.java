@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -122,6 +123,11 @@ public class CellSocietyView {
     root.setCenter(myGridView.setupGrid());
   }
 
+  private void pauseAndStep() {
+    step();
+    myAnimation.stop();
+  }
+
   private void togglePlay() {
     if (isPlaying) {
       myAnimation.stop();
@@ -149,6 +155,11 @@ public class CellSocietyView {
   public GridView getMyGridView() {
     return myGridView;
   }
+
+//  public Dimension getGridPaneDimensions() {
+//    int dim = 0;
+//    return dim;
+//  }
 
   private Node setupTopText() {
     VBox vbox = new VBox();
