@@ -80,8 +80,11 @@ public class CellSocietyView {
   }
 
   private Node setupGameModePanel() {
-    HBox panel = new HBox();
-    panel.setId("ButtonPanel");
+    VBox panel = new VBox();
+    HBox setupPanel = new HBox();
+    HBox livePanel = new HBox();
+    setupPanel.setId("TopButtonPanel");
+    livePanel.setId("BottomButtonPanel");
     Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
     Node playButton = myFactoryComponents.makeButton("Play", this);
@@ -89,7 +92,9 @@ public class CellSocietyView {
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton, speedUpButton, slowDownButton);
+    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton);
+    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton);
+    panel.getChildren().addAll(setupPanel,livePanel);
     return panel;
   }
 

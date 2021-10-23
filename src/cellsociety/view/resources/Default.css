@@ -47,10 +47,16 @@
   -fx-alignment: center;
 }
 
-#ButtonPanel {
+#TopButtonPanel {
   -fx-alignment: center;
   -fx-spacing: 15;
-  -fx-padding: 20 10;
+  -fx-padding: 15 10 5 10;
+}
+
+#BottomButtonPanel {
+  -fx-alignment: center;
+  -fx-spacing: 15;
+  -fx-padding: 5 10 15 10;
 }
 
 #DisplayLabel {
