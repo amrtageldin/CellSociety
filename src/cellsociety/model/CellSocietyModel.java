@@ -11,7 +11,6 @@ public abstract class CellSocietyModel {
   protected CellSocietyRules myRules;
   protected ResourceBundle statesBundle;
   protected final String modelResourceBundleBase = "cellsociety.model.resources.";
-  protected String initialStateString;
 
 
 
@@ -19,18 +18,12 @@ public abstract class CellSocietyModel {
     try{
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
-      prepInitialState();
     }
     catch (Exception e){
       e.printStackTrace();
     }
   }
 
-  protected void prepInitialState(){
-    for(String initial : statesBundle.keySet()){
-      initialStateString = initial;
-    }
-  }
 
   public abstract int getNextState(Cells myCell);
 
@@ -48,7 +41,6 @@ public abstract class CellSocietyModel {
 
 
   protected List<Cells> generateNeighbors(int row, int col, Cells[][] myGrid) {
-    // square
     int[] xChanges = new int[]{-1,0,1};
     int[] yChanges = new int[]{-1,0,1};
     List<Cells> myCells = new ArrayList<>();
