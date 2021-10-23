@@ -41,7 +41,7 @@ public class CellSocietyView {
   public static final int DEFAULT_Y = 600;
 
   private static final int MAXVALUE = 5000;
-  private static final double secondDelay = 0.5;
+  private static final double secondDelay = 2.0;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -86,7 +86,8 @@ public class CellSocietyView {
     Node playButton = myFactoryComponents.makeButton("Play", this);
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
     Node stepButton = myFactoryComponents.makeButton("Step", this);
-    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton);
+    Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
+    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton, speedUpButton);
     return panel;
   }
 
@@ -136,6 +137,11 @@ public class CellSocietyView {
       myAnimation.play();
     }
     isPlaying = !isPlaying;
+  }
+
+  private void speedUp() {
+    myAnimation.setRate(myAnimation.getRate()+0.1);
+    System.out.println(myAnimation.getRate());
   }
 
   /**
