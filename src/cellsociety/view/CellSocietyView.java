@@ -88,7 +88,7 @@ public class CellSocietyView {
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
     Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
-    Node stepButton = myFactoryComponents.makeButton("Step", e -> step());
+    Node stepButton = myFactoryComponents.makeButton("Step", e -> pauseAndStep());
     panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton);
     return panel;
   }
@@ -124,6 +124,11 @@ public class CellSocietyView {
     }
     myAnimation.play();
     root.setCenter(myGridView.setupGrid());
+  }
+
+  private void pauseAndStep() {
+    step();
+    myAnimation.stop();
   }
 
   private void togglePlay() {
