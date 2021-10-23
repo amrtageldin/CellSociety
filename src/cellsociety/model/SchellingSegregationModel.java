@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
-    public static final int SCALE_FACTOR = 10;
+    public static final int SCALE_FACTOR = 100;
     public static final String EMPTY = "EMPTY";
     public static final String SAME = "SAME";
     public static final String MOVE = "MOVE";
