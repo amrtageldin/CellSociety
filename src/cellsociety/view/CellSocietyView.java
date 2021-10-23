@@ -4,8 +4,6 @@ import cellsociety.controller.CellSocietyController;
 import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -43,7 +41,7 @@ public class CellSocietyView {
   public static final int DEFAULT_Y = 600;
 
   private static final int MAXVALUE = 5000;
-  private static final double secondDelay = 2;
+  private static final double secondDelay = 0.5;
 
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
@@ -83,20 +81,19 @@ public class CellSocietyView {
   private Node setupGameModePanel() {
     HBox panel = new HBox();
     panel.setId("ButtonPanel");
-    Node simulationType = myFactoryComponents.makeButton("SimulationType",
-        e -> chooseFile(myStage));
-    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
-    Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
-    Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
-    Node stepButton = myFactoryComponents.makeButton("Step", e -> pauseAndStep());
+    Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
+    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
+    Node playButton = myFactoryComponents.makeButton("Play", this);
+    Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
+    Node stepButton = myFactoryComponents.makeButton("Step", this);
     panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton);
     return panel;
   }
 
-  private void chooseFile(Stage stage) {
+  private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
-    selectedFile = fileChooser.showOpenDialog(stage);
+    selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
 
@@ -140,6 +137,11 @@ public class CellSocietyView {
     isPlaying = !isPlaying;
   }
 
+  private void pauseAndStep() {
+    step();
+    myAnimation.stop();
+  }
+
   /**
    * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
    * hunted through the internet but didn't have much luck on something better.
@@ -162,7 +164,7 @@ public class CellSocietyView {
   private Node setupTopText() {
     VBox vbox = new VBox();
     vbox.setId("MainPane");
-    Node displayLabel = myFactoryComponents.makeTitle("DisplayLabel");
+    Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
     vbox.setMaxHeight(myStage.getHeight() / 4);
     return vbox;

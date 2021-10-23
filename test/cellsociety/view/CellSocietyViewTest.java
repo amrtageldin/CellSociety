@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.CellSocietyModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,8 +44,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    CellSocietyModel model = new CellSocietyModel();
-    controller = new CellSocietyController(model);
+    controller = new CellSocietyController();
     display = new CellSocietyView(controller, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
