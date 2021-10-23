@@ -104,6 +104,7 @@ public class CellSocietyView {
   }
 
   private void startSimulation() {
+    myFactoryComponents.setLabel((Label) root.getBottom(), myController.getMyGameType());
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -137,11 +138,6 @@ public class CellSocietyView {
     isPlaying = !isPlaying;
   }
 
-  private void pauseAndStep() {
-    step();
-    myAnimation.stop();
-  }
-
   /**
    * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
    * hunted through the internet but didn't have much luck on something better.
@@ -170,8 +166,8 @@ public class CellSocietyView {
     return vbox;
   }
 
-  private Node setupAboutSection() {
-    Label bottomText = new Label("Ex: This is Game of Life! Watch the simulation work!");
+  private Label setupAboutSection() {
+    Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
     bottomText.setId("aboutPane");
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;

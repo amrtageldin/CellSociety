@@ -46,6 +46,16 @@ public class FactoryComponents {
   }
 
   /**
+   * Method that edits text within a Lbael
+   *
+   * @param id Label identifier.
+   * @return Label with identifier.
+   */
+  public void setLabel(Label label, String id) {
+    label.setText(id);
+  }
+
+  /**
    * Method that creates a Button.
    *
    * @param label   Button identifier for id/text.
