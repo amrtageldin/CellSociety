@@ -80,19 +80,18 @@ public class CellSocietyView {
   private Node setupGameModePanel() {
     HBox panel = new HBox();
     panel.setId("ButtonPanel");
-    Node simulationType = myFactoryComponents.makeButton("SimulationType",
-        e -> chooseFile(myStage));
-    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
-    Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
-    Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
+    Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
+    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
+    Node playButton = myFactoryComponents.makeButton("Play", this);
+    Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
     panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton);
     return panel;
   }
 
-  private void chooseFile(Stage stage) {
+  private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
-    selectedFile = fileChooser.showOpenDialog(stage);
+    selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
 
