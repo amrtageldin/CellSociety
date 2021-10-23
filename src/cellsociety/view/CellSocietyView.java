@@ -72,7 +72,7 @@ public class CellSocietyView {
   public Scene setupDisplay() {
     root = new BorderPane();
     root.setTop(setupTopText());
-    root.setBottom(setupAboutSection());
+    root.setRight(setupAboutSection());
     Scene scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
@@ -120,7 +120,7 @@ public class CellSocietyView {
   }
 
   private void startSimulation() {
-    myFactoryComponents.setLabel((Label) root.getBottom(), myController.getMyGameType());
+    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
     if (myAnimation != null) {
       myAnimation.stop();
     }
