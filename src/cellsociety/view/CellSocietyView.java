@@ -42,7 +42,8 @@ public class CellSocietyView {
 
   private static final int MAXVALUE = 5000;
   private static final double secondDelay = 2.0;
-
+  private static final double speedUpRate = 1.25;
+  private static final double slowDownRate = 0.75;
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -87,7 +88,8 @@ public class CellSocietyView {
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
-    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton, speedUpButton);
+    Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
+    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton, speedUpButton, slowDownButton);
     return panel;
   }
 
@@ -140,7 +142,12 @@ public class CellSocietyView {
   }
 
   private void speedUp() {
-    myAnimation.setRate(myAnimation.getRate()+0.1);
+    myAnimation.setRate(myAnimation.getRate()*speedUpRate);
+    System.out.println(myAnimation.getRate());
+  }
+
+  private void slowDown() {
+    myAnimation.setRate(myAnimation.getRate()-slowDownRate);
     System.out.println(myAnimation.getRate());
   }
 
