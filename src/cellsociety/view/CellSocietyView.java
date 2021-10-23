@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -87,7 +88,8 @@ public class CellSocietyView {
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", e -> chooseFile(myStage));
     Node playButton = myFactoryComponents.makeButton("Play", e -> startGame());
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", e -> togglePlay());
-    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton);
+    Node stepButton = myFactoryComponents.makeButton("Step", e -> step());
+    panel.getChildren().addAll(simulationType, initialGrid, playButton, animationButton, stepButton);
     return panel;
   }
 
@@ -146,6 +148,11 @@ public class CellSocietyView {
   public GridView getMyGridView() {
     return myGridView;
   }
+
+//  public Dimension getGridPaneDimensions() {
+//    int dim = 0;
+//    return dim;
+//  }
 
   private Node setupTopText() {
     VBox vbox = new VBox();

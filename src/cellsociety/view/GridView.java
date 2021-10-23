@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
+import java.awt.Dimension;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -68,6 +69,11 @@ public class GridView {
     Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
     cell.setFill(currState);
     return cell;
+  }
+
+  private Dimension getGridPaneDimensions() {
+    Dimension dim = new Dimension((int) pane.getWidth(), (int) pane.getHeight());
+    return dim;
   }
 
   private int findCellDimension() {
