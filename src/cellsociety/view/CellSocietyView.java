@@ -81,21 +81,29 @@ public class CellSocietyView {
 
   private Node setupGameModePanel() {
     VBox panel = new VBox();
+    panel.getChildren().addAll(setupTopButtonPanel(),setupBottomButtonPanel());
+    return panel;
+  }
+
+  private HBox setupTopButtonPanel() {
     HBox setupPanel = new HBox();
-    HBox livePanel = new HBox();
     setupPanel.setId("TopButtonPanel");
-    livePanel.setId("BottomButtonPanel");
     Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
     Node playButton = myFactoryComponents.makeButton("Play", this);
+    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton);
+    return setupPanel;
+  }
+
+  private HBox setupBottomButtonPanel() {
+    HBox livePanel = new HBox();
+    livePanel.setId("BottomButtonPanel");
     Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton);
     livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton);
-    panel.getChildren().addAll(setupPanel,livePanel);
-    return panel;
+    return livePanel;
   }
 
   private void chooseFile() {
@@ -135,6 +143,7 @@ public class CellSocietyView {
   private void pauseAndStep() {
     step();
     myAnimation.stop();
+    isPlaying = false;
   }
 
   private void togglePlay() {
