@@ -27,21 +27,24 @@ abstract public class CellSocietyRules {
         for (String eachKey : ruleBundle.keySet()){
             String ruleString = ruleBundle.getString(eachKey);
             String[]ruleSet = ruleString.split(" ");
-
-            Class [] paramTypesSub = {int.class, Integer.class};
-            Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
-
-            try{
-                 Rule myRule = (Rule) Class.forName(
-                     String.format("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))).
-                     getConstructor(paramTypesSub).newInstance(paramValuesSub);
-                 myRules.add(myRule);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-
+            runThroughRules(ruleSet);
         }
+    }
+
+    protected void runThroughRules(String[] ruleSet){
+        Class [] paramTypesSub = {int.class, Integer.class};
+        Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
+
+        try{
+            Rule myRule = (Rule) Class.forName(
+                            String.format("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))).
+                    getConstructor(paramTypesSub).newInstance(paramValuesSub);
+            myRules.add(myRule);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public abstract Integer generateNextState(int quantityOfLivingCells, int currentState);
