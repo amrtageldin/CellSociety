@@ -1,17 +1,21 @@
 package cellsociety.ruleStructure;
 
 import cellsociety.rule.Rule;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 abstract public class CellSocietyRules {
+    public static final String METHOD_RULE = "METHOD";
     protected List<Rule> myRules;
     protected ResourceBundle ruleBundle;
     protected ResourceBundle translationBundle;
     protected ResourceBundle valueBundle;
     protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
     protected final String ruleBundleBase = "cellsociety.rule.Rule";
+    protected String parameter;
 
     public CellSocietyRules(){
         myRules = new ArrayList<>();
@@ -23,10 +27,19 @@ abstract public class CellSocietyRules {
 
     protected void initializeMyRules(){
         translationBundle = initializeBundle(ruleResourceBundleBase, "TranslationRules");
-
         for (String eachKey : ruleBundle.keySet()){
             String ruleString = ruleBundle.getString(eachKey);
             String[]ruleSet = ruleString.split(" ");
+            if(eachKey.contains(METHOD_RULE)){
+                try{
+                    Method method = this.getClass().getDeclaredMethod(ruleSet[1]);
+                    method.invoke(this);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                ruleSet[1] = parameter;
+            }
             runThroughRules(ruleSet);
         }
     }

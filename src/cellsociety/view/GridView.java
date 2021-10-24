@@ -22,7 +22,7 @@ public class GridView {
   private GridPane pane;
   private static final int GAP = 1;
   private static final int SCREEN_WIDTH = 1500;
-  private static final int SCREEN_HEIGHT = 600;
+  private static final int SCREEN_HEIGHT = 300;
 
   private final List<Color> STATE_COLORS = List.of(
       Color.BLACK,      // dead cell color
