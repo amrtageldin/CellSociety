@@ -2,7 +2,6 @@ package cellsociety.model;
 
 
 import cellsociety.ruleStructure.CellSocietyRules;
-import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,9 +22,6 @@ public abstract class CellSocietyModel {
       e.printStackTrace();
     }
   }
-
-
-  public abstract int getNextState(Cells myCell);
 
   public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
 
@@ -57,14 +53,15 @@ public abstract class CellSocietyModel {
     return myCells;
   }
 
-  private boolean colIsValid(int col, Cells[][] myGrid) {
+  protected boolean colIsValid(int col, Cells[][] myGrid) {
     return col >=0 && col < myGrid[0].length;
   }
 
-  private boolean rowIsValid(int row, Cells[][] myGrid) {
+  protected boolean rowIsValid(int row, Cells[][] myGrid) {
     return row >=0 && row < myGrid.length;
   }
 
 
+  protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
 }

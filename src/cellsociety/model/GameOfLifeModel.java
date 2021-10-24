@@ -1,6 +1,5 @@
 package cellsociety.model;
 
-import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.List;
 
 public class GameOfLifeModel extends CellSocietyModel{
@@ -9,11 +8,6 @@ public class GameOfLifeModel extends CellSocietyModel{
 
     public GameOfLifeModel(String type){
         super(type);
-    }
-
-    @Override
-    public int getNextState(Cells myCell){
-        return myCell.getMyNextState();
     }
 
     @Override

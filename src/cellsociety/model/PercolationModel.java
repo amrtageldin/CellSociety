@@ -1,6 +1,5 @@
 package cellsociety.model;
 
-import cellsociety.ruleStructure.PercolationRules;
 import java.util.List;
 
 public class PercolationModel extends CellSocietyModel{
@@ -9,12 +8,6 @@ public class PercolationModel extends CellSocietyModel{
 
   public PercolationModel(String type){
     super(type);
-  }
-
-
-  @Override
-  public int getNextState(Cells myCell){
-    return myCell.getMyNextState();
   }
 
   @Override
