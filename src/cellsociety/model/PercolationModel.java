@@ -1,6 +1,5 @@
 package cellsociety.model;
 
-import cellsociety.ruleStructure.PercolationRules;
 import java.util.List;
 
 public class PercolationModel extends CellSocietyModel{

@@ -24,6 +24,7 @@ public class FireRules extends CellSocietyRules {
       catch (Exception e){
         e.printStackTrace();
       }
+
       ruleSet[1] = probPercent;
       runThroughRules(ruleSet);
     }

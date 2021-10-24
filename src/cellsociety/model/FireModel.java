@@ -1,6 +1,5 @@
 package cellsociety.model;
 
-import cellsociety.ruleStructure.GameOfLifeRules;
 import java.util.ArrayList;
 import java.util.List;
 
