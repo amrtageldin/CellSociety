@@ -23,9 +23,6 @@ public abstract class CellSocietyModel {
     }
   }
 
-
-  public abstract int getNextState(Cells myCell);
-
   public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
@@ -65,5 +62,6 @@ public abstract class CellSocietyModel {
   }
 
 
+  protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
 }
