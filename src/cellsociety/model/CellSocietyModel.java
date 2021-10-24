@@ -5,6 +5,7 @@ import cellsociety.ruleStructure.CellSocietyRules;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
   protected CellSocietyRules myRules;
@@ -63,5 +64,9 @@ public abstract class CellSocietyModel {
 
 
   protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
+
+  protected void testNextState(int currentState, Consumer<Integer> consumer){
+    consumer.accept(currentState);
+  }
 
 }
