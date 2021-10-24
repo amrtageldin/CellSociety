@@ -23,7 +23,7 @@ public class SchellingSegregationModelTest {
 
     @Test
     void getNextStateTest() {
-        g = getMyModel("test");
+        g = getMyModel("seven_empty");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         g.setNextState(cell[0][2], 0, 2, cell);
         assertEquals(g.getNextState(cell[0][2]), 0);
@@ -43,7 +43,7 @@ public class SchellingSegregationModelTest {
 
     @Test
     void updateAllCellsTest(){
-        g = getMyModel("test");
+        g = getMyModel("seven_empty");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[0][0]), 3);
@@ -51,7 +51,7 @@ public class SchellingSegregationModelTest {
 
     @Test
     void getNextStateOfEmptyCellTest() {
-        g = getMyModel("test");
+        g = getMyModel("seven_empty");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertNotEquals(g.getNextState(cell[3][2]), 0);
@@ -59,7 +59,7 @@ public class SchellingSegregationModelTest {
 
     @Test
     void getNextStateOfSafeCellTest(){
-        g = getMyModel("test");
+        g = getMyModel("seven_empty");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         assertEquals(g.getNextState(cell[3][4]), 3);
@@ -67,7 +67,7 @@ public class SchellingSegregationModelTest {
 
     @Test
     void numEmptyAtEndTest(){
-        g = getMyModel("test");
+        g = getMyModel("seven_empty");
         Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         int count = 0;
