@@ -34,7 +34,6 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
 
     private void checkState(Cells cell, int state, Cells[][] grid){
-
         Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(statesBundle.getString(SAME)), integers -> keepState(cell),
             Integer.parseInt(statesBundle.getString(MOVE)), integers -> moveState(cell, grid)
         );
@@ -43,17 +42,17 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
 
     private void moveState(Cells cell, Cells[][] grid){
-        if(cell.getCurrentState() == Integer.parseInt(statesBundle.getString(A))
-                || cell.getCurrentState() == Integer.parseInt(statesBundle.getString(B))){
-            findEmpty(cell, grid);
-            cell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
-            cell.updateMyCurrentState();
-        }
-        else if(cell.getCurrentState() == Integer.parseInt(statesBundle.getString(EMPTY))){
-            keepState(cell);
-        }
+        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(statesBundle.getString(A)), integers -> moveCells(cell, grid),
+                Integer.parseInt(statesBundle.getString(B)), integer -> moveCells(cell, grid),
+                Integer.parseInt(statesBundle.getString(EMPTY)), integer -> keepState(cell));
+        testNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
 
+    private void moveCells(Cells cell, Cells[][] grid){
+        findEmpty(cell, grid);
+        cell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
+        cell.updateMyCurrentState();
+    }
     private void keepState(Cells cell){
         cell.setMyNextState(cell.getCurrentState());
     }
