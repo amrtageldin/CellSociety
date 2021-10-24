@@ -3,6 +3,7 @@ package cellsociety.ruleStructure;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class FireRules extends CellSocietyRules {
   private String probPercent;
@@ -42,19 +43,10 @@ public class FireRules extends CellSocietyRules {
 
   @Override
   public Integer generateNextState(int quantityOfRelevantCells, int currentState) {
-//    if (currentState == Integer.parseInt(valueBundle.getString("EMPTY")) || currentState == Integer.parseInt(valueBundle.getString("BURNING"))){
-//      return Integer.parseInt(valueBundle.getString("EMPTY"));
-//    }
-    Integer empty = Integer.parseInt(valueBundle.getString("EMPTY"));
-    Integer burning = Integer.parseInt(valueBundle.getString("BURNING"));
-    Map<Integer, Consumer<Integer>> intMap = Map.of(empty, integers -> Integer.parseInt(valueBundle.getString("EMPTY")),
-            burning, integers -> Integer.parseInt(valueBundle.getString("EMPTY")));
-    this.testNextState(currentState, intMap.get(currentState));
     return generatedStateRunThroughRules(quantityOfRelevantCells, currentState);
   }
 
-  private void testNextState(int currentState, Consumer<Integer> consumer){
-    consumer.accept(currentState);
-  }
+
+
 
 }

@@ -2,6 +2,8 @@ package cellsociety.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class FireModel extends CellSocietyModel{
 
@@ -19,8 +21,20 @@ public class FireModel extends CellSocietyModel{
     int initialState = Integer.parseInt(statesBundle.getString(BURNING));
     int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
     int randomlyGeneratedNumber = (int) Math.floor(Math.random() * 100) * quantityOfBurningCells;
-    myCell.setMyNextState(myRules.generateNextState(randomlyGeneratedNumber, myCell.getCurrentState()));
+
+    Integer empty = 0;
+    Integer burning = 2;
+    Integer tree = 3;
+
+    Map<Integer, Consumer<Integer>> intMap = Map.of(empty, integers -> myCell.setMyNextState(empty),
+        burning, integers-> myCell.setMyNextState(empty),
+        tree, integers ->  myCell.setMyNextState(myRules.generateNextState(randomlyGeneratedNumber, myCell.getCurrentState()))
+    );
+
+    this.testNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
+
   }
+
 
   @Override
   protected List<Cells> generateNeighbors(int row, int col, Cells[][] myGrid) {

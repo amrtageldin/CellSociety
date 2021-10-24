@@ -1,7 +1,9 @@
 package cellsociety.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
@@ -32,13 +34,13 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
 
     private void checkState(Cells cell, int state, Cells[][] grid){
-        if(state == Integer.parseInt(statesBundle.getString(SAME))){
-           keepState(cell);
-        }
-        if(state == Integer.parseInt(statesBundle.getString(MOVE))){
-            moveState(cell, grid);
-        }
+
+        Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(statesBundle.getString(SAME)), integers -> keepState(cell),
+            Integer.parseInt(statesBundle.getString(MOVE)), integers -> moveState(cell, grid)
+        );
+        testNextState(state, intMap.get(state));
     }
+
 
     private void moveState(Cells cell, Cells[][] grid){
         if(cell.getCurrentState() == Integer.parseInt(statesBundle.getString(A))
