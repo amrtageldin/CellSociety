@@ -5,6 +5,7 @@ public class WaTorRules extends CellSocietyRules{
         super();
     }
 
+    @Override
     protected void prepBundles() {
         initializeRuleAndValueBundles("WaTor");
     }

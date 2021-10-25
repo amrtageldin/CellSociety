@@ -5,6 +5,7 @@ public class PercolationRules extends CellSocietyRules {
     super();
   }
 
+  @Override
   protected void prepBundles() {
     initializeRuleAndValueBundles("Percolation");
   }

@@ -7,6 +7,7 @@ public class SchellingSegregationRules extends CellSocietyRules{
 
     public SchellingSegregationRules(){ super();}
 
+    @Override
     protected void prepBundles() {
         initializeRuleAndValueBundles("SchellingSegregation");
     }

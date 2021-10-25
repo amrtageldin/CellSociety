@@ -12,6 +12,7 @@ public class FireRules extends CellSocietyRules {
     super();
   }
 
+  @Override
   protected void prepBundles() {
     initializeRuleAndValueBundles("Fire");
   }

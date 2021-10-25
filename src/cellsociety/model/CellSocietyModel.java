@@ -12,16 +12,13 @@ public abstract class CellSocietyModel {
   protected ResourceBundle statesBundle;
   protected final String modelResourceBundleBase = "cellsociety.model.resources.";
 
-
-
-
-
   public CellSocietyModel(String myType){
     try{
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
+      System.out.println("linklink");
       e.printStackTrace();
     }
   }

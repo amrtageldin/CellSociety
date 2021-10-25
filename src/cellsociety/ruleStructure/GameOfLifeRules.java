@@ -5,6 +5,7 @@ public class GameOfLifeRules extends CellSocietyRules {
     super();
   }
 
+  @Override
   protected void prepBundles() {
     initializeRuleAndValueBundles("GameOfLife");
   }
