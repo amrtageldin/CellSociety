@@ -12,8 +12,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import util.DukeApplicationTest;
 
 /**
@@ -65,9 +69,12 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   @Test
   public void initialGridAction() {
     File expectedFile = new File("data/game_of_life/blinkers.csv");
-    clickOn(myInitialGrid);
-    clickOn(FILE_X, GRID_Y, MouseButton.PRIMARY);
-    clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
+//    controller.loadFileType(expectedFile.toString());
+//    FileChooser fileChooser = Mockito.spy(FileChooser.class);
+//    Mockito.when(fileChooser.showSaveDialog(Mockito.any()));
+//    clickOn(myInitialGrid);
+//    clickOn(FILE_X, GRID_Y, MouseButton.PRIMARY);
+//    clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
     File actualFile = display.getMyFile();
     try {
       assertEquals(expectedFile.getCanonicalPath(), actualFile.getCanonicalPath());

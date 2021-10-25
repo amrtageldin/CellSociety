@@ -7,6 +7,7 @@
 /*Default button styling*/
 .button {
   -fx-text-fill: text_color;
+  -fx-font-size: 12;
   -fx-border-color: darkgray;
   -fx-border-width: 2px;
   -fx-background-color: lightgray;
@@ -32,10 +33,6 @@
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
   -fx-font-weight: bold;
-}
-
-#Grid {
-  -fx-alignment: center;
 }
 
 #MainPane {
@@ -64,4 +61,12 @@
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
   -fx-font-weight: bold;
+}
+
+#FireLabel {
+  -fx-font-size: 13;
+}
+
+#CellStateLabel {
+  -fx-font-size: 13;
 }

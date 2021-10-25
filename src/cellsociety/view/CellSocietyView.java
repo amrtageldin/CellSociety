@@ -1,12 +1,12 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,6 +33,7 @@ public class CellSocietyView {
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
+  private Slider speed;
 
   /**
    * The default size of the window.
@@ -72,7 +73,7 @@ public class CellSocietyView {
   public Scene setupDisplay() {
     root = new BorderPane();
     root.setTop(setupTopText());
-    root.setBottom(setupAboutSection());
+    root.setRight(setupAboutSection());
     Scene scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
@@ -102,8 +103,26 @@ public class CellSocietyView {
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton);
+    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(), setupCellStatePanel());
     return livePanel;
+  }
+
+  private VBox setupFirePanel() {
+    VBox panel = new VBox();
+    panel.setId("FirePanel");
+    Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
+    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider", 0, 100, 10);
+    panel.getChildren().addAll(fireLabel, fireSlider);
+    return panel;
+  }
+
+  private VBox setupCellStatePanel() {
+    VBox panel = new VBox();
+    panel.setId("CellStatePanel");
+    Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
+    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider", 0, 100, 10);
+    panel.getChildren().addAll(cellStateLabel, cellStateSlider);
+    return panel;
   }
 
   private void chooseFile() {
@@ -120,7 +139,7 @@ public class CellSocietyView {
   }
 
   private void startSimulation() {
-    myFactoryComponents.setLabel((Label) root.getBottom(), myController.getMyGameType());
+    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -178,11 +197,6 @@ public class CellSocietyView {
   public GridView getMyGridView() {
     return myGridView;
   }
-
-//  public Dimension getGridPaneDimensions() {
-//    int dim = 0;
-//    return dim;
-//  }
 
   private Node setupTopText() {
     VBox vbox = new VBox();
