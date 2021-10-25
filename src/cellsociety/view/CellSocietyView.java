@@ -182,12 +182,10 @@ public class CellSocietyView {
 
   private void speedUp() {
     myAnimation.setRate(myAnimation.getRate()*speedUpRate);
-    System.out.println(myAnimation.getRate());
   }
 
   private void slowDown() {
     myAnimation.setRate(myAnimation.getRate()-slowDownRate);
-    System.out.println(myAnimation.getRate());
   }
 
   /**

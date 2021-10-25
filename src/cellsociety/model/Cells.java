@@ -62,5 +62,4 @@ public class Cells {
     currentState = myCurrentState;
   }
 
-
 }
