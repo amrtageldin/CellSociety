@@ -7,6 +7,9 @@ import java.util.function.Consumer;
 public class PercolationModel extends CellSocietyModel{
 
   public static final String PERCOLATED = "PERCOLATED";
+  public static final String OPEN = "OPEN";
+  public static final String CLOSED = "CLOSED";
+
 
   public PercolationModel(String type){
     super(type);
@@ -18,9 +21,9 @@ public class PercolationModel extends CellSocietyModel{
     int initialState = Integer.parseInt(statesBundle.getString(PERCOLATED));
     int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
 
-    Integer open = Integer.parseInt(statesBundle.getString("OPEN"));
-    Integer closed = Integer.parseInt(statesBundle.getString("CLOSED"));
-    Integer percolated = Integer.parseInt(statesBundle.getString("PERCOLATED"));
+    Integer open = Integer.parseInt(statesBundle.getString(OPEN));
+    Integer closed = Integer.parseInt(statesBundle.getString(CLOSED));
+    Integer percolated = Integer.parseInt(statesBundle.getString(PERCOLATED));
 
     Map<Integer, Consumer<Integer>> intMap = Map.of(closed, integers -> myCell.setMyNextState(closed),
         percolated, integers-> myCell.setMyNextState(percolated),
