@@ -8,13 +8,8 @@ import java.util.function.Predicate;
 public class FireRules extends CellSocietyRules {
   private String probPercent;
 
-  public FireRules(){
-    super();
-  }
-
-  @Override
-  protected void prepBundles() {
-    initializeRuleAndValueBundles("Fire");
+  public FireRules(String myType){
+    super(myType);
   }
 
   protected void probabilityCheck(){

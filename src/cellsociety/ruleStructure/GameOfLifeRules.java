@@ -1,13 +1,7 @@
 package cellsociety.ruleStructure;
 
 public class GameOfLifeRules extends CellSocietyRules {
-  public GameOfLifeRules(){
-    super();
+  public GameOfLifeRules(String myType){
+    super(myType);
   }
-
-  @Override
-  protected void prepBundles() {
-    initializeRuleAndValueBundles("GameOfLife");
-  }
-
 }

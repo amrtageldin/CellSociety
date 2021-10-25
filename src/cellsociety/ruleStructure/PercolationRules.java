@@ -1,14 +1,8 @@
 package cellsociety.ruleStructure;
 
 public class PercolationRules extends CellSocietyRules {
-  public PercolationRules(){
-    super();
+  public PercolationRules(String myType){
+    super(myType);
   }
-
-  @Override
-  protected void prepBundles() {
-    initializeRuleAndValueBundles("Percolation");
-  }
-
 
 }

@@ -20,13 +20,11 @@ abstract public class CellSocietyRules {
 
     protected String parameter;
 
-    public CellSocietyRules(){
+    public CellSocietyRules(String myType){
         myRules = new ArrayList<>();
-        prepBundles();
+        initializeRuleAndValueBundles(myType);
         initializeMyRules();
     }
-
-    protected abstract void prepBundles();
 
     protected void initializeMyRules(){
         translationBundle = initializeBundle(ruleResourceBundleBase, "TranslationRules");
