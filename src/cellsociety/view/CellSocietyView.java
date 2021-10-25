@@ -4,6 +4,8 @@ import cellsociety.controller.CellSocietyController;
 import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -204,8 +206,8 @@ public class CellSocietyView {
 
   private Node setupTopText() {
     VBox vbox = new VBox();
-    vbox.setId("MainPane");
     Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
+    vbox.setId("MainPane");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
     vbox.setMaxHeight(myStage.getHeight() / 4);
     return vbox;
@@ -213,7 +215,7 @@ public class CellSocietyView {
 
   private Label setupAboutSection() {
     Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
-    bottomText.setId("aboutPane");
+    bottomText.setId("AboutPane");
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
   }
@@ -236,9 +238,23 @@ public class CellSocietyView {
     return gridSectionSize;
   }
 
-  private Node setupColorOptions() {
+  private ComboBox setupColorOptions() {
     String[] options = {"LightMode", "DarkMode", "BDMode"};
-    Node colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    ComboBox colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    setupDropDownCommands(colorOptions);
     return colorOptions;
+  }
+
+  private void setupDropDownCommands(ComboBox dropdown) {
+    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        String str = (String) dropdown.getValue();
+        str = str.replace(" ","");
+        root.getTop().setId(str+"MainPane");
+        root.getRight().setId(str+"AboutPane");
+        root.setId(str);
+      }
+    };
+    dropdown.setOnAction(event);
   }
 }
