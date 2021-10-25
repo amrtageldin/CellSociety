@@ -31,7 +31,7 @@ public class FireModel extends CellSocietyModel{
         tree, integers ->  myCell.setMyNextState(myRules.generateNextState(randomlyGeneratedNumber, myCell.getCurrentState()))
     );
 
-    this.testNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
+    this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
 
   }
 

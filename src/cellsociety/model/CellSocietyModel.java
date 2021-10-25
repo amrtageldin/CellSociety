@@ -65,7 +65,7 @@ public abstract class CellSocietyModel {
 
   protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
-  protected void testNextState(int currentState, Consumer<Integer> consumer){
+  protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer){
     consumer.accept(currentState);
   }
 

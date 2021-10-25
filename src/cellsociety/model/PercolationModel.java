@@ -1,6 +1,8 @@
 package cellsociety.model;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class PercolationModel extends CellSocietyModel{
 
@@ -15,7 +17,20 @@ public class PercolationModel extends CellSocietyModel{
     List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
     int initialState = Integer.parseInt(statesBundle.getString(PERCOLATED));
     int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
-    myCell.setMyNextState(myRules.generateNextState(quantityOfPercolatedCells, myCell.getCurrentState()));
+
+    Integer open = 3;
+    Integer closed = 0;
+    Integer percolated = 2;
+
+    Map<Integer, Consumer<Integer>> intMap = Map.of(closed, integers -> myCell.setMyNextState(closed),
+        percolated, integers-> myCell.setMyNextState(percolated),
+        open, integers ->  myCell.setMyNextState((myRules.generateNextState(quantityOfPercolatedCells, myCell.getCurrentState()))
+    ));
+
+    this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
+
+
+
   }
 
 }

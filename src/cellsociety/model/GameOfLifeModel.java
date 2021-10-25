@@ -1,6 +1,8 @@
 package cellsociety.model;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class GameOfLifeModel extends CellSocietyModel{
 
@@ -15,7 +17,15 @@ public class GameOfLifeModel extends CellSocietyModel{
         List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
         int initialState = Integer.parseInt(statesBundle.getString(ALIVE));
         int quantityOfLivingCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
-        myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState()));
+
+        Integer alive = 1;
+        Integer dead = 0;
+
+        Map<Integer, Consumer<Integer>> intMap = Map.of(alive, integers -> myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState())),
+            dead, integers -> myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState()))
+        );
+
+        this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
     }
 
 }
