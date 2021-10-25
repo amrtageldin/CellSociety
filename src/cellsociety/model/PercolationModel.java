@@ -31,9 +31,5 @@ public class PercolationModel extends CellSocietyModel{
     ));
 
     this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
-
-
-
   }
-
 }

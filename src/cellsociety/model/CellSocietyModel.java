@@ -11,6 +11,8 @@ public abstract class CellSocietyModel {
   protected CellSocietyRules myRules;
   protected ResourceBundle statesBundle;
   protected final String modelResourceBundleBase = "cellsociety.model.resources.";
+  public static final int SCALE_FACTOR = 100;
+
 
   public CellSocietyModel(String myType){
     try{
@@ -20,7 +22,6 @@ public abstract class CellSocietyModel {
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
-      System.out.println("linklink");
       e.printStackTrace();
     }
   }
