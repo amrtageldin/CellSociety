@@ -127,7 +127,7 @@ public class CellSocietyView {
 
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
+    fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
