@@ -20,11 +20,6 @@ public class FireRules extends CellSocietyRules {
     parameter = "30"; // changeLater
   }
 
-  @Override
-  public Integer generateNextState(int quantityOfRelevantCells, int currentState) {
-    return generatedStateRunThroughRules(quantityOfRelevantCells, currentState);
-  }
-
 
 
 

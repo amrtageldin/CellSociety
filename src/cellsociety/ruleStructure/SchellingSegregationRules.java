@@ -11,12 +11,8 @@ public class SchellingSegregationRules extends CellSocietyRules{
         initializeRuleAndValueBundles("SchellingSegregation");
     }
 
-
     protected void percentCheck(){
         parameter = "30"; //TODO: once we have input from view this will change
     }
-    @Override
-    public Integer generateNextState(int propSameCells, int currentState) {
-        return generatedStateRunThroughRules(propSameCells, currentState);
-    }
+
 }
