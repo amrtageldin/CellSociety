@@ -2,10 +2,12 @@ package cellsociety.view;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 import java.util.ResourceBundle;
@@ -98,6 +100,16 @@ public class FactoryComponents {
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
     return (Slider) setId(label, slider);
+  }
+
+  public ComboBox makeDropDownMenu(String id, String[] labels) {
+    ComboBox dropdown = new ComboBox();
+    dropdown.setId(id);
+    dropdown.setPromptText(myResources.getString(id));
+    for (String label : labels) {
+      dropdown.getItems().add(myResources.getString(label));
+    }
+    return dropdown;
   }
 
   private Node setId(String id, Node node) {

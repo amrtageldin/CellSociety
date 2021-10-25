@@ -16,8 +16,30 @@
   -fx-background-radius: 8px;
 }
 
-#aboutPane {
+#AboutPane {
   -fx-background-color: lightblue;
+  -fx-text-fill: black;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#BlueDevilModeAboutPane {
+  -fx-background-color: #2427bf;
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#DarkModeAboutPane {
+  -fx-background-color: #262b33;
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#LightModeAboutPane {
+  -fx-background-color: #f5f5ff;
+  -fx-text-fill: black;
   -fx-font-size: 20;
   -fx-alignment: center;
 }
@@ -28,16 +50,55 @@
   -fx-font-size: 40;
 }
 
-.textProps {
-  -fx-text-fill: black;
+#BlueDevilMode {
   -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 18;
-  -fx-font-weight: bold;
+  text_color: black;
+  -fx-background-color: #0462b5;
+}
+
+#DarkMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #3f3f47;
+}
+
+#LightMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #ffffff;
 }
 
 #MainPane {
   -fx-background-color: lightblue;
   -fx-text-fill: black;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#BlueDevilModeMainPane {
+  -fx-background-color: #2427bf;
+  -fx-text-fill: white;
+  -fx-text-background-color: lightgray;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#DarkModeMainPane {
+  -fx-background-color: #262b33;
+  -fx-text-background-color: lightgray;
+  -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#LightModeMainPane {
+  -fx-background-color: #f5f5ff;
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
   -fx-font-weight: bold;
@@ -56,11 +117,8 @@
   -fx-padding: 5 10 15 10;
 }
 
-#DisplayLabel {
-  -fx-text-fill: black;
-  -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 18;
-  -fx-font-weight: bold;
+#GridPanel {
+  -fx-alignment: center;
 }
 
 #FireLabel {
@@ -69,4 +127,12 @@
 
 #CellStateLabel {
   -fx-font-size: 13;
+}
+
+#DropDownDefault {
+  -fx-font-size: 13;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-text-alignment: center;
 }
