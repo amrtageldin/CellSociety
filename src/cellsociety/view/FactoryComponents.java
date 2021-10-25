@@ -2,13 +2,16 @@ package cellsociety.view;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 import java.util.ResourceBundle;
+import javafx.scene.control.Slider;
 
 /**
  * Class that creates individual components for the View.
@@ -76,8 +79,37 @@ public class FactoryComponents {
           }
         }
     );
-    //result.setOnAction(handler);
     return setId(label, result);
+  }
+
+  /**
+   * Method that creates a slider.
+   *
+   * @param label Slider identifier.
+   * @param min min number on slider.
+   * @param max max number on slider.
+   * @return slider component.
+   */
+  public Slider makeSlider(String label, int min, int max, int increment) {
+    Slider slider = new Slider();
+    slider.setMin(min);
+    slider.setMax(max);
+    slider.setValue(min);
+    slider.setBlockIncrement(increment);
+    slider.setSnapToTicks(true);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    return (Slider) setId(label, slider);
+  }
+
+  public ComboBox makeDropDownMenu(String id, String[] labels) {
+    ComboBox dropdown = new ComboBox();
+    dropdown.setId(id);
+    dropdown.setPromptText(myResources.getString(id));
+    for (String label : labels) {
+      dropdown.getItems().add(myResources.getString(label));
+    }
+    return dropdown;
   }
 
   private Node setId(String id, Node node) {
