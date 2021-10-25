@@ -62,3 +62,11 @@
   -fx-font-size: 18;
   -fx-font-weight: bold;
 }
+
+#FireLabel {
+  -fx-font-size: 13;
+}
+
+#CellStateLabel {
+  -fx-font-size: 13;
+}
