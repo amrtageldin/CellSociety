@@ -4,7 +4,10 @@ import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.awt.Dimension;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -61,10 +64,18 @@ public class GridView {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
+        setCellClickAction(cell);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
       }
     }
+  }
+
+  private void setCellClickAction(Rectangle cell) {
+    EventHandler<MouseEvent> event = event1 -> {
+      System.out.println(12);
+    };
+    cell.setOnMouseClicked(event);
   }
 
   private Rectangle drawCell(Paint currState) {
