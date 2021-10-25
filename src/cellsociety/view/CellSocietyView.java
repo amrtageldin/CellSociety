@@ -6,6 +6,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
@@ -96,7 +97,7 @@ public class CellSocietyView {
     Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
     Node playButton = myFactoryComponents.makeButton("Play", this);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton);
+    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton, setupColorOptions());
     return setupPanel;
   }
 
@@ -233,5 +234,14 @@ public class CellSocietyView {
     int height = (int) setupGridSection().getHeight();
     Dimension gridSectionSize = new Dimension(width, height);
     return gridSectionSize;
+  }
+
+  private ComboBox setupColorOptions() {
+    ComboBox cmb = new ComboBox();
+    cmb.setId("ColorModeOptions");
+    cmb.getItems().add("Light Mode");
+    cmb.getItems().add("Dark Mode");
+    cmb.getItems().add("Blue Devil Mode");
+    return cmb;
   }
 }
