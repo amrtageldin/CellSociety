@@ -133,8 +133,8 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    myGridView = new GridView(myController);
-    root.setCenter(myGridView.setupGrid());
+    root.setCenter(setupGridSection());
+    //root.setCenter(myGridView.setupGrid());
     startSimulation();
   }
 
@@ -212,5 +212,13 @@ public class CellSocietyView {
     bottomText.setId("aboutPane");
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
+  }
+
+  private HBox setupGridSection() {
+    HBox gridPanel = new HBox();
+    gridPanel.setId("GridPanel");
+    myGridView = new GridView(myController);
+    gridPanel.getChildren().add(myGridView.setupGrid());
+    return gridPanel;
   }
 }

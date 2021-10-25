@@ -63,6 +63,11 @@
   -fx-font-weight: bold;
 }
 
+#GridPanel {
+  -fx-alignment: center;
+  -fx-padding: 5 5;
+}
+
 #FireLabel {
   -fx-font-size: 13;
 }
