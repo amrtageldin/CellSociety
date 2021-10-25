@@ -14,7 +14,9 @@ public abstract class CellSocietyModel {
 
   public CellSocietyModel(String myType){
     try{
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
+      Class [] paramTypesSub = {String.class};
+      Object [] paramValuesSub = {myType};
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
