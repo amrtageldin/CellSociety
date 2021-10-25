@@ -4,11 +4,18 @@ import cellsociety.controller.CellSocietyController;
 import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -33,6 +40,7 @@ public class CellSocietyView {
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
+  private Slider speed;
 
   /**
    * The default size of the window.
@@ -91,7 +99,7 @@ public class CellSocietyView {
     Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
     Node playButton = myFactoryComponents.makeButton("Play", this);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton);
+    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton, setupColorOptions());
     return setupPanel;
   }
 
@@ -102,8 +110,26 @@ public class CellSocietyView {
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton);
+    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(), setupCellStatePanel());
     return livePanel;
+  }
+
+  private VBox setupFirePanel() {
+    VBox panel = new VBox();
+    panel.setId("FirePanel");
+    Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
+    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider", 0, 100, 10);
+    panel.getChildren().addAll(fireLabel, fireSlider);
+    return panel;
+  }
+
+  private VBox setupCellStatePanel() {
+    VBox panel = new VBox();
+    panel.setId("CellStatePanel");
+    Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
+    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider", 0, 100, 10);
+    panel.getChildren().addAll(cellStateLabel, cellStateSlider);
+    return panel;
   }
 
   private void chooseFile() {
@@ -114,8 +140,7 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    myGridView = new GridView(myController);
-    root.setCenter(myGridView.setupGrid());
+    root.setCenter(setupGridSection());
     startSimulation();
   }
 
@@ -137,7 +162,7 @@ public class CellSocietyView {
       myAnimation.stop();
     }
     myAnimation.play();
-    root.setCenter(myGridView.setupGrid());
+    root.setCenter(setupGridSection());
   }
 
   private void pauseAndStep() {
@@ -179,15 +204,10 @@ public class CellSocietyView {
     return myGridView;
   }
 
-//  public Dimension getGridPaneDimensions() {
-//    int dim = 0;
-//    return dim;
-//  }
-
   private Node setupTopText() {
     VBox vbox = new VBox();
-    vbox.setId("MainPane");
     Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
+    vbox.setId("MainPane");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
     vbox.setMaxHeight(myStage.getHeight() / 4);
     return vbox;
@@ -195,8 +215,46 @@ public class CellSocietyView {
 
   private Label setupAboutSection() {
     Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
-    bottomText.setId("aboutPane");
+    bottomText.setId("AboutPane");
     bottomText.setMaxSize(MAXVALUE, MAXVALUE);
     return bottomText;
+  }
+
+  private HBox setupGridSection() {
+    HBox gridPanel = new HBox();
+    VBox vbox = new VBox();
+    gridPanel.setId("GridPanel");
+    vbox.setId("GridPanel");
+    myGridView = new GridView(myController);
+    vbox.getChildren().add(myGridView.setupGrid());
+    gridPanel.getChildren().add(vbox);
+    return gridPanel;
+  }
+
+  public Dimension getGridSectionDimensions() {
+    int width = (int) setupGridSection().getWidth();
+    int height = (int) setupGridSection().getHeight();
+    Dimension gridSectionSize = new Dimension(width, height);
+    return gridSectionSize;
+  }
+
+  private ComboBox setupColorOptions() {
+    String[] options = {"LightMode", "DarkMode", "BDMode"};
+    ComboBox colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    setupDropDownCommands(colorOptions);
+    return colorOptions;
+  }
+
+  private void setupDropDownCommands(ComboBox dropdown) {
+    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        String colorMode = (String) dropdown.getValue();
+        colorMode = colorMode.replace(" ","");
+        root.getTop().setId(colorMode+"MainPane");
+        root.getRight().setId(colorMode+"AboutPane");
+        root.setId(colorMode);
+      }
+    };
+    dropdown.setOnAction(event);
   }
 }

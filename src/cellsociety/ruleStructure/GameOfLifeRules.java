@@ -5,12 +5,9 @@ public class GameOfLifeRules extends CellSocietyRules {
     super();
   }
 
+  @Override
   protected void prepBundles() {
     initializeRuleAndValueBundles("GameOfLife");
   }
 
-  @Override
-  public Integer generateNextState(int quantityOfLivingCells, int currentState) {
-    return generatedStateRunThroughRules(quantityOfLivingCells, currentState);
-  }
 }

@@ -12,17 +12,13 @@ public class FireRules extends CellSocietyRules {
     super();
   }
 
+  @Override
   protected void prepBundles() {
     initializeRuleAndValueBundles("Fire");
   }
 
   protected void probabilityCheck(){
     parameter = "30"; // changeLater
-  }
-
-  @Override
-  public Integer generateNextState(int quantityOfRelevantCells, int currentState) {
-    return generatedStateRunThroughRules(quantityOfRelevantCells, currentState);
   }
 
 

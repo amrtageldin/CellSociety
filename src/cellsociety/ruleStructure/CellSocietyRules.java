@@ -13,8 +13,11 @@ abstract public class CellSocietyRules {
     protected ResourceBundle ruleBundle;
     protected ResourceBundle translationBundle;
     protected ResourceBundle valueBundle;
+
     protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
     protected final String ruleBundleBase = "cellsociety.rule.Rule";
+    protected final String modelResourceBundleBase = "cellsociety.model.resources.";
+
     protected String parameter;
 
     public CellSocietyRules(){
@@ -60,7 +63,9 @@ abstract public class CellSocietyRules {
 
     }
 
-    public abstract Integer generateNextState(int quantityOfLivingCells, int currentState);
+    public Integer generateNextState(int quantityOfLivingCells, int currentState) {
+        return generatedStateRunThroughRules(quantityOfLivingCells, currentState);
+    }
 
     protected Integer generatedStateRunThroughRules(int quantityOfPercolatedCells, int currentState) {
         for (Rule x : myRules){
@@ -79,7 +84,7 @@ abstract public class CellSocietyRules {
 
     protected void initializeRuleAndValueBundles(String base) {
         ruleBundle = initializeBundle(ruleResourceBundleBase, String.format("%sRules", base));
-        valueBundle = initializeBundle(ruleResourceBundleBase, String.format("%sValues", base));
+        valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
 
 
