@@ -74,3 +74,10 @@
 #CellStateLabel {
   -fx-font-size: 13;
 }
+
+#DropDownDefault {
+  -fx-font-size: 13;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+}

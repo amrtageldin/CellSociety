@@ -236,12 +236,9 @@ public class CellSocietyView {
     return gridSectionSize;
   }
 
-  private ComboBox setupColorOptions() {
-    ComboBox cmb = new ComboBox();
-    cmb.setId("ColorModeOptions");
-    cmb.getItems().add("Light Mode");
-    cmb.getItems().add("Dark Mode");
-    cmb.getItems().add("Blue Devil Mode");
-    return cmb;
+  private Node setupColorOptions() {
+    String[] options = {"LightMode", "DarkMode", "BDMode"};
+    Node colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    return colorOptions;
   }
 }
