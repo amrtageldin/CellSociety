@@ -18,9 +18,9 @@ public class PercolationModel extends CellSocietyModel{
     int initialState = Integer.parseInt(statesBundle.getString(PERCOLATED));
     int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
 
-    Integer open = 3;
-    Integer closed = 0;
-    Integer percolated = 2;
+    Integer open = Integer.parseInt(statesBundle.getString("OPEN"));
+    Integer closed = Integer.parseInt(statesBundle.getString("CLOSED"));
+    Integer percolated = Integer.parseInt(statesBundle.getString("PERCOLATED"));
 
     Map<Integer, Consumer<Integer>> intMap = Map.of(closed, integers -> myCell.setMyNextState(closed),
         percolated, integers-> myCell.setMyNextState(percolated),

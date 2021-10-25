@@ -18,8 +18,8 @@ public class GameOfLifeModel extends CellSocietyModel{
         int initialState = Integer.parseInt(statesBundle.getString(ALIVE));
         int quantityOfLivingCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
 
-        Integer alive = 1;
-        Integer dead = 0;
+        Integer alive = Integer.parseInt(statesBundle.getString("ALIVE"));
+        Integer dead = Integer.parseInt(statesBundle.getString("DEAD"));
 
         Map<Integer, Consumer<Integer>> intMap = Map.of(alive, integers -> myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState())),
             dead, integers -> myCell.setMyNextState(myRules.generateNextState(quantityOfLivingCells, myCell.getCurrentState()))

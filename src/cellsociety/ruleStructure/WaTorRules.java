@@ -8,5 +8,5 @@ public class WaTorRules extends CellSocietyRules{
     protected void prepBundles() {
         initializeRuleAndValueBundles("WaTor");
     }
-    
+
 }
