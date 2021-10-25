@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.awt.Dimension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -8,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -134,7 +138,6 @@ public class CellSocietyView {
 
   private void startGame() {
     root.setCenter(setupGridSection());
-    //root.setCenter(myGridView.setupGrid());
     startSimulation();
   }
 
@@ -156,7 +159,7 @@ public class CellSocietyView {
       myAnimation.stop();
     }
     myAnimation.play();
-    root.setCenter(myGridView.setupGrid());
+    root.setCenter(setupGridSection());
   }
 
   private void pauseAndStep() {
@@ -216,9 +219,19 @@ public class CellSocietyView {
 
   private HBox setupGridSection() {
     HBox gridPanel = new HBox();
+    VBox vbox = new VBox();
     gridPanel.setId("GridPanel");
+    vbox.setId("GridPanel");
     myGridView = new GridView(myController);
-    gridPanel.getChildren().add(myGridView.setupGrid());
+    vbox.getChildren().add(myGridView.setupGrid());
+    gridPanel.getChildren().add(vbox);
     return gridPanel;
+  }
+
+  public Dimension getGridSectionDimensions() {
+    int width = (int) setupGridSection().getWidth();
+    int height = (int) setupGridSection().getHeight();
+    Dimension gridSectionSize = new Dimension(width, height);
+    return gridSectionSize;
   }
 }
