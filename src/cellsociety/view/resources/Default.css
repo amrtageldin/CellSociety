@@ -80,6 +80,7 @@
 #BlueDevilModeMainPane {
   -fx-background-color: #2427bf;
   -fx-text-fill: white;
+  -fx-text-background-color: lightgray;
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
   -fx-font-weight: bold;
@@ -88,6 +89,7 @@
 
 #DarkModeMainPane {
   -fx-background-color: #262b33;
+  -fx-text-background-color: lightgray;
   -fx-text-fill: white;
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
