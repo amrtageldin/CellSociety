@@ -248,11 +248,11 @@ public class CellSocietyView {
   private void setupDropDownCommands(ComboBox dropdown) {
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
       public void handle(ActionEvent event) {
-        String str = (String) dropdown.getValue();
-        str = str.replace(" ","");
-        root.getTop().setId(str+"MainPane");
-        root.getRight().setId(str+"AboutPane");
-        root.setId(str);
+        String colorMode = (String) dropdown.getValue();
+        colorMode = colorMode.replace(" ","");
+        root.getTop().setId(colorMode+"MainPane");
+        root.getRight().setId(colorMode+"AboutPane");
+        root.setId(colorMode);
       }
     };
     dropdown.setOnAction(event);

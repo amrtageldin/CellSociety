@@ -24,8 +24,22 @@
 }
 
 #BlueDevilModeAboutPane {
-  -fx-background-color: #00539B;
+  -fx-background-color: #2427bf;
   -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#DarkModeAboutPane {
+  -fx-background-color: #262b33;
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#LightModeAboutPane {
+  -fx-background-color: #f5f5ff;
+  -fx-text-fill: black;
   -fx-font-size: 20;
   -fx-alignment: center;
 }
@@ -39,7 +53,19 @@
 #BlueDevilMode {
   -fx-font-family: "Segoe UI Semibold";
   text_color: black;
-  -fx-background-color: #012169;
+  -fx-background-color: #0462b5;
+}
+
+#DarkMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #3f3f47;
+}
+
+#LightMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #ffffff;
 }
 
 #MainPane {
@@ -52,8 +78,25 @@
 }
 
 #BlueDevilModeMainPane {
-  -fx-background-color: #00539B;
+  -fx-background-color: #2427bf;
   -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#DarkModeMainPane {
+  -fx-background-color: #262b33;
+  -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#LightModeMainPane {
+  -fx-background-color: #f5f5ff;
   -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 18;
   -fx-font-weight: bold;
