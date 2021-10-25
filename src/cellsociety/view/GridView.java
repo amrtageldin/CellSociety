@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
  */
@@ -64,16 +65,20 @@ public class GridView {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
-        setCellClickAction(cell);
+        setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
       }
     }
   }
 
-  private void setCellClickAction(Rectangle cell) {
+  private void setCellClickAction(Rectangle cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
-      System.out.println(12);
+      int setState = (myGrid[i][j].getCurrentState()==0) ? 1:0;
+      myGrid[i][j].setCurrentState(setState);
+      Rectangle newCell = drawCell(STATE_COLORS.get(setState));
+      myPaneNodes[i][j] = newCell;
+      pane.add(myPaneNodes[i][j], j, i);
     };
     cell.setOnMouseClicked(event);
   }
