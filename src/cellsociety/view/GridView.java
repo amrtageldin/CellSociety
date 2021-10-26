@@ -3,7 +3,6 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -24,45 +23,13 @@ public class GridView {
   private final Rectangle[][] myPaneNodes;
   private GridPane pane;
   private final ResourceBundle myMagicValues;
+  private final List<Color> stateColors;
+  private final CellColors myCellColors;
 
   public final String gap = "gap";
   public final String screenWidth = "screenWidth";
   public final String screenHeight = "screenHeight";
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
-
-  private static final String GAME_OF_LIFE = "GameOfLife";
-  private static final String FIRE = "Fire";
-  private static final String PERCOLATION = "Percolation";
-  private static final String SCHELLING_SEGREGATION = "SchellingSegregation";
-
-  private final List<Color> LIFE_STATE_COLORS = List.of(
-      Color.BLACK,      // dead cell color
-      Color.WHITE       // alive cell color
-  );
-
-  private final List<Color> FIRE_STATE_COLORS = List.of(
-      Color.LIGHTGREY, // empty color
-      Color.LIGHTGREY, // empty color
-      Color.RED, // burning color
-      Color.GREEN // tree color
-  );
-
-  private final List<Color> PERCOLATE_STATE_COLORS = List.of(
-      Color.BLACK, // closed color
-      Color.BLACK, // closed color
-      Color.BLUE, // percolated color
-      Color.WHITE // open color
-  );
-
-  private final List<Color> SS_STATE_COLORS = List.of(
-    Color.WHITE, // empty color
-    Color.WHITE, // empty color
-    Color.PURPLE, // group a color
-    Color.ORANGE // group b color
-  );
-
-
-  private final List<Color> stateColors;
 
   /**
    * Constructor that initializes the Grid.
@@ -72,14 +39,9 @@ public class GridView {
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
     myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
-    stateColors = initializeGameMap(controller.getMyGameType());
+    myCellColors = new CellColors(controller.getMyGameType());
+    stateColors = myCellColors.getColorMap();
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
-  }
-
-  private List<Color> initializeGameMap(String gameType) {
-    Map<String, List<Color>> map = Map.of(GAME_OF_LIFE, LIFE_STATE_COLORS, FIRE, FIRE_STATE_COLORS,
-        PERCOLATION, PERCOLATE_STATE_COLORS, SCHELLING_SEGREGATION, SS_STATE_COLORS);
-    return map.get(gameType);
   }
 
   /**
@@ -111,7 +73,7 @@ public class GridView {
 
   private void setCellClickAction(Rectangle cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
-      int setState = (myGrid[i][j].getCurrentState()==0) ? 1:0;
+      int setState = myCellColors.getRandomCellState();
       myGrid[i][j].setCurrentState(setState);
       Rectangle newCell = drawCell(stateColors.get(setState));
       myPaneNodes[i][j] = newCell;
