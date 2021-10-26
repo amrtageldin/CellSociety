@@ -36,17 +36,17 @@ public class GridView {
   );
 
   private final List<Color> FIRE_STATE_COLORS = List.of(
-      Color.RED, // fire color
-      Color.GREEN, // tree color
-      Color.GREEN, // tree color
-      Color.LIGHTGREY // empty
+      Color.LIGHTGREY, // empty color
+      Color.LIGHTGREY, // empty color
+      Color.RED, // burning color
+      Color.GREEN // tree color
   );
 
   private final List<Color> PERCOLATE_STATE_COLORS = List.of(
+      Color.BLACK, // closed color
+      Color.BLACK, // closed color
       Color.BLUE, // percolated color
-      Color.WHITE, // open color
-      Color.WHITE, // open color
-      Color.BLACK // closed color
+      Color.WHITE // open color
   );
 
   private final List<Color> SS_STATE_COLORS = List.of(
