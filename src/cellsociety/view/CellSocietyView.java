@@ -1,7 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import java.awt.Dimension;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -12,10 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,22 +37,21 @@ public class CellSocietyView {
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
-  private Slider speed;
 
-  /**
-   * The default size of the window.
-   **/
-  public static final int DEFAULT_X = 800;
-  public static final int DEFAULT_Y = 600;
-
-  private static final int MAXVALUE = 5000;
-  private static final double secondDelay = 2.0;
-  private static final double speedUpRate = 1.25;
-  private static final double slowDownRate = 0.75;
+  public final String defaultX = "defaultX";
+  public final String defaultY = "defaultY";
+  public final String maxValue = "maxValue";
+  public final String secondDelay = "secondDelay";
+  public final String speedUpRate = "speedUpRate";
+  public final String slowDownRate = "slowDownRate";
+  public final String minPercent = "minPercent";
+  public final String maxPercent = "maxPercent";
+  public final String incrementValue = "incrementValue";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
       "/" + DEFAULT_RESOURCE_PACKAGE.replace(".", "/") + "Default.css";
+  private final ResourceBundle myMagicValues;
 
   /**
    * Constructor for the CellSocietyView class that initializes FactoryComponents and retrieves
@@ -70,6 +66,7 @@ public class CellSocietyView {
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
+    myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
   /**
@@ -81,7 +78,8 @@ public class CellSocietyView {
     root = new BorderPane();
     root.setTop(setupTopText());
     root.setRight(setupAboutSection());
-    Scene scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
+    Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
+        Integer.parseInt(myMagicValues.getString(defaultY)));
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
     return scene;
@@ -89,7 +87,7 @@ public class CellSocietyView {
 
   private Node setupGameModePanel() {
     VBox panel = new VBox();
-    panel.getChildren().addAll(setupTopButtonPanel(),setupBottomButtonPanel());
+    panel.getChildren().addAll(setupTopButtonPanel(), setupBottomButtonPanel());
     return panel;
   }
 
@@ -110,7 +108,9 @@ public class CellSocietyView {
     Node stepButton = myFactoryComponents.makeButton("Step", this);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    livePanel.getChildren().addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(), setupCellStatePanel());
+    livePanel.getChildren()
+        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(),
+            setupCellStatePanel());
     return livePanel;
   }
 
@@ -118,7 +118,10 @@ public class CellSocietyView {
     VBox panel = new VBox();
     panel.setId("FirePanel");
     Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
-    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider", 0, 100, 10);
+    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider",
+        Integer.parseInt(myMagicValues.getString(minPercent)),
+        Integer.parseInt(myMagicValues.getString(maxPercent)),
+        Integer.parseInt(myMagicValues.getString(incrementValue)));
     panel.getChildren().addAll(fireLabel, fireSlider);
     return panel;
   }
@@ -127,14 +130,17 @@ public class CellSocietyView {
     VBox panel = new VBox();
     panel.setId("CellStatePanel");
     Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
-    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider", 0, 100, 10);
+    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider",
+        Integer.parseInt(myMagicValues.getString(minPercent)),
+        Integer.parseInt(myMagicValues.getString(maxPercent)),
+        Integer.parseInt(myMagicValues.getString(incrementValue)));
     panel.getChildren().addAll(cellStateLabel, cellStateSlider);
     return panel;
   }
 
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialDirectory(new File("data/game_of_life/")); //just adding for test purposes
+    fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
@@ -151,7 +157,9 @@ public class CellSocietyView {
     }
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(secondDelay), e -> step()));
+    myAnimation.getKeyFrames().add(
+        new KeyFrame(Duration.seconds(Double.parseDouble(myMagicValues.getString(secondDelay))),
+            e -> step()));
     myAnimation.play();
     isPlaying = true;
   }
@@ -181,11 +189,13 @@ public class CellSocietyView {
   }
 
   private void speedUp() {
-    myAnimation.setRate(myAnimation.getRate()*speedUpRate);
+    myAnimation.setRate(
+        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
   }
 
   private void slowDown() {
-    myAnimation.setRate(myAnimation.getRate()-slowDownRate);
+    myAnimation.setRate(
+        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
   /**
@@ -214,7 +224,8 @@ public class CellSocietyView {
   private Label setupAboutSection() {
     Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
     bottomText.setId("AboutPane");
-    bottomText.setMaxSize(MAXVALUE, MAXVALUE);
+    bottomText.setMaxSize(Integer.parseInt(myMagicValues.getString(maxValue)),
+        Integer.parseInt(myMagicValues.getString(maxValue)));
     return bottomText;
   }
 
@@ -229,13 +240,6 @@ public class CellSocietyView {
     return gridPanel;
   }
 
-  public Dimension getGridSectionDimensions() {
-    int width = (int) setupGridSection().getWidth();
-    int height = (int) setupGridSection().getHeight();
-    Dimension gridSectionSize = new Dimension(width, height);
-    return gridSectionSize;
-  }
-
   private ComboBox setupColorOptions() {
     String[] options = {"LightMode", "DarkMode", "BDMode"};
     ComboBox colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
@@ -246,9 +250,9 @@ public class CellSocietyView {
   private void setupDropDownCommands(ComboBox dropdown) {
     EventHandler<ActionEvent> event = event1 -> {
       String colorMode = (String) dropdown.getValue();
-      colorMode = colorMode.replace(" ","");
-      root.getTop().setId(colorMode+"MainPane");
-      root.getRight().setId(colorMode+"AboutPane");
+      colorMode = colorMode.replace(" ", "");
+      root.getTop().setId(colorMode + "MainPane");
+      root.getRight().setId(colorMode + "AboutPane");
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);

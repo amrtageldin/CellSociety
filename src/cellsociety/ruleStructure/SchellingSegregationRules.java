@@ -1,17 +1,14 @@
 package cellsociety.ruleStructure;
 
+import java.lang.reflect.Method;
+
 public class SchellingSegregationRules extends CellSocietyRules{
+    private String percent;
 
-    public SchellingSegregationRules(){
-        super();
+    public SchellingSegregationRules(String myType){ super(myType);}
+
+    protected void percentCheck(){
+        parameter = "30"; //TODO: once we have input from view this will change
     }
 
-    protected void prepBundles() {
-        initializeRuleAndValueBundles("SchellingSegregation");
-    }
-
-    @Override
-    public Integer generateNextState(int quantityOfLivingCells, int currentState) {
-        return generatedStateRunThroughRules(quantityOfLivingCells, currentState);
-    }
 }

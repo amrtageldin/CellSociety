@@ -40,7 +40,7 @@ public class GridFactory {
         try {
             String[] rowAndColumn = csvReader.readNext();
 
-            rowCount = rowAndColumn[1]; // set variables to remove magic numbers
+            rowCount = rowAndColumn[1]; // TODO: index issue
             colCount = rowAndColumn[0];
 
         }
