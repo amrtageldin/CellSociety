@@ -4,6 +4,7 @@ import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -22,9 +23,13 @@ public class GridView {
   private final Cells[][] myGrid;
   private final Rectangle[][] myPaneNodes;
   private GridPane pane;
-  private static final int GAP = 1;
-  private static final int SCREEN_WIDTH = 1500;
-  private static final int SCREEN_HEIGHT = 600;
+  private final ResourceBundle myMagicValues;
+
+  public final String gap = "gap";
+  public final String screenWidth = "screenWidth";
+  public final String screenHeight = "screenHeight";
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+
   private static final String GAME_OF_LIFE = "GameOfLife";
   private static final String FIRE = "Fire";
   private static final String PERCOLATION = "Percolation";
@@ -68,6 +73,7 @@ public class GridView {
     myGrid = controller.getMyGrid();
     myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
     stateColors = initializeGameMap(controller.getMyGameType());
+    myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
   private List<Color> initializeGameMap(String gameType) {
@@ -84,8 +90,8 @@ public class GridView {
   public GridPane setupGrid() {
     pane = new GridPane();
     pane.setId("Grid");
-    pane.setVgap(GAP);
-    pane.setHgap(GAP);
+    pane.setVgap(Integer.parseInt(myMagicValues.getString(gap)));
+    pane.setHgap(Integer.parseInt(myMagicValues.getString(gap)));
     pane.setGridLinesVisible(true);
     drawGrid();
     return pane;
@@ -121,8 +127,8 @@ public class GridView {
   }
 
   private int findCellDimension() {
-    int width = SCREEN_WIDTH / myGrid.length;
-    int height = SCREEN_HEIGHT / myGrid[0].length;
+    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.length;
+    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid[0].length;
     return Math.min(width, height);
   }
 
