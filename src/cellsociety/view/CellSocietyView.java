@@ -182,12 +182,10 @@ public class CellSocietyView {
 
   private void speedUp() {
     myAnimation.setRate(myAnimation.getRate()*speedUpRate);
-    System.out.println(myAnimation.getRate());
   }
 
   private void slowDown() {
     myAnimation.setRate(myAnimation.getRate()-slowDownRate);
-    System.out.println(myAnimation.getRate());
   }
 
   /**
@@ -246,14 +244,12 @@ public class CellSocietyView {
   }
 
   private void setupDropDownCommands(ComboBox dropdown) {
-    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent event) {
-        String colorMode = (String) dropdown.getValue();
-        colorMode = colorMode.replace(" ","");
-        root.getTop().setId(colorMode+"MainPane");
-        root.getRight().setId(colorMode+"AboutPane");
-        root.setId(colorMode);
-      }
+    EventHandler<ActionEvent> event = event1 -> {
+      String colorMode = (String) dropdown.getValue();
+      colorMode = colorMode.replace(" ","");
+      root.getTop().setId(colorMode+"MainPane");
+      root.getRight().setId(colorMode+"AboutPane");
+      root.setId(colorMode);
     };
     dropdown.setOnAction(event);
   }

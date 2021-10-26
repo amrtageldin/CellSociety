@@ -4,7 +4,11 @@ import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.awt.Dimension;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Cell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -12,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
  */
@@ -61,10 +66,22 @@ public class GridView {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();
         Rectangle cell = drawCell(STATE_COLORS.get(currState));
+        setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
       }
     }
+  }
+
+  private void setCellClickAction(Rectangle cell, int i, int j) {
+    EventHandler<MouseEvent> event = event1 -> {
+      int setState = (myGrid[i][j].getCurrentState()==0) ? 1:0;
+      myGrid[i][j].setCurrentState(setState);
+      Rectangle newCell = drawCell(STATE_COLORS.get(setState));
+      myPaneNodes[i][j] = newCell;
+      pane.add(myPaneNodes[i][j], j, i);
+    };
+    cell.setOnMouseClicked(event);
   }
 
   private Rectangle drawCell(Paint currState) {

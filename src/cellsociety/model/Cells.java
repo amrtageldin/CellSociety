@@ -54,5 +54,12 @@ public class Cells {
     return currentState;
   }
 
+  /**
+   * This method sets the current state of a cell
+   * @param myCurrentState: Integer value of the cell's current state (either ALIVE:1 or DEAD:0)
+   */
+  public void setCurrentState(Integer myCurrentState){
+    currentState = myCurrentState;
+  }
 
 }
