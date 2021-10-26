@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
-    public static final String EMPTY = "EMPTY";
-    public static final String SAME = "SAME";
-    public static final String MOVE = "MOVE";
-    public static final String A = "A";
-    public static final String B = "B";
+    private static final String EMPTY = "EMPTY";
+    private static final String SAME = "SAME";
+    private static final String MOVE = "MOVE";
+    private static final String A = "A";
+    private static final String B = "B";
 
     public SchellingSegregationModel(String type) { super(type);}
 
