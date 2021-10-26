@@ -10,7 +10,7 @@ public class SchellingSegregationRulesTest {
 
     @BeforeEach
     public void setUp(){
-        mySchellingSegregationRules = new SchellingSegregationRules();
+        mySchellingSegregationRules = new SchellingSegregationRules("SchellingSegregation");
     }
 
     @Test

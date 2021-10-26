@@ -5,18 +5,10 @@ import java.lang.reflect.Method;
 public class SchellingSegregationRules extends CellSocietyRules{
     private String percent;
 
-    public SchellingSegregationRules(){ super();}
-
-    protected void prepBundles() {
-        initializeRuleAndValueBundles("SchellingSegregation");
-    }
-
+    public SchellingSegregationRules(String myType){ super(myType);}
 
     protected void percentCheck(){
         parameter = "30"; //TODO: once we have input from view this will change
     }
-    @Override
-    public Integer generateNextState(int propSameCells, int currentState) {
-        return generatedStateRunThroughRules(propSameCells, currentState);
-    }
+
 }

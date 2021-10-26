@@ -11,12 +11,14 @@ public abstract class CellSocietyModel {
   protected CellSocietyRules myRules;
   protected ResourceBundle statesBundle;
   protected final String modelResourceBundleBase = "cellsociety.model.resources.";
-
+  public static final int SCALE_FACTOR = 100;
 
 
   public CellSocietyModel(String myType){
     try{
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor().newInstance();
+      Class [] paramTypesSub = {String.class};
+      Object [] paramValuesSub = {myType};
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
@@ -65,7 +67,7 @@ public abstract class CellSocietyModel {
 
   protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
-  protected void testNextState(int currentState, Consumer<Integer> consumer){
+  protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer){
     consumer.accept(currentState);
   }
 

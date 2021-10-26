@@ -10,7 +10,7 @@ public class PercolationRulesTest {
 
     @BeforeEach
     public void setUp(){
-         myPercolationRules = new PercolationRules();
+         myPercolationRules = new PercolationRules("Percolation");
     }
 
     @Test

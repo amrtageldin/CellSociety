@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
-    public static final int SCALE_FACTOR = 100;
     public static final String EMPTY = "EMPTY";
     public static final String SAME = "SAME";
     public static final String MOVE = "MOVE";
@@ -37,7 +36,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
         Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(statesBundle.getString(SAME)), integers -> keepState(cell),
             Integer.parseInt(statesBundle.getString(MOVE)), integers -> moveState(cell, grid)
         );
-        testNextState(state, intMap.get(state));
+        consumerGenerateNextState(state, intMap.get(state));
     }
 
 
@@ -45,7 +44,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
         Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(statesBundle.getString(A)), integers -> moveCells(cell, grid),
                 Integer.parseInt(statesBundle.getString(B)), integer -> moveCells(cell, grid),
                 Integer.parseInt(statesBundle.getString(EMPTY)), integer -> keepState(cell));
-        testNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
+        consumerGenerateNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
 
     private void moveCells(Cells cell, Cells[][] grid){
@@ -68,6 +67,5 @@ public class SchellingSegregationModel extends CellSocietyModel{
         else{
             findEmpty(cell, grid);
         }
-
     }
 }
