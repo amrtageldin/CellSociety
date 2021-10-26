@@ -86,7 +86,6 @@ public class FactoryComponentsTest extends DukeApplicationTest {
   void makeButton() {
     String label = "Start/Pause";
     Node button = myFactoryComponents.makeButton(label, null);
-
     assertEquals(label, button.getId());
   }
 }
