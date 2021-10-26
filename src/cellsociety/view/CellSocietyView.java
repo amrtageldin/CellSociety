@@ -12,10 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,7 +37,6 @@ public class CellSocietyView {
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
-  private Slider speed;
 
   /**
    * The default size of the window.
@@ -52,6 +48,9 @@ public class CellSocietyView {
   private static final double secondDelay = 2.0;
   private static final double speedUpRate = 1.25;
   private static final double slowDownRate = 0.75;
+  private static final int zeroPercent = 0;
+  private static final int hundredPercent = 100;
+  private static final int tenIncrement = 10;
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -118,7 +117,7 @@ public class CellSocietyView {
     VBox panel = new VBox();
     panel.setId("FirePanel");
     Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
-    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider", 0, 100, 10);
+    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider", zeroPercent, hundredPercent, tenIncrement);
     panel.getChildren().addAll(fireLabel, fireSlider);
     return panel;
   }
@@ -127,7 +126,7 @@ public class CellSocietyView {
     VBox panel = new VBox();
     panel.setId("CellStatePanel");
     Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
-    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider", 0, 100, 10);
+    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider", zeroPercent, hundredPercent, tenIncrement);
     panel.getChildren().addAll(cellStateLabel, cellStateSlider);
     return panel;
   }
