@@ -2,8 +2,7 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
-import java.util.ArrayList;
-import java.util.List;;
+import java.util.List;
 import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -58,7 +57,7 @@ public class GridView {
   );
 
 
-  private List<Color> stateColors;
+  private final List<Color> stateColors;
 
   /**
    * Constructor that initializes the Grid.
