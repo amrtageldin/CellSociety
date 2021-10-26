@@ -52,8 +52,8 @@ public class GridView {
 
   private final List<Color> SS_STATE_COLORS = List.of(
     Color.WHITE, // empty color
-    Color.GRAY, // filler color
-    Color.PURPLE, // filler color
+    Color.WHITE, // empty color
+    Color.PURPLE, // group a color
     Color.ORANGE // group b color
   );
 
