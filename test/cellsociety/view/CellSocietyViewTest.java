@@ -61,7 +61,6 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     myPause = lookup("#Start/Pause").query();
   }
 
-
   /**
    * Unit test that checks when the upload simulation type file button is pressed, that the file
    * explorer appears.
