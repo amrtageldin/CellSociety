@@ -2,12 +2,8 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
-import java.awt.Dimension;
-import java.util.List;
-import javafx.event.ActionEvent;
+import java.util.List;;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -23,7 +19,7 @@ import javafx.scene.shape.Rectangle;
 public class GridView {
 
   private final Cells[][] myGrid;
-  private Rectangle[][] myPaneNodes;
+  private final Rectangle[][] myPaneNodes;
   private GridPane pane;
   private static final int GAP = 1;
   private static final int SCREEN_WIDTH = 1500;
@@ -88,11 +84,6 @@ public class GridView {
     Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
     cell.setFill(currState);
     return cell;
-  }
-
-  private Dimension getGridPaneDimensions() {
-    Dimension dim = new Dimension((int) pane.getWidth(), (int) pane.getHeight());
-    return dim;
   }
 
   private int findCellDimension() {
