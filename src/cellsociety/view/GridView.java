@@ -78,6 +78,7 @@ public class GridView {
       Rectangle newCell = drawCell(stateColors.get(setState));
       myPaneNodes[i][j] = newCell;
       pane.add(myPaneNodes[i][j], j, i);
+      setCellClickAction(newCell, i, j);
     };
     cell.setOnMouseClicked(event);
   }
