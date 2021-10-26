@@ -32,6 +32,9 @@ public class CellColorsTest extends DukeApplicationTest {
     myCellColors = new CellColors(gameType);
   }
 
+  /**
+   * Test that checks whether the colorMap returned for a specific game is the proper color map defined above
+   */
   @Test
   void getColorMap() {
     List<Color> colorMap = myCellColors.getColorMap();
@@ -39,6 +42,9 @@ public class CellColorsTest extends DukeApplicationTest {
     assertEquals(colorMap, LIFE_STATE_COLORS);
   }
 
+  /**
+   * Test that ensures that getRandomCellState does not return the same color as the current state
+   */
   @Test
   void getRandomCellState() {
     int randomColor = myCellColors.getRandomCellState(0);

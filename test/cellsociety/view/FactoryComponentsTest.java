@@ -35,6 +35,9 @@ public class FactoryComponentsTest extends DukeApplicationTest {
     myResourceMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Methods");
   }
 
+  /**
+   * Test that checks whether the label created by makeLabel has the proper text / ID
+   */
   @Test
   void makeLabel() {
     String id = "Start/Pause";
@@ -44,6 +47,9 @@ public class FactoryComponentsTest extends DukeApplicationTest {
     assertNotEquals(id2, label.getId());
   }
 
+  /**
+   * Test that checks whether setLabel functions properly in rewriting over the current label text/ID
+   */
   @Test
   void setLabel() {
     String id = "Start/Pause";
@@ -55,6 +61,10 @@ public class FactoryComponentsTest extends DukeApplicationTest {
     assertNotEquals(id, label.getText());
   }
 
+  /**
+   * Test that checks whether makeSlider creates a Slider with the proper minimum, maximum,
+   * default, and increment values. Also checks for proper label
+   */
   @Test
   void makeSlider() {
     String label = "Start/Pause";
@@ -70,6 +80,10 @@ public class FactoryComponentsTest extends DukeApplicationTest {
     assertEquals(label, slider.getId());
   }
 
+  /**
+   * Test that checks whether makeDropDownMenu creates a ComboBox with the proper
+   * label, drop down options, and ID
+   */
   @Test
   void makeDropDownMenu() {
     String label = "Start/Pause";
@@ -82,6 +96,9 @@ public class FactoryComponentsTest extends DukeApplicationTest {
     assertEquals("Dark Mode", dropdown.getItems().get(1));
   }
 
+  /**
+   * Test that checks whether makeButton creates a Button with the proper label / ID .
+   */
   @Test
   void makeButton() {
     String label = "Start/Pause";
