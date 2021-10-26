@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 
 public class SchellingSegregationModel extends CellSocietyModel{
 
-    public static final int SCALE_FACTOR = 100;
     public static final String EMPTY = "EMPTY";
     public static final String SAME = "SAME";
     public static final String MOVE = "MOVE";
@@ -68,6 +67,5 @@ public class SchellingSegregationModel extends CellSocietyModel{
         else{
             findEmpty(cell, grid);
         }
-
     }
 }

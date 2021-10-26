@@ -20,7 +20,7 @@ public class FireModel extends CellSocietyModel{
     List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
     int initialState = Integer.parseInt(statesBundle.getString(BURNING));
     int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
-    int randomlyGeneratedNumber = (int) Math.floor(Math.random() * 100) * quantityOfBurningCells;
+    int randomlyGeneratedNumber = (int) Math.floor(Math.random() * SCALE_FACTOR) * quantityOfBurningCells;
 
 
     Integer empty = Integer.parseInt(statesBundle.getString(EMPTY));

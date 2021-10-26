@@ -13,7 +13,7 @@ public class FireRules extends CellSocietyRules {
   }
 
   protected void probabilityCheck(){
-    parameter = "30"; // changeLater
+    parameter = "10"; // changeLater
   }
 
 
