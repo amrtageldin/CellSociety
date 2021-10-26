@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that grabs the required colors for each cell for a specific CellSociety Game.
  */
@@ -70,10 +71,16 @@ public class CellColors {
    *
    * @return integer representing the index of the cell color's state.
    */
-  public int getRandomCellState() {
+  public int getRandomCellState(int currState) {
     Random rand = new Random();
     int upperbound = colorMap.size();
-    return rand.nextInt(upperbound);
+    int result = rand.nextInt(upperbound);
+    if (result!=currState) {
+      return result;
+    }
+    else {
+      return getRandomCellState(currState);
+    }
   }
 
 }
