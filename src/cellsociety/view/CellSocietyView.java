@@ -78,6 +78,7 @@ public class CellSocietyView {
     root = new BorderPane();
     root.setTop(setupTopText());
     root.setRight(setupAboutSection());
+    root.setId("Main");
     Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
         Integer.parseInt(myMagicValues.getString(defaultY)));
     scene.getStylesheets()
