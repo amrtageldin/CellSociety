@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -26,6 +27,10 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that sets up the display for all Cell Society Game types.
+ * TODO: Missing double screen functionality, Controller connection for the sliders for specific games,
+ *  error message handling, about section parsing to display, missing color choosing for cell state.
+ *  Would refactor to remove the setup methods into a different class called CellSocietyViewComponents.
+ *  
  */
 public class CellSocietyView {
 
@@ -33,7 +38,6 @@ public class CellSocietyView {
   private final Stage myStage;
   private BorderPane root;
   private final CellSocietyController myController;
-  private File selectedFile;
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
@@ -78,6 +82,7 @@ public class CellSocietyView {
     root = new BorderPane();
     root.setTop(setupTopText());
     root.setRight(setupAboutSection());
+    root.setId("Main");
     Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
         Integer.parseInt(myMagicValues.getString(defaultY)));
     scene.getStylesheets()
@@ -141,7 +146,7 @@ public class CellSocietyView {
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
-    selectedFile = fileChooser.showOpenDialog(myStage);
+    File selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
 
@@ -198,16 +203,6 @@ public class CellSocietyView {
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
-  /**
-   * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
-   * hunted through the internet but didn't have much luck on something better.
-   *
-   * @return selectedFile from FileChooser.
-   */
-  public File getMyFile() {
-    return selectedFile;
-  }
-
   public GridView getMyGridView() {
     return myGridView;
   }
@@ -240,21 +235,31 @@ public class CellSocietyView {
     return gridPanel;
   }
 
-  private ComboBox setupColorOptions() {
+  private ComboBox<String> setupColorOptions() {
     String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
+        options);
     setupDropDownCommands(colorOptions);
     return colorOptions;
   }
 
-  private void setupDropDownCommands(ComboBox dropdown) {
+  private void setupDropDownCommands(ComboBox<String> dropdown) {
     EventHandler<ActionEvent> event = event1 -> {
-      String colorMode = (String) dropdown.getValue();
+      String colorMode = dropdown.getValue();
       colorMode = colorMode.replace(" ", "");
       root.getTop().setId(colorMode + "MainPane");
       root.getRight().setId(colorMode + "AboutPane");
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
+  }
+
+  /**
+   * Getter method that returns the animation.
+   *
+   * @return animation of the game.
+   */
+  public Animation getAnimation() {
+    return myAnimation;
   }
 }

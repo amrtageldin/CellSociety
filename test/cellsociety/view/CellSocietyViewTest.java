@@ -5,38 +5,30 @@ import cellsociety.controller.CellSocietyController;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.junit.jupiter.api.Test;
-//import org.mockito.ArgumentMatchers;
-//import org.mockito.Mockito;
 import util.DukeApplicationTest;
 
 /**
  * @author Evelyn Cupil-Garcia
  * <p>
  * Class that does testing on the CellSocietyView class.
+ * TODO: Add testing for clicking on cells, testing for incorrect sim file/csv uploads, test about
+ *  section for each game.
  */
 public class CellSocietyViewTest extends DukeApplicationTest {
 
   public static final String TITLE = "Cell Society";
   public static final String LANGUAGE = "English";
-  public static final int FILE_X = 200;
-  public static final int SIM_Y = 220;
-  public static final int GRID_Y = 200;
-  public static final int OK_X = 480;
-  public static final int OK_Y = 330;
+
   private CellSocietyView display;
-  private Button mySimulation;
-  private Button myInitialGrid;
   private Button myStart;
   private Button myPause;
   private CellSocietyController controller;
@@ -49,64 +41,26 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     controller = new CellSocietyController();
+    File csvFile = new File("data/game_of_life/blinkers.csv");
+    File simFile = new File("data/game_of_life/blinkers.sim");
+    controller.loadFileType(csvFile.toString());
+    controller.loadFileType(simFile.toString());
     display = new CellSocietyView(controller, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
     stage.setFullScreen(true);
     stage.show();
 
-    mySimulation = lookup("#SimulationType").query();
-    myInitialGrid = lookup("#InitialGrid").query();
     myStart = lookup("#Play").query();
     myPause = lookup("#Start/Pause").query();
   }
 
-  /**
-   * Unit test that checks when the upload simulation type file button is pressed, that the file
-   * explorer appears.
-   */
-  @Test
-  public void initialGridAction() {
-    File expectedFile = new File("data/game_of_life/blinkers.csv");
-//    controller.loadFileType(expectedFile.toString());
-//    FileChooser fileChooser = Mockito.spy(FileChooser.class);
-//    Mockito.when(fileChooser.showSaveDialog(Mockito.any()));
-//    clickOn(myInitialGrid);
-//    clickOn(FILE_X, GRID_Y, MouseButton.PRIMARY);
-//    clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
-    File actualFile = display.getMyFile();
-    try {
-      assertEquals(expectedFile.getCanonicalPath(), actualFile.getCanonicalPath());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Unit test that checks when the upload initial grid file button is pressed, that the file
-   * explorer appears.
-   */
-  @Test
-  public void simulationTypeAction() {
-    File expectedFile = new File("data/game_of_life/blinkers.sim");
-    clickOn(mySimulation);
-    clickOn(FILE_X, SIM_Y, MouseButton.PRIMARY);
-    clickOn(OK_X, OK_Y, MouseButton.PRIMARY);
-    File actualFile = display.getMyFile();
-    try {
-      assertEquals(expectedFile.getCanonicalPath(), actualFile.getCanonicalPath());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 
   /**
    * Unit Test that checks that after files are uploaded that a grid appears on the screen.
    */
   @Test
   public void checkGridIsNotEmpty() {
-    initialGridAction();
-    simulationTypeAction();
     clickOn(myStart);
     clickOn(myPause);
     assertTrue(assertGridViewExists());
@@ -122,8 +76,6 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkGridInitialization() {
-    initialGridAction();
-    simulationTypeAction();
     clickOn(myStart);
     clickOn(myPause);
     assertTrue(checkGridMatches());
@@ -143,4 +95,82 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     }
     return true;
   }
+
+  /**
+   * Test that checks that the background color changed to Blue Devil Mode.
+   */
+  @Test
+  public void checkBlueDevilBackgroundMode() {
+    ComboBox<String> options = lookup("#DropDownDefault").query();
+    BorderPane pane = lookup("#Main").query();
+    final String CSS_CLASS = "BlueDevilMode";
+    select(options, "Blue Devil Mode");
+    assertEquals(pane.getId(), CSS_CLASS);
+  }
+
+  /**
+   * Test that checks that the background color changed to Dark Mode.
+   */
+  @Test
+  public void checkDarkBackgroundMode() {
+    ComboBox<String> options = lookup("#DropDownDefault").query();
+    BorderPane pane = lookup("#Main").query();
+    final String CSS_CLASS = "DarkMode";
+    select(options, "Dark Mode");
+    assertEquals(pane.getId(), CSS_CLASS);
+  }
+
+  /**
+   * Test that checks that background color changed to Light Mode.
+   */
+  @Test
+  public void checkLightBackgroundMode() {
+    ComboBox<String> options = lookup("#DropDownDefault").query();
+    BorderPane pane = lookup("#Main").query();
+    final String CSS_CLASS = "LightMode";
+    select(options, "Light Mode");
+    assertEquals(pane.getId(), CSS_CLASS);
+  }
+
+  /**
+   * Test that checks that the animation speed went down after clicking the slow down button.
+   */
+  @Test
+  public void checkAnimationSpeedSlowedDown() {
+    clickOn(myStart);
+    double startSpeed = display.getAnimation().getRate();
+    Button speedUp = lookup("SlowDown").query();
+    clickOn(speedUp);
+    double endSpeed = display.getAnimation().getRate();
+    assertTrue(startSpeed > endSpeed);
+  }
+
+  /**
+   * Test that checks that the animation speed went up after clicking the speedup button.
+   */
+  @Test
+  public void checkAnimationSpeedSpedUp() {
+    clickOn(myStart);
+    double startSpeed = display.getAnimation().getRate();
+    Button speedUp = lookup("SpeedUp").query();
+    clickOn(speedUp);
+    double endSpeed = display.getAnimation().getRate();
+    assertTrue(startSpeed < endSpeed);
+  }
+
+  /**
+   * Test that checks that the step method updates the grid after each click.
+   */
+  @Test
+  public void checkStepMethod() {
+    clickOn(myStart);
+    Button step = lookup("Step").query();
+    clickOn(step);
+    Rectangle[][] firstStep = display.getMyGridView().getMyPaneNodes();
+    clickOn(step);
+    Rectangle[][] secondStep = display.getMyGridView().getMyPaneNodes();
+    assertNotEquals(firstStep, secondStep);
+  }
+
+
 }
