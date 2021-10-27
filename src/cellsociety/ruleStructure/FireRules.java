@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class FireRules extends CellSocietyRules {
-  private String probPercent;
 
   public FireRules(String myType){
     super(myType);
