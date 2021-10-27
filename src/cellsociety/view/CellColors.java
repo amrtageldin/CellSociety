@@ -38,17 +38,10 @@ public class CellColors {
       Color.ORANGE // group b color
   );
 
-  public static final List<Color> WATOR_STATE_COLORS = List.of(
-          Color.WHITE, //empty color
-          Color.BLUE, //fish color
-          Color.GREEN //shark color
-  );
-
   private static final String GAME_OF_LIFE = "GameOfLife";
   private static final String FIRE = "Fire";
   private static final String PERCOLATION = "Percolation";
   private static final String SCHELLING_SEGREGATION = "SchellingSegregation";
-  private static final String WA_TOR = "WaTor";
 
   private final List<Color> colorMap;
 
@@ -59,7 +52,7 @@ public class CellColors {
    */
   public CellColors(String gameType) {
     Map<String, List<Color>> map = Map.of(GAME_OF_LIFE, LIFE_STATE_COLORS, FIRE, FIRE_STATE_COLORS,
-        PERCOLATION, PERCOLATE_STATE_COLORS, SCHELLING_SEGREGATION, SS_STATE_COLORS, WA_TOR, WATOR_STATE_COLORS);
+        PERCOLATION, PERCOLATE_STATE_COLORS, SCHELLING_SEGREGATION, SS_STATE_COLORS);
     colorMap = map.get(gameType);
   }
 
