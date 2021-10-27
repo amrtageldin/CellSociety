@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -78,6 +79,7 @@ public class CellSocietyView {
     root = new BorderPane();
     root.setTop(setupTopText());
     root.setRight(setupAboutSection());
+    root.setId("Main");
     Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
         Integer.parseInt(myMagicValues.getString(defaultY)));
     scene.getStylesheets()
@@ -256,5 +258,13 @@ public class CellSocietyView {
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
+  }
+
+  /**
+   * Getter method that returns the animation.
+   * @return
+   */
+  public Animation getAnimation() {
+    return myAnimation;
   }
 }
