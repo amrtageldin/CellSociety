@@ -9,14 +9,12 @@ import java.util.ResourceBundle;
 
 abstract public class CellSocietyRules {
     private static final String METHOD_RULE = "METHOD";
-    private List<Rule> myRules;
+    private final List<Rule> myRules;
     private ResourceBundle ruleBundle;
     private ResourceBundle translationBundle;
     private ResourceBundle valueBundle;
 
     private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
-    private final String ruleBundleBase = "cellsociety.rule.Rule";
-    private final String modelResourceBundleBase = "cellsociety.model.resources.";
 
     protected String parameter; //TODO: need to change to put in sim file
 
@@ -50,8 +48,9 @@ abstract public class CellSocietyRules {
         Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
 
         try{
+            String ruleBundleBase = "cellsociety.rule.Rule";
             Rule myRule = (Rule) Class.forName(
-                            String.format("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))).
+                            String.format("%s%s", ruleBundleBase, translationBundle.getString(ruleSet[0]))).
                     getConstructor(paramTypesSub).newInstance(paramValuesSub);
             myRules.add(myRule);
         }
@@ -82,6 +81,7 @@ abstract public class CellSocietyRules {
 
     protected void initializeRuleAndValueBundles(String base) {
         ruleBundle = initializeBundle(ruleResourceBundleBase, String.format("%sRules", base));
+        String modelResourceBundleBase = "cellsociety.model.resources.";
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
 

@@ -10,15 +10,13 @@ import java.util.function.Consumer;
 public abstract class CellSocietyModel {
   private CellSocietyRules myRules;
   private ResourceBundle statesBundle;
-  private final String modelResourceBundleBase = "cellsociety.model.resources.";
-
 
 
   public CellSocietyModel(String myType){
     try{
-      Class [] paramTypesSub = {String.class};
       Object [] paramValuesSub = {myType};
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class).newInstance(paramValuesSub);
+      String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){

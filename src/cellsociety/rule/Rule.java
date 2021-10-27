@@ -1,8 +1,8 @@
 package cellsociety.rule;
 
 abstract public class Rule {
-  private int myComparator;
-  private Integer myConditionIsMetResult;
+  private final int myComparator;
+  private final Integer myConditionIsMetResult;
 
   public Rule(int comparator, Integer conditionResult){
     myComparator = comparator;

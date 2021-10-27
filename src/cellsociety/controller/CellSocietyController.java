@@ -54,20 +54,18 @@ public class CellSocietyController {
         return myGrid;
     }
 
-    private CellSocietyModel createSimFromFile(String file){
+    private void createSimFromFile(String file){
         try {
             String gameType = myGameFactory.setUpModel(file);
             System.out.println(gameType);
-            Class [] paramTypesSub = {String.class};
             Object [] paramValuesSub = {gameType};
-            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class).newInstance(paramValuesSub);
 
             myGameType = gameType;
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        return myModel;
     }
 
     public CellSocietyModel getMyModel(){
@@ -99,9 +97,9 @@ public class CellSocietyController {
     }
 
     private void updateGrid(){
-        for (int i = 0; i < myGrid.length; i++) {
+        for (Cells[] cells : myGrid) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                Cells thisCell = myGrid[i][j];
+                Cells thisCell = cells[j];
                 thisCell.updateMyCurrentState();
             }
         }

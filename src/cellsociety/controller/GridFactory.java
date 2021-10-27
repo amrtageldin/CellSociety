@@ -58,7 +58,7 @@ public class GridFactory {
 
     private void initializeCells(CSVReader csvReader){
        try {
-           String nextCell[];
+           String[] nextCell;
            int i = 0;
            while ((nextCell = csvReader.readNext()) != null) {
                for (int j = 0; j < nextCell.length; j++) {
