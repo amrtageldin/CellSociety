@@ -34,7 +34,6 @@ public class Cells {
    */
   public void updateMyCurrentState(){
       currentState = myNextState;
-     // myNextState = null;
   }
 
   /**

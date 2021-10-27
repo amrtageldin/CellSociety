@@ -8,8 +8,8 @@ public class RuleEqual extends Rule{
 
   @Override
   public Integer generateState(int myQuantity){
-    if (myQuantity == myComparator){
-      return myConditionIsMetResult;
+    if (myQuantity == getMyComparator()){
+      return getMyConditionIsMetResult();
     }
     return null;
   }

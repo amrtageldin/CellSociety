@@ -9,17 +9,15 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
-  protected CellSocietyRules myRules;
-  protected ResourceBundle statesBundle;
-  protected final String modelResourceBundleBase = "cellsociety.model.resources.";
-  public static final int SCALE_FACTOR = 100;
+  private CellSocietyRules myRules;
+  private ResourceBundle statesBundle;
 
 
   public CellSocietyModel(String myType){
     try{
-      Class [] paramTypesSub = {String.class};
       Object [] paramValuesSub = {myType};
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class).newInstance(paramValuesSub);
+      String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
@@ -27,7 +25,15 @@ public abstract class CellSocietyModel {
     }
   }
 
-  public abstract void setNextState(Cells myCell, int row, int col, Grid myGrid);
+  public CellSocietyRules getMyRules(){
+    return myRules;
+  }
+
+  public ResourceBundle getStatesBundle(){
+    return statesBundle;
+  }
+
+  public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;

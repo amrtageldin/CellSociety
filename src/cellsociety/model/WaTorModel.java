@@ -11,8 +11,8 @@ public class WaTorModel extends CellSocietyModel{
     private static final int REPRODUCTION_INCREASE = 1;
     private static final String FISH = "FISH";
     private static final String SHARK = "SHARK";
-    public static final int INITIAL_ENERGY = 5;
-    public static final int ENERGY_DECREASE = 1;
+    private static final int INITIAL_ENERGY = 5;
+    private static final int ENERGY_DECREASE = 1;
     private Map<Cells, Integer> reproductionMap = new HashMap<>();
     private Map<Cells, Integer> energyMap = new HashMap<>();
 
@@ -31,8 +31,8 @@ public class WaTorModel extends CellSocietyModel{
 
     private void checkAnimals(Cells myCell){
         Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> setUpAnimalReproduction(myCell)
+                Map.of(Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
+                        Integer.parseInt(getStatesBundle().getString(FISH)), integer -> setUpAnimalReproduction(myCell)
         ,0, integer -> {});
         consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
     }
@@ -58,8 +58,8 @@ public class WaTorModel extends CellSocietyModel{
 
     private void animalConditions(Cells myCell, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
+                Map.of(Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
+                        Integer.parseInt(getStatesBundle().getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
                         0, integer -> {});
         consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
     }

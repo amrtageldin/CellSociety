@@ -13,6 +13,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
     private static final String MOVE = "MOVE";
     private static final String A = "A";
     private static final String B = "B";
+    private static final int SCALE_FACTOR = 100;
 
     public SchellingSegregationModel(String type) { super(type);}
 
@@ -21,13 +22,13 @@ public class SchellingSegregationModel extends CellSocietyModel{
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
         int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
         double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
-        int state = myRules.generateNextState((int) (
+        int state = getMyRules().generateNextState((int) (
                 SCALE_FACTOR *propSameCells), myCell.getCurrentState());
         checkState(myCell, state, myGrid);
     }
 
     private double percentSameNeighbors(int sameCells, List<Cells> neighbors){
-        neighbors.removeIf(c -> c.getCurrentState() == Integer.parseInt(statesBundle.getString(EMPTY)));
+        neighbors.removeIf(c -> c.getCurrentState() == Integer.parseInt(getStatesBundle().getString(EMPTY)));
         int neighborsLeft = neighbors.size();
         return ((double) sameCells /neighborsLeft);
     }
@@ -50,7 +51,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
     private void moveCells(Cells cell, Grid grid){
         findEmpty(cell, grid);
-        cell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
+        cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
         cell.updateMyCurrentState();
     }
     private void keepState(Cells cell){
