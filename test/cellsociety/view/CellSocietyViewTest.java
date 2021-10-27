@@ -19,8 +19,9 @@ import util.DukeApplicationTest;
 /**
  * @author Evelyn Cupil-Garcia
  * <p>
- * Class that does testing on the CellSocietyView class. Note that we need to update testing so that
- * there is mocking for FileChooser, currently I click on the screen.
+ * Class that does testing on the CellSocietyView class.
+ * TODO: Add testing for clicking on cells, testing for incorrect sim file/csv uploads, test about
+ *  section for each game.
  */
 public class CellSocietyViewTest extends DukeApplicationTest {
 

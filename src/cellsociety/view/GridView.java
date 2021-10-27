@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
  * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
+ * TODO: Refactor Rectangle to Polygon instead to decide on cell shape.
  */
 public class GridView {
 

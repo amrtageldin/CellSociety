@@ -27,6 +27,10 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that sets up the display for all Cell Society Game types.
+ * TODO: Missing double screen functionality, Controller connection for the sliders for specific games,
+ *  error message handling, about section parsing to display, missing color choosing for cell state.
+ *  Would refactor to remove the setup methods into a different class called CellSocietyViewComponents.
+ *  
  */
 public class CellSocietyView {
 
@@ -233,7 +237,8 @@ public class CellSocietyView {
 
   private ComboBox<String> setupColorOptions() {
     String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
+        options);
     setupDropDownCommands(colorOptions);
     return colorOptions;
   }
@@ -251,6 +256,7 @@ public class CellSocietyView {
 
   /**
    * Getter method that returns the animation.
+   *
    * @return animation of the game.
    */
   public Animation getAnimation() {
