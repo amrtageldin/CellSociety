@@ -3,6 +3,7 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.File;
 import java.util.List;
 import javafx.scene.control.Button;
@@ -99,7 +100,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkBlueDevilBackgroundMode() {
-    ComboBox options = lookup("#DropDownDefault").query();
+    ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "BlueDevilMode";
     select(options, "Blue Devil Mode");
@@ -111,7 +112,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkDarkBackgroundMode() {
-    ComboBox options = lookup("#DropDownDefault").query();
+    ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "DarkMode";
     select(options, "Dark Mode");
@@ -123,7 +124,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkLightBackgroundMode() {
-    ComboBox options = lookup("#DropDownDefault").query();
+    ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "LightMode";
     select(options, "Light Mode");

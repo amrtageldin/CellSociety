@@ -34,7 +34,6 @@ public class CellSocietyView {
   private final Stage myStage;
   private BorderPane root;
   private final CellSocietyController myController;
-  private File selectedFile;
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
@@ -143,7 +142,7 @@ public class CellSocietyView {
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
-    selectedFile = fileChooser.showOpenDialog(myStage);
+    File selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
   }
 
@@ -200,16 +199,6 @@ public class CellSocietyView {
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
-  /**
-   * Getter that returns file that was chosen from FileChooser. Need to find a better way to test,
-   * hunted through the internet but didn't have much luck on something better.
-   *
-   * @return selectedFile from FileChooser.
-   */
-  public File getMyFile() {
-    return selectedFile;
-  }
-
   public GridView getMyGridView() {
     return myGridView;
   }
@@ -242,16 +231,16 @@ public class CellSocietyView {
     return gridPanel;
   }
 
-  private ComboBox setupColorOptions() {
+  private ComboBox<String> setupColorOptions() {
     String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
+    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault", options);
     setupDropDownCommands(colorOptions);
     return colorOptions;
   }
 
-  private void setupDropDownCommands(ComboBox dropdown) {
+  private void setupDropDownCommands(ComboBox<String> dropdown) {
     EventHandler<ActionEvent> event = event1 -> {
-      String colorMode = (String) dropdown.getValue();
+      String colorMode = dropdown.getValue();
       colorMode = colorMode.replace(" ", "");
       root.getTop().setId(colorMode + "MainPane");
       root.getRight().setId(colorMode + "AboutPane");
@@ -262,7 +251,7 @@ public class CellSocietyView {
 
   /**
    * Getter method that returns the animation.
-   * @return
+   * @return animation of the game.
    */
   public Animation getAnimation() {
     return myAnimation;

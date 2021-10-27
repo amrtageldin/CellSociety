@@ -1,17 +1,14 @@
 package cellsociety.view;
 
-import java.util.ResourceBundle;
-import java.util.function.BooleanSupplier;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import util.DukeApplicationTest;
 
 /**
@@ -23,16 +20,11 @@ import util.DukeApplicationTest;
 public class FactoryComponentsTest extends DukeApplicationTest {
 
   private FactoryComponents myFactoryComponents;
-  private ResourceBundle myResources;
-  private ResourceBundle myResourceMethods;
-  private String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
-  private String language = "English";
 
   @Override
   public void start(Stage stage) {
+    String language = "English";
     myFactoryComponents = new FactoryComponents(language);
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-    myResourceMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Methods");
   }
 
   /**
@@ -48,7 +40,8 @@ public class FactoryComponentsTest extends DukeApplicationTest {
   }
 
   /**
-   * Test that checks whether setLabel functions properly in rewriting over the current label text/ID
+   * Test that checks whether setLabel functions properly in rewriting over the current label
+   * text/ID
    */
   @Test
   void setLabel() {
@@ -62,8 +55,8 @@ public class FactoryComponentsTest extends DukeApplicationTest {
   }
 
   /**
-   * Test that checks whether makeSlider creates a Slider with the proper minimum, maximum,
-   * default, and increment values. Also checks for proper label
+   * Test that checks whether makeSlider creates a Slider with the proper minimum, maximum, default,
+   * and increment values. Also checks for proper label
    */
   @Test
   void makeSlider() {
@@ -81,14 +74,14 @@ public class FactoryComponentsTest extends DukeApplicationTest {
   }
 
   /**
-   * Test that checks whether makeDropDownMenu creates a ComboBox with the proper
-   * label, drop down options, and ID
+   * Test that checks whether makeDropDownMenu creates a ComboBox with the proper label, drop down
+   * options, and ID
    */
   @Test
   void makeDropDownMenu() {
     String label = "Start/Pause";
     String[] options = {"LightMode", "DarkMode"};
-    ComboBox dropdown = myFactoryComponents.makeDropDownMenu(label, options);
+    ComboBox<String> dropdown = myFactoryComponents.makeDropDownMenu(label, options);
 
     assertEquals(label, dropdown.getId());
     assertEquals(label, dropdown.getPromptText());
