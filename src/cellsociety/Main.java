@@ -2,7 +2,6 @@ package cellsociety;
 
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.CellSocietyModel;
 import cellsociety.view.CellSocietyView;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,8 +19,7 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage stage) {
-    CellSocietyModel model = new CellSocietyModel();
-    CellSocietyController controller = new CellSocietyController(model);
+    CellSocietyController controller = new CellSocietyController();
     CellSocietyView display = new CellSocietyView(controller, LANGUAGE, stage);
     stage.setScene(display.setupDisplay());
     stage.setTitle(TITLE);
