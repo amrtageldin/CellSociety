@@ -8,10 +8,10 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
-  protected CellSocietyRules myRules;
-  protected ResourceBundle statesBundle;
-  protected final String modelResourceBundleBase = "cellsociety.model.resources.";
-  public static final int SCALE_FACTOR = 100;
+  private CellSocietyRules myRules;
+  private ResourceBundle statesBundle;
+  private final String modelResourceBundleBase = "cellsociety.model.resources.";
+
 
 
   public CellSocietyModel(String myType){
@@ -24,6 +24,14 @@ public abstract class CellSocietyModel {
     catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  public CellSocietyRules getMyRules(){
+    return myRules;
+  }
+
+  public ResourceBundle getStatesBundle(){
+    return statesBundle;
   }
 
   public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);

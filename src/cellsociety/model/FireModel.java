@@ -7,9 +7,10 @@ import java.util.function.Consumer;
 
 public class FireModel extends CellSocietyModel{
 
-  public static final String BURNING = "BURNING";
-  public static final String TREE = "TREE";
-  public static final String EMPTY = "EMPTY";
+  private static final String BURNING = "BURNING";
+  private static final String TREE = "TREE";
+  private static final String EMPTY = "EMPTY";
+  private static final int SCALE_FACTOR = 100;
 
   public FireModel(String type){
     super(type);
@@ -18,18 +19,18 @@ public class FireModel extends CellSocietyModel{
   @Override
   public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
     List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
-    int initialState = Integer.parseInt(statesBundle.getString(BURNING));
+    int initialState = Integer.parseInt(getStatesBundle().getString(BURNING));
     int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
     int randomlyGeneratedNumber = (int) Math.floor(Math.random() * SCALE_FACTOR) * quantityOfBurningCells;
 
 
-    Integer empty = Integer.parseInt(statesBundle.getString(EMPTY));
-    Integer burning = Integer.parseInt(statesBundle.getString(BURNING));
-    Integer tree = Integer.parseInt(statesBundle.getString(TREE));
+    Integer empty = Integer.parseInt(getStatesBundle().getString(EMPTY));
+    Integer burning = Integer.parseInt(getStatesBundle().getString(BURNING));
+    Integer tree = Integer.parseInt(getStatesBundle().getString(TREE));
 
     Map<Integer, Consumer<Integer>> intMap = Map.of(empty, integers -> myCell.setMyNextState(empty),
         burning, integers-> myCell.setMyNextState(empty),
-        tree, integers ->  myCell.setMyNextState(myRules.generateNextState(randomlyGeneratedNumber, myCell.getCurrentState()))
+        tree, integers ->  myCell.setMyNextState(getMyRules().generateNextState(randomlyGeneratedNumber, myCell.getCurrentState()))
     );
 
     this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));

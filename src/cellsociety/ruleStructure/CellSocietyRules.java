@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 abstract public class CellSocietyRules {
-    public static final String METHOD_RULE = "METHOD";
-    protected List<Rule> myRules;
-    protected ResourceBundle ruleBundle;
-    protected ResourceBundle translationBundle;
-    protected ResourceBundle valueBundle;
+    private static final String METHOD_RULE = "METHOD";
+    private List<Rule> myRules;
+    private ResourceBundle ruleBundle;
+    private ResourceBundle translationBundle;
+    private ResourceBundle valueBundle;
 
-    protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
-    protected final String ruleBundleBase = "cellsociety.rule.Rule";
-    protected final String modelResourceBundleBase = "cellsociety.model.resources.";
+    private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
+    private final String ruleBundleBase = "cellsociety.rule.Rule";
+    private final String modelResourceBundleBase = "cellsociety.model.resources.";
 
-    protected String parameter;
+    protected String parameter; //TODO: need to change to put in sim file
 
     public CellSocietyRules(String myType){
         myRules = new ArrayList<>();
