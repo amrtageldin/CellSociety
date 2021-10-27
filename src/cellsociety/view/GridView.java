@@ -2,7 +2,6 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.controller.Grid;
-import cellsociety.model.Cells;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;

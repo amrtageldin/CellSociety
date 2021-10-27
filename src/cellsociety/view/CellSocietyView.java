@@ -148,6 +148,9 @@ public class CellSocietyView {
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(myStage);
     myController.loadFileType(selectedFile.toString());
+    if(myAnimation != null){
+      togglePlay();
+    }
   }
 
   private void startGame() {
