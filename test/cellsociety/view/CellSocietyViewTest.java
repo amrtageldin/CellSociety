@@ -5,6 +5,7 @@ import cellsociety.controller.CellSocietyController;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+import cellsociety.model.Cells;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -210,6 +211,51 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     assertEquals(pane.getId(), CSS_CLASS);
   }
 
+  /**
+   * Test that checks that the animation speed went down after clicking the slow down button.
+   */
+  @Test
+  public void checkAnimationSpeedSlowedDown() {
+    initialGridAction();
+    simulationTypeAction();
+    clickOn(myStart);
+    double startSpeed = display.getAnimation().getRate();
+    Button speedUp = lookup("SlowDown").query();
+    clickOn(speedUp);
+    double endSpeed = display.getAnimation().getRate();
+    assertTrue(startSpeed > endSpeed);
+  }
+
+  /**
+   * Test that checks that the animation speed went up after clicking the speedup button.
+   */
+  @Test
+  public void checkAnimationSpeedSpedUp() {
+    initialGridAction();
+    simulationTypeAction();
+    clickOn(myStart);
+    double startSpeed = display.getAnimation().getRate();
+    Button speedUp = lookup("SpeedUp").query();
+    clickOn(speedUp);
+    double endSpeed = display.getAnimation().getRate();
+    assertTrue(startSpeed < endSpeed);
+  }
+
+  /**
+   * Test that checks that the step method updates the grid after each click.
+   */
+  @Test
+  public void checkStepMethod() {
+    initialGridAction();
+    simulationTypeAction();
+    clickOn(myStart);
+    Button step = lookup("Step").query();
+    clickOn(step);
+    Rectangle[][] firstStep = display.getMyGridView().getMyPaneNodes();
+    clickOn(step);
+    Rectangle[][] secondStep = display.getMyGridView().getMyPaneNodes();
+    assertNotEquals(firstStep, secondStep);
+  }
 
 
 }
