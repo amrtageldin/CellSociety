@@ -12,11 +12,8 @@ public class FireRulesTest {
 
     @BeforeEach
     public void setUp() {
-        myFireRules = new FireRules("GameOfLife");
+        myFireRules = new FireRules("Fire");
         myThreshold = 10;
-//         TREE = 3
-//        EMPTY = 0
-//        BURNING = 2
 
     }
 
@@ -35,16 +32,16 @@ public class FireRulesTest {
         assertEquals(myFireRules.generateNextState(myThreshold, 2), 0);
         assertEquals(myFireRules.generateNextState(myThreshold - 1, 2), 0);
     }
-//
-//    @Test
-//    void TestWhenTreeBecomesBurningIfAboveOrAtThreshold() {
-//        assertEquals(myFireRules.generateNextState(myThreshold + 1, 3), 2);
-//        assertEquals(myFireRules.generateNextState(myThreshold, 3), 2);
-//    }
-//
-//    @Test
-//    void TestWhenTreeStaysTreeIfBelowThreshold() {
-//        assertEquals(myFireRules.generateNextState(myThreshold - 1, 3), 3);
-//
-//    }
+
+    @Test
+    void TestWhenTreeBecomesBurningIfAboveThreshold() {
+        assertEquals(myFireRules.generateNextState(myThreshold + 1, 3), 2);
+    }
+
+    @Test
+    void TestWhenTreeStaysTreeIfBelowOrAtThreshold() {
+        assertEquals(myFireRules.generateNextState(myThreshold, 3), 3);
+        assertEquals(myFireRules.generateNextState(myThreshold - 1, 3), 3);
+
+    }
 }
