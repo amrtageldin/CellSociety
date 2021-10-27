@@ -17,19 +17,22 @@ public class WaTorModel extends CellSocietyModel{
 
     public WaTorModel(String type) {
         super(type);
-
     }
+    //TODO: Still working on this, just mapping out right now
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
+        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
         checkAnimals(myCell);
-        animalConditions(myCell);
+        animalConditions(myCell, myNeighbors);
+        myCell.setMyNextState(2); //TODO: just adding this rn so no stack traces are printed
     }
 
     private void checkAnimals(Cells myCell){
         Map<Integer, Consumer<Integer>> animalCheck =
                 Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> setUpAnimalReproduction(myCell));
+                        Integer.parseInt(statesBundle.getString(FISH)), integer -> setUpAnimalReproduction(myCell)
+        ,0, integer -> {});
         consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
     }
 
@@ -52,23 +55,36 @@ public class WaTorModel extends CellSocietyModel{
         setUpAnimalReproduction(myCell);
     }
 
-    private void animalConditions(Cells myCell){
+    private void animalConditions(Cells myCell, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> checkAnimalEnergy(myCell),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> checkAnimalReproduction(myCell));
+                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
+                        Integer.parseInt(statesBundle.getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
+                        0, integer -> {});
         consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
     }
 
-    private void checkAnimalEnergy(Cells myCell){
+    private void checkAnimalEnergy(Cells myCell, List<Cells> myNeighbors){
         if(energyMap.get(myCell) == 0){
+            energyMap.remove(myCell);
             myCell.setMyNextState(0);
             myCell.updateMyCurrentState();
         }
+        checkAnimalReproduction(myCell, myNeighbors);
     }
 
-    private void checkAnimalReproduction(Cells myCell){
+    private void checkAnimalReproduction(Cells myCell, List<Cells> myNeighbors){
         if(reproductionMap.get(myCell) == 5){
-
+            for(Cells c: myNeighbors){
+                if(c.getCurrentState() == 0){
+                    c.setMyNextState(myCell.getCurrentState());
+                    c.updateMyCurrentState();
+                    reproductionMap.put(c, INITIAL_REPRODUCTION);
+                    myCell.setMyNextState(myCell.getCurrentState());
+                    reproductionMap.remove(myCell);
+                    myCell.updateMyCurrentState();
+                }
+            }
         }
     }
+
 }
