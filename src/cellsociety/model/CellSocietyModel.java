@@ -1,6 +1,7 @@
 package cellsociety.model;
 
 
+import cellsociety.controller.Grid;
 import cellsociety.ruleStructure.CellSocietyRules;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public abstract class CellSocietyModel {
     }
   }
 
-  public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
+  public abstract void setNextState(Cells myCell, int row, int col, Grid myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
@@ -39,7 +40,7 @@ public abstract class CellSocietyModel {
   }
 
 
-  protected List<Cells> generateNeighbors(int row, int col, Cells[][] myGrid) {
+  protected List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
     int[] xChanges = new int[]{-1,0,1};
     int[] yChanges = new int[]{-1,0,1};
     List<Cells> myCells = new ArrayList<>();
@@ -47,7 +48,7 @@ public abstract class CellSocietyModel {
       if (rowIsValid(row + i, myGrid)){
         for (int j : yChanges){
           if (colIsValid(col + j, myGrid) && !(i == 0 && j == 0)){
-            myCells.add(myGrid[row + i][ col + j]);
+            myCells.add(myGrid.getCell(row + i, col + j));
           }
         }
 
@@ -56,12 +57,12 @@ public abstract class CellSocietyModel {
     return myCells;
   }
 
-  protected boolean colIsValid(int col, Cells[][] myGrid) {
-    return col >=0 && col < myGrid[0].length;
+  protected boolean colIsValid(int col, Grid myGrid) {
+    return col >=0 && col < myGrid.colLength();
   }
 
-  protected boolean rowIsValid(int row, Cells[][] myGrid) {
-    return row >=0 && row < myGrid.length;
+  protected boolean rowIsValid(int row, Grid myGrid) {
+    return row >=0 && row < myGrid.rowLength();
   }
 
 

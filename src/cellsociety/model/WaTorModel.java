@@ -1,5 +1,6 @@
 package cellsociety.model;
 
+import cellsociety.controller.Grid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class WaTorModel extends CellSocietyModel{
     //TODO: Still working on this, just mapping out right now
 
     @Override
-    public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
+    public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
         checkAnimals(myCell);
         animalConditions(myCell, myNeighbors);
