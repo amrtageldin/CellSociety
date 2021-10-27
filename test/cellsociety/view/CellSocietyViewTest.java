@@ -9,7 +9,7 @@ import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -67,7 +67,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   private boolean assertGridViewExists() {
-    GridPane grid = lookup("#Grid").query();
+    VBox grid = lookup("#Grid").query();
     return grid.getChildren() != null;
   }
 
