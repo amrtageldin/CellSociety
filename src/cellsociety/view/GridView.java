@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import cellsociety.controller.Grid;
 import cellsociety.model.Cells;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,7 +21,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class GridView {
 
-  private final Cells[][] myGrid;
+  private final Grid myGrid;
   private final Rectangle[][] myPaneNodes;
   private GridPane pane;
   private final ResourceBundle myMagicValues;
@@ -39,7 +40,7 @@ public class GridView {
    */
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
-    myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
+    myPaneNodes = new Rectangle[myGrid.rowLength()][myGrid.colLength()];
     myCellColors = new CellColors(controller.getMyGameType());
     stateColors = myCellColors.getColorMap();
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
@@ -61,9 +62,9 @@ public class GridView {
   }
 
   private void drawGrid() {
-    for (int i = 0; i < myGrid.length; i++) {
-      for (int j = 0; j < myGrid[0].length; j++) {
-        int currState = myGrid[i][j].getCurrentState();
+    for (int i = 0; i < myGrid.rowLength(); i++) {
+      for (int j = 0; j < myGrid.colLength(); j++) {
+        int currState = myGrid.getCell(i,j).getCurrentState();
         Rectangle cell = drawCell(stateColors.get(currState));
         setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
@@ -74,8 +75,8 @@ public class GridView {
 
   private void setCellClickAction(Rectangle cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
-      int setState = myCellColors.getRandomCellState(myGrid[i][j].getCurrentState());
-      myGrid[i][j].setCurrentState(setState);
+      int setState = myCellColors.getRandomCellState(myGrid.getCell(i,j).getCurrentState());
+      myGrid.getCell(i,j).setCurrentState(setState);
       Rectangle newCell = drawCell(stateColors.get(setState));
       myPaneNodes[i][j] = newCell;
       pane.add(myPaneNodes[i][j], j, i);
@@ -91,8 +92,8 @@ public class GridView {
   }
 
   private int findCellDimension() {
-    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.length;
-    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid[0].length;
+    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.rowLength();
+    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid.colLength();
     return Math.min(width, height);
   }
 

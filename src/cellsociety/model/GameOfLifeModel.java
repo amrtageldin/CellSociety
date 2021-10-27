@@ -1,5 +1,6 @@
 package cellsociety.model;
 
+import cellsociety.controller.Grid;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -15,7 +16,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     }
 
     @Override
-    public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
+    public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
         int initialState = Integer.parseInt(getStatesBundle().getString(ALIVE));
         int quantityOfLivingCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);

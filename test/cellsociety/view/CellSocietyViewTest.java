@@ -84,10 +84,10 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   private boolean checkGridMatches() {
     Rectangle[][] gridNodes = display.getMyGridView().getMyPaneNodes();
 
-    for (int i = 0; i < controller.getMyGrid().length; i++) {
-      for (int j = 0; j < controller.getMyGrid()[0].length; j++) {
+    for (int i = 0; i < controller.getMyGrid().rowLength(); i++) {
+      for (int j = 0; j < controller.getMyGrid().colLength(); j++) {
         Rectangle cell = gridNodes[i][j];
-        int color = controller.getMyGrid()[i][j].getCurrentState();
+        int color = controller.getMyGrid().getCell(i,j).getCurrentState();
         if (cell.getFill() != STATE_COLORS.get(color)) {
           return false;
         }
