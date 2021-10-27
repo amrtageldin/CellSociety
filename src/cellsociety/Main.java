@@ -2,7 +2,6 @@ package cellsociety;
 
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.CellSocietyModel;
 import cellsociety.view.CellSocietyView;
 import javafx.application.Application;
 import javafx.stage.Stage;
