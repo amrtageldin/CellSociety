@@ -174,6 +174,9 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     return true;
   }
 
+  /**
+   * Test that checks that the background color changed to Blue Devil Mode.
+   */
   @Test
   public void checkBlueDevilBackgroundMode() {
     ComboBox options = lookup("#DropDownDefault").query();
@@ -183,6 +186,9 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     assertEquals(pane.getId(), CSS_CLASS);
   }
 
+  /**
+   * Test that checks that the background color changed to Dark Mode.
+   */
   @Test
   public void checkDarkBackgroundMode() {
     ComboBox options = lookup("#DropDownDefault").query();
@@ -192,6 +198,9 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     assertEquals(pane.getId(), CSS_CLASS);
   }
 
+  /**
+   * Test that checks that background color changed to Light Mode.
+   */
   @Test
   public void checkLightBackgroundMode() {
     ComboBox options = lookup("#DropDownDefault").query();
@@ -200,5 +209,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     select(options, "Light Mode");
     assertEquals(pane.getId(), CSS_CLASS);
   }
+
+
 
 }
