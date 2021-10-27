@@ -42,6 +42,8 @@ public class CellSocietyView {
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
+  private boolean startedAlready;
+  private boolean addingGrid;
   private HBox gridPanel;
 
   public final String defaultX = "defaultX";
@@ -153,18 +155,26 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    if (!gridLoaded) {
-      gridPanel = new HBox();
-      gridPanel.setId("GridPanel");
-      gridPanel.getChildren().add(setupGridSection());
-      root.setCenter(gridPanel);
-      startSimulation();
-      gridLoaded = true;
+    if (startedAlready) {
+      addingGrid = true;
     }
     else {
-      togglePlay();
-      gridPanel.getChildren().add(setupGridSection());
-      togglePlay();
+      startSimulation();
+      startedAlready = true;
+    }
+  }
+
+  private void setupGridPanel() {
+    if (!addingGrid) {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
+      gridPanel.getChildren().add(setupGrid());
+    }
+    else {
+      gridPanel.getChildren().add(setupGrid());
+      root.setCenter(gridPanel);
+      addingGrid = false;
     }
   }
 
@@ -188,7 +198,7 @@ public class CellSocietyView {
       myAnimation.stop();
     }
     myAnimation.play();
-    root.setCenter(setupGridSection());
+    setupGridPanel();
   }
 
   private void pauseAndStep() {
@@ -209,7 +219,6 @@ public class CellSocietyView {
   private void speedUp() {
     myAnimation.setRate(
         myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-    System.out.println("Sped up!");
   }
 
   private void slowDown() {
@@ -238,7 +247,7 @@ public class CellSocietyView {
     return bottomText;
   }
 
-  private VBox setupGridSection() {
+  private VBox setupGrid() {
     VBox vbox = new VBox();
     vbox.setId("Grid");
     myGridView = new GridView(myController);
