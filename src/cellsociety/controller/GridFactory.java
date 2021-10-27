@@ -39,12 +39,15 @@ public class GridFactory {
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-            rowCount = rowAndColumn[1]; // set variables to remove magic numbers
+
+            rowCount = rowAndColumn[1]; // TODO: index issue
             colCount = rowAndColumn[0];
 
         }
         catch(Exception e){
-            e.printStackTrace();
+            rowCount = "0";
+            colCount = "0";
+
         }
     }
 

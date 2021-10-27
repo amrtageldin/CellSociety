@@ -3,7 +3,9 @@ package cellsociety.view;
 import cellsociety.controller.CellSocietyController;
 import cellsociety.model.Cells;
 import java.util.List;
-import javafx.scene.Node;
+import java.util.ResourceBundle;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -11,22 +13,24 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
+ * TODO: Refactor Rectangle to Polygon instead to decide on cell shape.
  */
 public class GridView {
 
   private final Cells[][] myGrid;
-  private Rectangle[][] myPaneNodes;
+  private final Rectangle[][] myPaneNodes;
   private GridPane pane;
-  private static final int GAP = 1;
-  private static final int SCREEN_WIDTH = 1500;
-  private static final int SCREEN_HEIGHT = 600;
+  private final ResourceBundle myMagicValues;
+  private final List<Color> stateColors;
+  private final CellColors myCellColors;
 
-  private final List<Color> STATE_COLORS = List.of(
-      Color.BLACK,      // dead cell color
-      Color.WHITE       // alive cell color
-  );
+  public final String gap = "gap";
+  public final String screenWidth = "screenWidth";
+  public final String screenHeight = "screenHeight";
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
   /**
    * Constructor that initializes the Grid.
@@ -36,6 +40,9 @@ public class GridView {
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
     myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
+    myCellColors = new CellColors(controller.getMyGameType());
+    stateColors = myCellColors.getColorMap();
+    myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
   /**
@@ -46,8 +53,8 @@ public class GridView {
   public GridPane setupGrid() {
     pane = new GridPane();
     pane.setId("Grid");
-    pane.setVgap(GAP);
-    pane.setHgap(GAP);
+    pane.setVgap(Integer.parseInt(myMagicValues.getString(gap)));
+    pane.setHgap(Integer.parseInt(myMagicValues.getString(gap)));
     pane.setGridLinesVisible(true);
     drawGrid();
     return pane;
@@ -57,11 +64,24 @@ public class GridView {
     for (int i = 0; i < myGrid.length; i++) {
       for (int j = 0; j < myGrid[0].length; j++) {
         int currState = myGrid[i][j].getCurrentState();
-        Rectangle cell = drawCell(STATE_COLORS.get(currState));
+        Rectangle cell = drawCell(stateColors.get(currState));
+        setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
       }
     }
+  }
+
+  private void setCellClickAction(Rectangle cell, int i, int j) {
+    EventHandler<MouseEvent> event = event1 -> {
+      int setState = myCellColors.getRandomCellState(myGrid[i][j].getCurrentState());
+      myGrid[i][j].setCurrentState(setState);
+      Rectangle newCell = drawCell(stateColors.get(setState));
+      myPaneNodes[i][j] = newCell;
+      pane.add(myPaneNodes[i][j], j, i);
+      setCellClickAction(newCell, i, j);
+    };
+    cell.setOnMouseClicked(event);
   }
 
   private Rectangle drawCell(Paint currState) {
@@ -71,8 +91,8 @@ public class GridView {
   }
 
   private int findCellDimension() {
-    int width = SCREEN_WIDTH / myGrid.length;
-    int height = SCREEN_HEIGHT / myGrid[0].length;
+    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.length;
+    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid[0].length;
     return Math.min(width, height);
   }
 

@@ -7,6 +7,7 @@
 /*Default button styling*/
 .button {
   -fx-text-fill: text_color;
+  -fx-font-size: 12;
   -fx-border-color: darkgray;
   -fx-border-width: 2px;
   -fx-background-color: lightgray;
@@ -15,8 +16,30 @@
   -fx-background-radius: 8px;
 }
 
-#aboutPane {
+#AboutPane {
   -fx-background-color: lightblue;
+  -fx-text-fill: black;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#BlueDevilModeAboutPane {
+  -fx-background-color: #2427bf;
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#DarkModeAboutPane {
+  -fx-background-color: #262b33;
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-alignment: center;
+}
+
+#LightModeAboutPane {
+  -fx-background-color: #f5f5ff;
+  -fx-text-fill: black;
   -fx-font-size: 20;
   -fx-alignment: center;
 }
@@ -27,15 +50,22 @@
   -fx-font-size: 40;
 }
 
-.textProps {
-  -fx-text-fill: black;
+#BlueDevilMode {
   -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 18;
-  -fx-font-weight: bold;
+  text_color: black;
+  -fx-background-color: #0462b5;
 }
 
-#Grid {
-  -fx-alignment: center;
+#DarkMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #3f3f47;
+}
+
+#LightMode {
+  -fx-font-family: "Segoe UI Semibold";
+  text_color: black;
+  -fx-background-color: #ffffff;
 }
 
 #MainPane {
@@ -47,8 +77,62 @@
   -fx-alignment: center;
 }
 
-#ButtonPanel {
+#BlueDevilModeMainPane {
+  -fx-background-color: #2427bf;
+  -fx-text-fill: white;
+  -fx-text-background-color: lightgray;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#DarkModeMainPane {
+  -fx-background-color: #262b33;
+  -fx-text-background-color: lightgray;
+  -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#LightModeMainPane {
+  -fx-background-color: #f5f5ff;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+#TopButtonPanel {
   -fx-alignment: center;
   -fx-spacing: 15;
-  -fx-padding: 20 10;
+  -fx-padding: 15 10 5 10;
+}
+
+#BottomButtonPanel {
+  -fx-alignment: center;
+  -fx-spacing: 15;
+  -fx-padding: 5 10 15 10;
+}
+
+#GridPanel {
+  -fx-alignment: center;
+}
+
+#FireLabel {
+  -fx-font-size: 13;
+}
+
+#CellStateLabel {
+  -fx-font-size: 13;
+}
+
+#DropDownDefault {
+  -fx-font-size: 13;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-text-alignment: center;
 }
