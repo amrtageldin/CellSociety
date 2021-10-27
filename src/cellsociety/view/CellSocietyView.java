@@ -41,6 +41,8 @@ public class CellSocietyView {
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
+  private boolean gridLoaded;
+  private HBox gridPanel;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -151,8 +153,19 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    root.setCenter(setupGridSection());
-    startSimulation();
+    if (!gridLoaded) {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      gridPanel.getChildren().add(setupGridSection());
+      root.setCenter(gridPanel);
+      startSimulation();
+      gridLoaded = true;
+    }
+    else {
+      togglePlay();
+      gridPanel.getChildren().add(setupGridSection());
+      togglePlay();
+    }
   }
 
   private void startSimulation() {
@@ -196,6 +209,7 @@ public class CellSocietyView {
   private void speedUp() {
     myAnimation.setRate(
         myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    System.out.println("Sped up!");
   }
 
   private void slowDown() {
@@ -212,7 +226,7 @@ public class CellSocietyView {
     Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
     vbox.setId("MainPane");
     vbox.getChildren().addAll(displayLabel, setupGameModePanel());
-    vbox.setMaxHeight(myStage.getHeight() / 4);
+    vbox.setMaxHeight(myStage.getHeight());
     return vbox;
   }
 
@@ -224,15 +238,12 @@ public class CellSocietyView {
     return bottomText;
   }
 
-  private HBox setupGridSection() {
-    HBox gridPanel = new HBox();
+  private VBox setupGridSection() {
     VBox vbox = new VBox();
-    gridPanel.setId("GridPanel");
-    vbox.setId("GridPanel");
+    vbox.setId("Grid");
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
-    gridPanel.getChildren().add(vbox);
-    return gridPanel;
+    return vbox;
   }
 
   private ComboBox<String> setupColorOptions() {

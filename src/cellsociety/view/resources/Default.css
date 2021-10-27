@@ -121,6 +121,10 @@
   -fx-alignment: center;
 }
 
+#Grid {
+  -fx-alignment: center;
+}
+
 #FireLabel {
   -fx-font-size: 13;
 }
