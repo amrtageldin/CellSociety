@@ -1,10 +1,6 @@
 package cellsociety.view;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -49,10 +45,10 @@ public class FactoryComponents {
   }
 
   /**
-   * Method that edits text within a Lbael
+   * Method that edits text within a Label
    *
    * @param id Label identifier.
-   * @return Label with identifier.
+   *
    */
   public void setLabel(Label label, String id) {
     label.setText(myResources.getString(id));
@@ -69,12 +65,11 @@ public class FactoryComponents {
     result.setText(myResources.getString(label));
     result.setOnAction(handler -> {
           try {
-            Method m = cell.getClass().getDeclaredMethod(myResourceMethods.getString(label), null);
+            Method m = cell.getClass().getDeclaredMethod(myResourceMethods.getString(label));
             m.setAccessible(true);
-            m.invoke(cell, null);
+            m.invoke(cell);
           }
           catch (Exception e) {
-            // FIXME: typically make your own custom exception to throw
             throw new RuntimeException("Improper configuration", e);
           }
         }
@@ -102,8 +97,8 @@ public class FactoryComponents {
     return (Slider) setId(label, slider);
   }
 
-  public ComboBox makeDropDownMenu(String id, String[] labels) {
-    ComboBox dropdown = new ComboBox();
+  public ComboBox<String> makeDropDownMenu(String id, String[] labels) {
+    ComboBox<String> dropdown = new ComboBox<>();
     dropdown.setId(id);
     dropdown.setPromptText(myResources.getString(id));
     for (String label : labels) {

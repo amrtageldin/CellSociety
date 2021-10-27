@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 
 public class CellSocietyController {
     private CellSocietyModel myModel;
-    private ResourceBundle myFileType;
-    private GridFactory myGridFactory;
-    private GameFactory myGameFactory;
+    private final ResourceBundle myFileType;
+    private final GridFactory myGridFactory;
+    private final GameFactory myGameFactory;
     private Cells[][] myGrid;
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";

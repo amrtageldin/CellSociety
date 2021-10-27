@@ -1,14 +1,12 @@
 package cellsociety.view;
 
 import java.util.List;
-import java.util.ResourceBundle;
-import javafx.scene.control.Cell;
-import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import util.DukeApplicationTest;
 
 /**
@@ -25,15 +23,16 @@ public class CellColorsTest extends DukeApplicationTest {
   );
 
   private CellColors myCellColors;
-  private String gameType = "GameOfLife";
 
   @Override
   public void start(Stage stage) {
+    String gameType = "GameOfLife";
     myCellColors = new CellColors(gameType);
   }
 
   /**
-   * Test that checks whether the colorMap returned for a specific game is the proper color map defined above
+   * Test that checks whether the colorMap returned for a specific game is the proper color map
+   * defined above
    */
   @Test
   void getColorMap() {
