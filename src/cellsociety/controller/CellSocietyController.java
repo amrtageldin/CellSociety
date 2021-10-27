@@ -10,7 +10,7 @@ public class CellSocietyController {
     private final ResourceBundle myFileType;
     private final GridFactory myGridFactory;
     private final GameFactory myGameFactory;
-    private Cells[][] myGrid;
+    private Grid myGrid;
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
@@ -50,24 +50,22 @@ public class CellSocietyController {
      * cell in the grid, so that it can be displayed on the game scene
      * @return myGrid - grid of Cells with current states
      */
-    public Cells[][] getMyGrid(){
+    public Grid getMyGrid(){
         return myGrid;
     }
 
-    private CellSocietyModel createSimFromFile(String file){
+    private void createSimFromFile(String file){
         try {
             String gameType = myGameFactory.setUpModel(file);
             System.out.println(gameType);
-            Class [] paramTypesSub = {String.class};
             Object [] paramValuesSub = {gameType};
-            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class).newInstance(paramValuesSub);
 
             myGameType = gameType;
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        return myModel;
     }
 
     public CellSocietyModel getMyModel(){
@@ -89,9 +87,9 @@ public class CellSocietyController {
      * within the model. At the end the grid is updated such that every cell's next state is now its current state.
      */
     public void step(){
-        for (int i = 0; i < myGrid.length; i++){
-            for (int j = 0; j < myGrid[0].length; j++){
-                Cells thisCell = myGrid[i][j];
+        for (int i = 0; i < myGrid.rowLength(); i++){
+            for (int j = 0; j < myGrid.colLength(); j++){
+                Cells thisCell = myGrid.getCell(i,j);
                 myModel.setNextState(thisCell, i, j, myGrid);
             }
         }
@@ -99,9 +97,9 @@ public class CellSocietyController {
     }
 
     private void updateGrid(){
-        for (int i = 0; i < myGrid.length; i++) {
-            for (int j = 0; j < myGrid[0].length; j++) {
-                Cells thisCell = myGrid[i][j];
+        for (int i = 0; i < myGrid.rowLength(); i++) {
+            for (int j = 0; j < myGrid.colLength(); j++) {
+                Cells thisCell = myGrid.getCell(i,j);
                 thisCell.updateMyCurrentState();
             }
         }

@@ -8,7 +8,8 @@ public class Cells {
   /**
    * Constructor for cells, each cell is initialized with an initial state that is read
    * from the csv file at the start of the game
-   * @param initialState: Initial state of the cell, either ALIVE (1) or DEAD (0)
+   * @param initialState: read from the CSV file, holds the integer that translates to a state
+   *                    for example; 0 can read dead for game of life, or tree for fire
    */
   public Cells( int initialState){
     currentState = initialState;
@@ -33,7 +34,6 @@ public class Cells {
    */
   public void updateMyCurrentState(){
       currentState = myNextState;
-     // myNextState = null;
   }
 
   /**
