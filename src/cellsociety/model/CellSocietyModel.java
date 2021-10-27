@@ -33,7 +33,7 @@ public abstract class CellSocietyModel {
     return statesBundle;
   }
 
-  public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
+  public abstract void setNextState(Cells myCell, int row, int col, Grid myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;

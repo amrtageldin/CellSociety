@@ -35,17 +35,17 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
 
     private void checkState(Cells cell, int state, Grid grid){
-        Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(statesBundle.getString(SAME)), integers -> keepState(cell),
-            Integer.parseInt(statesBundle.getString(MOVE)), integers -> moveState(cell, grid)
+        Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(getStatesBundle().getString(SAME)), integers -> keepState(cell),
+            Integer.parseInt(getStatesBundle().getString(MOVE)), integers -> moveState(cell, grid)
         );
         consumerGenerateNextState(state, intMap.get(state));
     }
 
 
     private void moveState(Cells cell, Grid grid){
-        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(statesBundle.getString(A)), integers -> moveCells(cell, grid),
-                Integer.parseInt(statesBundle.getString(B)), integer -> moveCells(cell, grid),
-                Integer.parseInt(statesBundle.getString(EMPTY)), integer -> keepState(cell));
+        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(getStatesBundle().getString(A)), integers -> moveCells(cell, grid),
+                Integer.parseInt(getStatesBundle().getString(B)), integer -> moveCells(cell, grid),
+                Integer.parseInt(getStatesBundle().getString(EMPTY)), integer -> keepState(cell));
         consumerGenerateNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
 
@@ -62,7 +62,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
         Random r = new Random();
         int randRow = r.nextInt(grid.rowLength());
         int randCol = r.nextInt(grid.colLength());
-        if(grid.getCell(randRow,randCol).getCurrentState() == Integer.parseInt(statesBundle.getString(EMPTY))){
+        if(grid.getCell(randRow,randCol).getCurrentState() == Integer.parseInt(getStatesBundle().getString(EMPTY))){
             grid.getCell(randRow,randCol).setMyNextState(cell.getCurrentState());
             grid.getCell(randRow,randCol).updateMyCurrentState();
         }
