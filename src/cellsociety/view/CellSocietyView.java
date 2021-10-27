@@ -5,13 +5,8 @@ import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,9 +22,8 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that sets up the display for all Cell Society Game types.
- * TODO: Missing double screen functionality, Controller connection for the sliders for specific games,
- *  error message handling, about section parsing to display, missing color choosing for cell state.
- *  Would refactor to remove the setup methods into a different class called CellSocietyViewComponents.
+ * TODO: Missing double screen functionality,error message handling,
+ *  about section parsing to display, missing color choosing for cell state.
  *  
  */
 public class CellSocietyView {
@@ -38,6 +32,7 @@ public class CellSocietyView {
   private final Stage myStage;
   private BorderPane root;
   private final CellSocietyController myController;
+  CellSocietyViewComponents myViewComponents;
   private GridView myGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
@@ -46,13 +41,9 @@ public class CellSocietyView {
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
-  public final String maxValue = "maxValue";
   public final String secondDelay = "secondDelay";
   public final String speedUpRate = "speedUpRate";
   public final String slowDownRate = "slowDownRate";
-  public final String minPercent = "minPercent";
-  public final String maxPercent = "maxPercent";
-  public final String incrementValue = "incrementValue";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -69,6 +60,7 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
+    myViewComponents = new CellSocietyViewComponents(language, this);
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
@@ -82,67 +74,14 @@ public class CellSocietyView {
    */
   public Scene setupDisplay() {
     root = new BorderPane();
-    root.setTop(setupTopText());
-    root.setRight(setupAboutSection());
+    root.setTop(myViewComponents.setupTopText(myStage, root));
+    root.setRight(myViewComponents.setupAboutSection());
     root.setId("Main");
     Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
         Integer.parseInt(myMagicValues.getString(defaultY)));
     scene.getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource(DEFAULT_STYLESHEET)).toExternalForm());
     return scene;
-  }
-
-  private Node setupGameModePanel() {
-    VBox panel = new VBox();
-    panel.getChildren().addAll(setupTopButtonPanel(), setupBottomButtonPanel());
-    return panel;
-  }
-
-  private HBox setupTopButtonPanel() {
-    HBox setupPanel = new HBox();
-    setupPanel.setId("TopButtonPanel");
-    Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
-    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
-    Node playButton = myFactoryComponents.makeButton("Play", this);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton, setupColorOptions());
-    return setupPanel;
-  }
-
-  private HBox setupBottomButtonPanel() {
-    HBox livePanel = new HBox();
-    livePanel.setId("BottomButtonPanel");
-    Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
-    Node stepButton = myFactoryComponents.makeButton("Step", this);
-    Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
-    Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    livePanel.getChildren()
-        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(),
-            setupCellStatePanel());
-    return livePanel;
-  }
-
-  private VBox setupFirePanel() {
-    VBox panel = new VBox();
-    panel.setId("FirePanel");
-    Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
-    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider",
-        Integer.parseInt(myMagicValues.getString(minPercent)),
-        Integer.parseInt(myMagicValues.getString(maxPercent)),
-        Integer.parseInt(myMagicValues.getString(incrementValue)));
-    panel.getChildren().addAll(fireLabel, fireSlider);
-    return panel;
-  }
-
-  private VBox setupCellStatePanel() {
-    VBox panel = new VBox();
-    panel.setId("CellStatePanel");
-    Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
-    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider",
-        Integer.parseInt(myMagicValues.getString(minPercent)),
-        Integer.parseInt(myMagicValues.getString(maxPercent)),
-        Integer.parseInt(myMagicValues.getString(incrementValue)));
-    panel.getChildren().addAll(cellStateLabel, cellStateSlider);
-    return panel;
   }
 
   private void chooseFile() {
@@ -221,48 +160,12 @@ public class CellSocietyView {
     return myGridView;
   }
 
-  private Node setupTopText() {
-    VBox vbox = new VBox();
-    Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
-    vbox.setId("MainPane");
-    vbox.getChildren().addAll(displayLabel, setupGameModePanel());
-    vbox.setMaxHeight(myStage.getHeight());
-    return vbox;
-  }
-
-  private Label setupAboutSection() {
-    Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
-    bottomText.setId("AboutPane");
-    bottomText.setMaxSize(Integer.parseInt(myMagicValues.getString(maxValue)),
-        Integer.parseInt(myMagicValues.getString(maxValue)));
-    return bottomText;
-  }
-
   private VBox setupGridSection() {
     VBox vbox = new VBox();
     vbox.setId("Grid");
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
-  }
-
-  private ComboBox<String> setupColorOptions() {
-    String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
-        options);
-    setupDropDownCommands(colorOptions);
-    return colorOptions;
-  }
-
-  private void setupDropDownCommands(ComboBox<String> dropdown) {
-    EventHandler<ActionEvent> event = event1 -> {
-      String colorMode = dropdown.getValue();
-      colorMode = colorMode.replace(" ", "");
-      root.getTop().setId(colorMode + "MainPane");
-      root.getRight().setId(colorMode + "AboutPane");
-      root.setId(colorMode);
-    };
-    dropdown.setOnAction(event);
   }
 
   /**
