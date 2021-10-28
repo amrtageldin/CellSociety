@@ -1,6 +1,8 @@
 package cellsociety.model;
 
 import cellsociety.controller.Grid;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +14,10 @@ public class WaTorModel extends CellSocietyModel{
     private static final String EMPTY = "EMPTY";
     private static final String SAME = "SAME";
     private static final String MOVE = "MOVE";
-
+    private int stepCheck = 0;
     private Map<Cells, Integer> reproductionMap = new HashMap<>();
     private Map<Cells, Integer> energyMap = new HashMap<>();
+    private List<Cells> changedCells = new ArrayList<>();
 
     public WaTorModel(String type) {
         super(type);
@@ -23,10 +26,16 @@ public class WaTorModel extends CellSocietyModel{
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-        int movableCells = findMovableCells(myCell, myNeighbors);
-        int state = getMyRules().generateNextState(movableCells, myCell.getCurrentState());
-        checkState(myCell, state, myNeighbors);
+        int gridSize = myGrid.colLength() * myGrid.rowLength();
+        if(changedCells.size() == gridSize){
+            changedCells.clear();
+        }
+        if(!changedCells.contains(myCell)) {
+            List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
+            int movableCells = findMovableCells(myCell, myNeighbors);
+            int state = getMyRules().generateNextState(movableCells, myCell.getCurrentState());
+            checkState(myCell, state, myNeighbors);
+        }
     }
     private void checkState(Cells myCell, int state, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(getStatesBundle().getString(SAME)), integers -> keepState(myCell),
@@ -34,7 +43,9 @@ public class WaTorModel extends CellSocietyModel{
         );
         consumerGenerateNextState(state, intMap.get(state));
     }
-    private void keepState(Cells cell){cell.setMyNextState(cell.getCurrentState());}
+    private void keepState(Cells cell){
+        cell.setMyNextState(cell.getCurrentState());
+        changedCells.add(cell);}
 
     private void moveState(Cells cell, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(getStatesBundle().getString(FISH)), integers -> moveCells(cell, myNeighbors),
@@ -44,10 +55,17 @@ public class WaTorModel extends CellSocietyModel{
     }
     private void moveCells(Cells cell, List<Cells> myNeighbors){
         Cells c = findRightState(cell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY)));
-        c.setMyNextState(cell.getCurrentState());
-        c.updateMyCurrentState();
-        cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
-        cell.updateMyCurrentState();
+        if(c == cell){
+            keepState(cell);
+        }
+        else {
+            c.setMyNextState(cell.getCurrentState());
+            // c.updateMyCurrentState();
+            cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
+            //cell.updateMyCurrentState();
+            changedCells.add(c);
+        }
+
     }
     private void eatCells(Cells cell, List<Cells> myNeighbors) {
         Cells c = findRightState(cell, myNeighbors, Integer.parseInt(getStatesBundle().getString(FISH)));
@@ -56,15 +74,17 @@ public class WaTorModel extends CellSocietyModel{
         }
         else{
             c.setMyNextState(Integer.parseInt(getStatesBundle().getString(SHARK)));
-            c.updateMyCurrentState();
+           // c.updateMyCurrentState();
             cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
-            cell.updateMyCurrentState();
+            //cell.updateMyCurrentState();
+            changedCells.add(c);
+            changedCells.add(cell);
         }
     }
 
     private Cells findRightState(Cells cell, List<Cells> myNeighbors, int stateWanted){
         for(Cells c : myNeighbors){
-            if(c.getCurrentState() == stateWanted){
+            if(c.getCurrentState() == stateWanted && !changedCells.contains(c)){
                 return c;
             }
         }
@@ -77,10 +97,7 @@ public class WaTorModel extends CellSocietyModel{
             movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), myNeighbors);
         }
         else if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK))){
-            movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(FISH)), myNeighbors);
-            if(movableCells == 0){
-                movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), myNeighbors);
-            }
+            movableCells = myNeighbors.size() - quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(SHARK)), myNeighbors);
         }
         return movableCells;
     }
