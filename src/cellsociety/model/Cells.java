@@ -13,6 +13,7 @@ public class Cells {
    */
   public Cells( int initialState){
     currentState = initialState;
+    myNextState = 10;
   }
 
   /**
