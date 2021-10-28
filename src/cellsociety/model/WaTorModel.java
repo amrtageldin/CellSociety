@@ -43,21 +43,21 @@ public class WaTorModel extends CellSocietyModel{
         consumerGenerateNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
     private void moveCells(Cells cell, List<Cells> myNeighbors){
-        Cells c = findRightState(cell, myNeighbors, 0);
+        Cells c = findRightState(cell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY)));
         c.setMyNextState(cell.getCurrentState());
         c.updateMyCurrentState();
-        cell.setMyNextState(0);
+        cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
         cell.updateMyCurrentState();
     }
     private void eatCells(Cells cell, List<Cells> myNeighbors) {
-        Cells c = findRightState(cell, myNeighbors, 1);
+        Cells c = findRightState(cell, myNeighbors, Integer.parseInt(getStatesBundle().getString(FISH)));
         if(c == cell){
             moveCells(cell, myNeighbors);
         }
         else{
-            c.setMyNextState(2);
+            c.setMyNextState(Integer.parseInt(getStatesBundle().getString(SHARK)));
             c.updateMyCurrentState();
-            cell.setMyNextState(0);
+            cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
             cell.updateMyCurrentState();
         }
     }
@@ -73,13 +73,13 @@ public class WaTorModel extends CellSocietyModel{
 
     private int findMovableCells(Cells myCell, List<Cells> myNeighbors){
         int movableCells = 0;
-        if(myCell.getCurrentState() == 1){
-            movableCells = quantityOfCellsOfGivenStateInCluster(0, myNeighbors);
+        if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(FISH))){
+            movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), myNeighbors);
         }
-        else if(myCell.getCurrentState() == 2){
-            movableCells = quantityOfCellsOfGivenStateInCluster(1, myNeighbors);
+        else if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK))){
+            movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(FISH)), myNeighbors);
             if(movableCells == 0){
-                movableCells = quantityOfCellsOfGivenStateInCluster(0, myNeighbors);
+                movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), myNeighbors);
             }
         }
         return movableCells;
