@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 abstract public class CellSocietyRules {
     private static final String METHOD_RULE = "METHOD";
     private final List<Rule> myRules;
+    private final List<String> rulesKeys;
     private ResourceBundle ruleBundle;
     private ResourceBundle translationBundle;
     private ResourceBundle valueBundle;
@@ -20,6 +21,7 @@ abstract public class CellSocietyRules {
 
     public CellSocietyRules(String myType){
         myRules = new ArrayList<>();
+        rulesKeys = new ArrayList<>();
         initializeRuleAndValueBundles(myType);
         initializeMyRules();
     }
@@ -27,6 +29,7 @@ abstract public class CellSocietyRules {
     protected void initializeMyRules(){
         translationBundle = initializeBundle(ruleResourceBundleBase, "TranslationRules");
         for (String eachKey : ruleBundle.keySet()){
+            rulesKeys.add(eachKey);
             String ruleString = ruleBundle.getString(eachKey);
             String[]ruleSet = ruleString.split(" ");
             if(eachKey.contains(METHOD_RULE)){
@@ -83,6 +86,18 @@ abstract public class CellSocietyRules {
         ruleBundle = initializeBundle(ruleResourceBundleBase, String.format("%sRules", base));
         String modelResourceBundleBase = "cellsociety.model.resources.";
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
+    }
+
+    protected ResourceBundle getRuleBundle(){
+        return ruleBundle;
+    }
+
+    protected List<String> getRulesKeys(){
+        return rulesKeys;
+    }
+
+    protected List<Rule> getMyRules(){
+        return myRules;
     }
 
 
