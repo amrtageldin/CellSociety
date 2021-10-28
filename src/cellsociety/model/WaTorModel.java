@@ -26,9 +26,11 @@ public class WaTorModel extends CellSocietyModel{
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
+        stepCheck++;
         int gridSize = myGrid.colLength() * myGrid.rowLength();
-        if(changedCells.size() == gridSize){
+        if(stepCheck == gridSize + 1){
             changedCells.clear();
+            stepCheck = 1;
         }
         if(!changedCells.contains(myCell)) {
             List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
@@ -45,7 +47,7 @@ public class WaTorModel extends CellSocietyModel{
     }
     private void keepState(Cells cell){
         cell.setMyNextState(cell.getCurrentState());
-        changedCells.add(cell);}
+        }
 
     private void moveState(Cells cell, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(getStatesBundle().getString(FISH)), integers -> moveCells(cell, myNeighbors),
@@ -78,7 +80,7 @@ public class WaTorModel extends CellSocietyModel{
             cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
             //cell.updateMyCurrentState();
             changedCells.add(c);
-            changedCells.add(cell);
+            //changedCells.add(cell);
         }
     }
 
