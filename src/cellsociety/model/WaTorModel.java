@@ -29,7 +29,7 @@ public class WaTorModel extends CellSocietyModel{
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         stepCheck++;
         updateReproduction(myCell, 1, 0);
-        updateEnergy(myCell, -1);
+        updateEnergy(myCell, -1, 1);
         int gridSize = myGrid.colLength() * myGrid.rowLength();
         if(stepCheck == gridSize + 1){
             changedCells.clear();
@@ -37,10 +37,10 @@ public class WaTorModel extends CellSocietyModel{
         }
         if(!changedCells.contains(myCell)) {
             List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-            checkReproduction(myCell, myNeighbors);
             checkEnergy(myCell);
             int movableCells = findMovableCells(myCell, myNeighbors);
             updateNeighbors(myNeighbors);
+            checkReproduction(myCell, myNeighbors);
             int state = getMyRules().generateNextState(movableCells, myCell.getCurrentState());
             checkState(myCell, state, myNeighbors);
         }
@@ -59,17 +59,17 @@ public class WaTorModel extends CellSocietyModel{
         }
     }
 
-    private void updateEnergy(Cells myCell, int energyFactor){
-        if(!energyMap.containsKey(myCell) && (myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK)) ||
-                myCell.getMyNextState() == Integer.parseInt(getStatesBundle().getString(SHARK)))){
-            energyMap.put(myCell,5);
+    private void updateEnergy(Cells myCell, int energyFactor, int energyInitial){
+        if(!energyMap.containsKey(myCell) && (myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK))
+        || myCell.getMyNextState() == Integer.parseInt(getStatesBundle().getString(SHARK)))){
+            energyMap.put(myCell,energyInitial);
         }
         else if(energyMap.containsKey(myCell)){
             energyMap.put(myCell, energyMap.get(myCell) + energyFactor);
         }
     }
     private void checkReproduction(Cells myCell, List<Cells> myNeighbors){
-        if(reproductionMap.get(myCell) == 10){
+        if(reproductionMap.get(myCell) == 6){
             Cells c = findRightState(myCell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY)));
             moveCells(c, myCell);
             reproductionMap.remove(myCell);
@@ -113,6 +113,12 @@ public class WaTorModel extends CellSocietyModel{
         }
         else {
             changeNeighborCells(c, cell);
+            if(energyMap.containsKey(cell)){
+                updateEnergy(cell, 0, 1);
+                updateEnergy(c, 0, energyMap.get(cell));
+                energyMap.remove(cell);
+            }
+
         }
 
     }
@@ -122,6 +128,7 @@ public class WaTorModel extends CellSocietyModel{
         }
         else{
             changeNeighborCells(c, cell);
+            updateEnergy(cell, 1, 0);
         }
     }
 
@@ -131,8 +138,7 @@ public class WaTorModel extends CellSocietyModel{
         changedCells.add(c);
         updateReproduction(c, 0, reproductionMap.get(cell));
         reproductionMap.remove(cell);
-        updateEnergy(cell, 1);
-        updateEnergy(c, 0);
+
     }
 
     private Cells findRightState(Cells cell, List<Cells> myNeighbors, int stateWanted){
