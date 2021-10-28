@@ -7,14 +7,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class WaTorModel extends CellSocietyModel{
-    private static final int INITIAL_REPRODUCTION = 0;
-    private static final int REPRODUCTION_INCREASE = 1;
     private static final String FISH = "FISH";
     private static final String SHARK = "SHARK";
+    private static final String EMPTY = "EMPTY";
     private static final String SAME = "SAME";
     private static final String MOVE = "MOVE";
-    private static final int INITIAL_ENERGY = 5;
-    private static final int ENERGY_DECREASE = 1;
 
     private Map<Cells, Integer> reproductionMap = new HashMap<>();
     private Map<Cells, Integer> energyMap = new HashMap<>();
@@ -27,17 +24,9 @@ public class WaTorModel extends CellSocietyModel{
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-        checkAnimals(myCell);
-        animalConditions(myCell, myNeighbors);
         int movableCells = findMovableCells(myCell, myNeighbors);
-        int state;
-        if(myCell.getCurrentState() != 0) {
-            state = getMyRules().generateNextState(movableCells, myCell.getCurrentState());
-            checkState(myCell, state, myNeighbors);
-        }
-        else{
-            myCell.setMyNextState(0);
-        }
+        int state = getMyRules().generateNextState(movableCells, myCell.getCurrentState());
+        checkState(myCell, state, myNeighbors);
     }
     private void checkState(Cells myCell, int state, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(getStatesBundle().getString(SAME)), integers -> keepState(myCell),
@@ -49,7 +38,8 @@ public class WaTorModel extends CellSocietyModel{
 
     private void moveState(Cells cell, List<Cells> myNeighbors){
         Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(getStatesBundle().getString(FISH)), integers -> moveCells(cell, myNeighbors),
-                Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> eatCells(cell, myNeighbors));
+                Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> eatCells(cell, myNeighbors),
+                Integer.parseInt(getStatesBundle().getString(EMPTY)), integer -> {});
         consumerGenerateNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
     private void moveCells(Cells cell, List<Cells> myNeighbors){
@@ -58,12 +48,6 @@ public class WaTorModel extends CellSocietyModel{
         c.updateMyCurrentState();
         cell.setMyNextState(0);
         cell.updateMyCurrentState();
-        reproductionMap.put(c, reproductionMap.get(cell));
-        reproductionMap.remove(cell);
-        if(energyMap.containsKey(cell)){
-            energyMap.put(c, energyMap.get(cell));
-            energyMap.remove(cell);
-        }
     }
     private void eatCells(Cells cell, List<Cells> myNeighbors) {
         Cells c = findRightState(cell, myNeighbors, 1);
@@ -75,12 +59,6 @@ public class WaTorModel extends CellSocietyModel{
             c.updateMyCurrentState();
             cell.setMyNextState(0);
             cell.updateMyCurrentState();
-            reproductionMap.remove(c);
-            reproductionMap.put(c, reproductionMap.get(cell));
-            reproductionMap.remove(cell);
-            energyMap.put(cell, energyMap.get(cell) + 1);
-            energyMap.put(c, energyMap.get(cell));
-            energyMap.remove(cell);
         }
     }
 
@@ -106,62 +84,7 @@ public class WaTorModel extends CellSocietyModel{
         }
         return movableCells;
     }
-    private void checkAnimals(Cells myCell){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
-                        Integer.parseInt(getStatesBundle().getString(FISH)), integer -> setUpAnimalReproduction(myCell)
-        ,0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
 
-    private void setUpAnimalReproduction(Cells myCell){
-        if(!reproductionMap.containsKey(myCell)){
-            reproductionMap.put(myCell, INITIAL_REPRODUCTION);
-        }
-        else{
-            reproductionMap.put(myCell, reproductionMap.get(myCell) + REPRODUCTION_INCREASE);
-        }
-    }
-
-    private void setUpAnimalEnergy(Cells myCell){
-        if (!energyMap.containsKey(myCell)) {
-            energyMap.put(myCell, INITIAL_ENERGY);
-        }
-        else{
-            energyMap.put(myCell, energyMap.get(myCell) - ENERGY_DECREASE);
-        }
-        setUpAnimalReproduction(myCell);
-    }
-
-    private void animalConditions(Cells myCell, List<Cells> myNeighbors){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(getStatesBundle().getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
-                        Integer.parseInt(getStatesBundle().getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
-                        0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
-
-    private void checkAnimalEnergy(Cells myCell, List<Cells> myNeighbors){
-        if(energyMap.get(myCell) == 0){
-            energyMap.remove(myCell);
-            reproductionMap.remove(myCell);
-            myCell.setMyNextState(0);
-            myCell.updateMyCurrentState();
-        }
-        checkAnimalReproduction(myCell, myNeighbors);
-    }
-
-    private void checkAnimalReproduction(Cells myCell, List<Cells> myNeighbors){
-        if(reproductionMap.get(myCell) == 5){
-            Cells c = findRightState(myCell, myNeighbors, 0);
-            c.setMyNextState(myCell.getCurrentState());
-            c.updateMyCurrentState();
-            reproductionMap.put(c, INITIAL_REPRODUCTION);
-            myCell.setMyNextState(myCell.getCurrentState());
-            reproductionMap.remove(myCell);
-            myCell.updateMyCurrentState();
-        }
-    }
 }
 
 
