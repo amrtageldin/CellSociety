@@ -24,12 +24,11 @@ public class WaTorModel extends CellSocietyModel{
 
     }
 
-
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         stepCheck++;
         updateReproduction(myCell, 1, 0);
-        updateEnergy(myCell, -1, 1);
+        updateEnergy(myCell, -1, 5);
         int gridSize = myGrid.colLength() * myGrid.rowLength();
         if(stepCheck == gridSize + 1){
             changedCells.clear();
@@ -51,11 +50,13 @@ public class WaTorModel extends CellSocietyModel{
     }
 
     private void updateReproduction(Cells myCell, int reproductionIncrease, int reproductionInitial){
-        if(!reproductionMap.containsKey(myCell)){
-            reproductionMap.put(myCell, reproductionInitial);
-        }
-        else{
-            reproductionMap.put(myCell, reproductionMap.get(myCell) + reproductionIncrease);
+        if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK)) ||
+                myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(FISH)) ) {
+            if (!reproductionMap.containsKey(myCell)) {
+                reproductionMap.put(myCell, reproductionInitial);
+            } else {
+                reproductionMap.put(myCell, reproductionMap.get(myCell) + reproductionIncrease);
+            }
         }
     }
 
@@ -69,12 +70,14 @@ public class WaTorModel extends CellSocietyModel{
         }
     }
     private void checkReproduction(Cells myCell, List<Cells> myNeighbors){
-        if(reproductionMap.get(myCell) == 6){
-            Cells c = findRightState(myCell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY)));
-            moveCells(c, myCell);
-            reproductionMap.remove(myCell);
-            updateReproduction(c, 1, 0);
-            updateReproduction(myCell, 1, 0);
+        if(reproductionMap.containsKey(myCell)) {
+            if (reproductionMap.get(myCell) == 5) {
+                Cells c = findRightState(myCell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY)));
+                moveCells(c, myCell);
+                reproductionMap.remove(myCell);
+                updateReproduction(c, 1, 0);
+                updateReproduction(myCell, 1, 0);
+            }
         }
     }
 
@@ -138,7 +141,6 @@ public class WaTorModel extends CellSocietyModel{
         changedCells.add(c);
         updateReproduction(c, 0, reproductionMap.get(cell));
         reproductionMap.remove(cell);
-
     }
 
     private Cells findRightState(Cells cell, List<Cells> myNeighbors, int stateWanted){
