@@ -64,13 +64,17 @@ public class FactoryComponents {
     Button result = new Button();
     result.setText(myResources.getString(label));
     result.setOnAction(handler -> {
-          try {
-            Method m = cell.getClass().getDeclaredMethod(myResourceMethods.getString(label));
-            m.setAccessible(true);
-            m.invoke(cell);
-          }
-          catch (Exception e) {
-            throw new RuntimeException("Improper configuration", e);
+          String meth = myResourceMethods.getString(label);
+          String[] methods = meth.split(",");
+          for (String a : methods) {
+            try {
+              Method m = cell.getClass().getDeclaredMethod(a);
+              m.setAccessible(true);
+              m.invoke(cell);
+            }
+            catch (Exception e) {
+              throw new RuntimeException("Improper Configuration", e);
+            }
           }
         }
     );

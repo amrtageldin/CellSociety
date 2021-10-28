@@ -9,7 +9,7 @@ import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -67,7 +67,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   private boolean assertGridViewExists() {
-    GridPane grid = lookup("#Grid").query();
+    VBox grid = lookup("#Grid").query();
     return grid.getChildren() != null;
   }
 
@@ -84,10 +84,10 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   private boolean checkGridMatches() {
     Rectangle[][] gridNodes = display.getMyGridView().getMyPaneNodes();
 
-    for (int i = 0; i < controller.getMyGrid().length; i++) {
-      for (int j = 0; j < controller.getMyGrid()[0].length; j++) {
+    for (int i = 0; i < controller.getMyGrid().rowLength(); i++) {
+      for (int j = 0; j < controller.getMyGrid().colLength(); j++) {
         Rectangle cell = gridNodes[i][j];
-        int color = controller.getMyGrid()[i][j].getCurrentState();
+        int color = controller.getMyGrid().getCell(i,j).getCurrentState();
         if (cell.getFill() != STATE_COLORS.get(color)) {
           return false;
         }
