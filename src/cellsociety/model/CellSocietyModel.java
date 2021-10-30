@@ -13,10 +13,11 @@ public abstract class CellSocietyModel {
   private Map<String, String> myParametersMap;
 
 
-  public CellSocietyModel(String myType){
+  public CellSocietyModel(String myType, Map<String, String> parameters){
+    myParametersMap = parameters;
     try{
-      Object [] paramValuesSub = {myType};
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class).newInstance(paramValuesSub);
+      Object [] paramValuesSub = {myType, myParametersMap};
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
       String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
@@ -25,10 +26,6 @@ public abstract class CellSocietyModel {
     }
   }
 
-  public void setMyParameters(Map<String, String> parameters){
-    myParametersMap = parameters;
-    myRules.setMyParameters(myParametersMap);
-  }
 
   public Map<String, String> getMyParameters(){
     return myParametersMap;

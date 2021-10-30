@@ -4,6 +4,7 @@ import cellsociety.rule.Rule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class WaTorRules extends CellSocietyRules{
@@ -12,9 +13,7 @@ public class WaTorRules extends CellSocietyRules{
     private List<Rule> fishRules;
     private List<Rule> sharkRules;
 
-    public WaTorRules(String myType){
-        super(myType);
-    }
+    public WaTorRules(String type, Map<String, String> parameters) { super(type, parameters);}
 
     }
 

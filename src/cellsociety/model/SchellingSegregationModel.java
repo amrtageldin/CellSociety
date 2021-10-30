@@ -5,6 +5,7 @@ import cellsociety.model.cellMovement.SchellingSegregationMovement;
 
 
 import java.util.List;
+import java.util.Map;
 
 
 public class SchellingSegregationModel extends CellSocietyModel{
@@ -13,7 +14,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
     private static final int SCALE_FACTOR = 100;
     private SchellingSegregationMovement mySchellingSegregationMovement = new SchellingSegregationMovement();
 
-    public SchellingSegregationModel(String type) { super(type);}
+    public SchellingSegregationModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){

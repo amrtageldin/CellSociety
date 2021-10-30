@@ -12,9 +12,7 @@ public class PercolationModel extends CellSocietyModel{
   private static final String CLOSED = "CLOSED";
 
 
-  public PercolationModel(String type){
-    super(type);
-  }
+  public PercolationModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
   @Override
   public void setNextState(Cells myCell, int row, int col, Grid myGrid){

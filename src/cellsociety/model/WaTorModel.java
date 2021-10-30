@@ -20,9 +20,7 @@ public class WaTorModel extends CellSocietyModel{
     private List<Cells> changedCells = new ArrayList<>();
     private WaTorMovement myWaTorMovement = new WaTorMovement();
 
-    public WaTorModel(String type) {
-        super(type);
-    }
+    public WaTorModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){

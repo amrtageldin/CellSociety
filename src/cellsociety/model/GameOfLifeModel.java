@@ -11,9 +11,7 @@ public class GameOfLifeModel extends CellSocietyModel{
     private static final String DEAD = "DEAD";
 
 
-    public GameOfLifeModel(String type){
-        super(type);
-    }
+    public GameOfLifeModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){

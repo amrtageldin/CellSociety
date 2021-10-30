@@ -13,9 +13,7 @@ public class FireModel extends CellSocietyModel{
   private static final String EMPTY = "EMPTY";
   private static final int SCALE_FACTOR = 100;
 
-  public FireModel(String type){
-    super(type);
-  }
+  public FireModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
   @Override
   public void setNextState(Cells myCell, int row, int col, Grid myGrid){

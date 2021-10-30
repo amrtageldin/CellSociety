@@ -17,15 +17,17 @@ abstract public class CellSocietyRules {
 
     protected String parameter; //TODO: need to change to put in sim file
 
-    public CellSocietyRules(String myType){
+    public CellSocietyRules(String myType, Map<String, String> parameters){
         myRules = new ArrayList<>();
-        initializeRuleAndValueBundles(myType);
-    }
-
-    public void setMyParameters(Map<String, String> parameters){
         myParametersMap = parameters;
+        initializeRuleAndValueBundles(myType);
         initializeMyRules();
     }
+
+//    public void setMyParameters(Map<String, String> parameters){
+//        myParametersMap = parameters;
+//        initializeMyRules();
+//    }
 
     protected Map<String, String> getMyParameters(){
         return myParametersMap;

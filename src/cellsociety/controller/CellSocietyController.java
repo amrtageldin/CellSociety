@@ -62,22 +62,16 @@ public class CellSocietyController {
     private void createSimFromFile(String file){
         try {
             String gameType = myGameFactory.setUpModel(file);
-
-            System.out.println(gameType);
-            Object [] paramValuesSub = {gameType};
-            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class).newInstance(paramValuesSub);
+            Object [] paramValuesSub = {gameType, myGameFactory.getParametersMap()};
+            myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
             myGameType = gameType;
-            setMyParametersMap();
+
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    private void setMyParametersMap(){
-        myParametersMap = myGameFactory.getParametersMap();
-        myModel.setMyParameters(myParametersMap);
-    }
 
     public Map<String, String> getMyParametersMap(){
         return myParametersMap;

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FireRulesTest {
 
     private FireRules myFireRules;
@@ -12,7 +15,9 @@ public class FireRulesTest {
 
     @BeforeEach
     public void setUp() {
-        myFireRules = new FireRules("Fire");
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("Percent","10");
+        myFireRules = new FireRules("Fire", parameters);
         myThreshold = 10;
 
     }
