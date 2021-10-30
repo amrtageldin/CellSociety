@@ -31,20 +31,25 @@ public class WaTorDeveloper {
     }
 
     private void updateReproduction(Cells myCell, int reproductionIncrease, int reproductionInitial){
-        if(myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(SHARK)) ||
-                myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(FISH)) ||
-                myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(SHARK)) ||
-                myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(FISH))) {
+        if(myCellStateEquals(myCell.getCurrentState(), SHARK) ||
+            myCellStateEquals(myCell.getCurrentState(), FISH) ||
+            myCellStateEquals(myCell.getMyNextState(), SHARK) ||
+            myCellStateEquals(myCell.getMyNextState(), FISH)) {
             if (!reproductionMap.containsKey(myCell)) {
                 reproductionMap.put(myCell, reproductionInitial);
                 return;
             }
             reproductionMap.put(myCell, reproductionMap.get(myCell) + reproductionIncrease);
         }
-        if(myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(EMPTY))){
+        if(myCellStateEquals(myCell.getMyNextState(), EMPTY)){
             reproductionMap.remove(myCell);
         }
     }
+
+    private boolean myCellStateEquals(int myCellState, String givenState) {
+        return myCellState == Integer.parseInt(statesBundle.getString(givenState));
+    }
+
 
     public void energyVerification(Cells cell, Cells c){
         if(energyMap.containsKey(cell)){
@@ -55,8 +60,9 @@ public class WaTorDeveloper {
     }
 
     public void updateEnergy(Cells myCell, int energyFactor, int energyInitial){
-        if(!energyMap.containsKey(myCell) && (myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(SHARK))
-                || myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(SHARK)))){
+        if(!energyMap.containsKey(myCell) && (
+            myCellStateEquals(myCell.getCurrentState(), SHARK)
+                || myCellStateEquals(myCell.getMyNextState(), SHARK))){
             energyMap.put(myCell,energyInitial);
         }
         else if(energyMap.containsKey(myCell)){
