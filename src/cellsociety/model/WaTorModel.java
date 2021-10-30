@@ -5,6 +5,8 @@ import cellsociety.model.cellMovement.WaTorMovement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 
 public class WaTorModel extends CellSocietyModel{
@@ -15,6 +17,7 @@ public class WaTorModel extends CellSocietyModel{
     private static final int STEP_BUFFER = 1;
     private static final int INITIAL_MOVABLE_CELLS = 0;
     private int stepCheck = 0;
+    private int movableCells = 0;
     private List<Cells> changedCells = new ArrayList<>();
     private WaTorMovement myWaTorMovement = new WaTorMovement();
 
@@ -53,14 +56,23 @@ public class WaTorModel extends CellSocietyModel{
 
 
     private int findMovableCells(Cells myCell, List<Cells> myNeighbors){
-        int movableCells = INITIAL_MOVABLE_CELLS;
-        if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(FISH))){
-            movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), myNeighbors);
-        }
-        else if(myCell.getCurrentState() == Integer.parseInt(getStatesBundle().getString(SHARK))){
-            movableCells = myNeighbors.size() - quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(SHARK)), myNeighbors);
-        }
+        Map<Integer, Consumer<Integer>> movableMap =
+                Map.of(Integer.parseInt(getStatesBundle().getString(FISH)),
+                        integer -> movableCellsForFish(myNeighbors),
+                        Integer.parseInt(getStatesBundle().getString(SHARK)),
+                        integer -> movableCellsForShark(myNeighbors),
+                        Integer.parseInt(getStatesBundle().getString(EMPTY)),
+                        integer -> {});
+        consumerGenerateNextState(myCell.getCurrentState(), movableMap.get(myCell.getCurrentState()));
         return movableCells;
+    }
+
+    private void movableCellsForFish(List<Cells> neighbors){
+        movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), neighbors);
+    }
+
+    private void movableCellsForShark(List<Cells> neighbors){
+        movableCells = neighbors.size() - quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(SHARK)), neighbors);
     }
 }
 
