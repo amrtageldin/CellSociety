@@ -56,7 +56,7 @@ public class WaTorMovement implements CellSocietyMovement {
                         cell),
                 Integer.parseInt(myStatesBundle.getString(SHARK)),
                 integer -> eatCells(myDevelopmentStage.findRightState(cell, myNeighbors, Integer.parseInt(myStatesBundle.getString(FISH))),
-                        cell, myNeighbors),
+                        cell),
                 Integer.parseInt(myStatesBundle.getString(EMPTY)), integer -> {});
         consumerNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
@@ -70,7 +70,7 @@ public class WaTorMovement implements CellSocietyMovement {
         myDevelopmentStage.energyVerification(cell, c);
     }
 
-    private void eatCells(Cells c, Cells cell, List<Cells> myNeighbors) {
+    private void eatCells(Cells c, Cells cell) {
         if(c == cell){
             moveCells(myDevelopmentStage.findRightState(cell, myNeighbors, Integer.parseInt(myStatesBundle.getString(EMPTY))), cell);
             return;

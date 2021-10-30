@@ -21,7 +21,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
         int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
         double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
         int state = getMyRules().generateNextState((int) (
-                SCALE_FACTOR *propSameCells), myCell.getCurrentState());
+                SCALE_FACTOR*propSameCells), myCell.getCurrentState());
         mySchellingSegregationMovement.setInitialParameters(myCell, myGrid, myNeighbors, getStatesBundle());
         mySchellingSegregationMovement.checkState(myCell, state);
     }

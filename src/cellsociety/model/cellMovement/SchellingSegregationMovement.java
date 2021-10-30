@@ -31,14 +31,14 @@ public class SchellingSegregationMovement implements CellSocietyMovement{
     }
 
     public void moveState(Cells cell){
-        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(myStatesBundle.getString(A)), integers -> moveCells(cell, myGrid),
-                Integer.parseInt(myStatesBundle.getString(B)), integer -> moveCells(cell, myGrid),
+        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(myStatesBundle.getString(A)), integers -> moveCells(cell),
+                Integer.parseInt(myStatesBundle.getString(B)), integer -> moveCells(cell),
                 Integer.parseInt(myStatesBundle.getString(EMPTY)), integer -> keepState(cell));
         consumerNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
     }
 
-    private void moveCells(Cells cell, Grid grid){
-        findEmpty(cell, grid);
+    private void moveCells(Cells cell){
+        findEmpty(cell);
         cell.setMyNextState(Integer.parseInt(myStatesBundle.getString(EMPTY)));
         cell.updateMyCurrentState();
     }
@@ -46,19 +46,18 @@ public class SchellingSegregationMovement implements CellSocietyMovement{
     public void keepState(Cells cell){
         cell.setMyNextState(cell.getCurrentState());}
 
-    private void findEmpty(Cells cell, Grid grid) {
+    private void findEmpty(Cells cell) {
         Random r = new Random();
-        int randRow = r.nextInt(grid.rowLength());
-        int randCol = r.nextInt(grid.colLength());
-        if(grid.getCell(randRow,randCol).getCurrentState() == Integer.parseInt(myStatesBundle.getString(EMPTY))){
-            grid.getCell(randRow,randCol).setMyNextState(cell.getCurrentState());
-            grid.getCell(randRow,randCol).updateMyCurrentState();
+        int randRow = r.nextInt(myGrid.rowLength());
+        int randCol = r.nextInt(myGrid.colLength());
+        if(myGrid.getCell(randRow,randCol).getCurrentState() == Integer.parseInt(myStatesBundle.getString(EMPTY))){
+            myGrid.getCell(randRow,randCol).setMyNextState(cell.getCurrentState());
+            myGrid.getCell(randRow,randCol).updateMyCurrentState();
         }
         else{
-            findEmpty(cell, grid);
+            findEmpty(cell);
         }
     }
-
 
     private void consumerNextState(int currentState, Consumer<Integer> consumer){
         consumer.accept(currentState);
