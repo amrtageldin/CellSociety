@@ -3,6 +3,9 @@ package cellsociety.controller;
 import cellsociety.model.CellSocietyModel;
 
 import cellsociety.model.Cells;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class CellSocietyController {
@@ -14,6 +17,7 @@ public class CellSocietyController {
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
+    private Map<String, String> myParametersMap;
 
     /**
      * Constructor for controller within CellSociety. Initializes controller as well as relevant variables
@@ -23,6 +27,7 @@ public class CellSocietyController {
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
         myGridFactory = new GridFactory();
         myGameFactory = new GameFactory();
+        myParametersMap = new HashMap<>();
     }
 
     /**
@@ -57,15 +62,25 @@ public class CellSocietyController {
     private void createSimFromFile(String file){
         try {
             String gameType = myGameFactory.setUpModel(file);
+
             System.out.println(gameType);
             Object [] paramValuesSub = {gameType};
             myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class).newInstance(paramValuesSub);
-
             myGameType = gameType;
+            setMyParametersMap();
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void setMyParametersMap(){
+        myParametersMap = myGameFactory.getParametersMap();
+        myModel.setMyParameters(myParametersMap);
+    }
+
+    public Map<String, String> getMyParametersMap(){
+        return myParametersMap;
     }
 
     public CellSocietyModel getMyModel(){

@@ -15,7 +15,6 @@ public class WaTorModel extends CellSocietyModel{
     private static final String EMPTY = "EMPTY";
     private static final int STEP_RESET = 1;
     private static final int STEP_BUFFER = 1;
-    private static final int INITIAL_MOVABLE_CELLS = 0;
     private int stepCheck = 0;
     private int movableCells = 0;
     private List<Cells> changedCells = new ArrayList<>();

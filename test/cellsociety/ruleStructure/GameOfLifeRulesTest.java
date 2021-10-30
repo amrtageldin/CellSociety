@@ -9,7 +9,8 @@ public class GameOfLifeRulesTest {
 
     @BeforeEach
     public void setUp(){
-         myGameOfLifeRules = new GameOfLifeRules("GameOfLife");
+
+        myGameOfLifeRules = new GameOfLifeRules("GameOfLife");
     }
 
     @Test

@@ -3,9 +3,7 @@ package cellsociety.ruleStructure;
 import cellsociety.rule.Rule;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 abstract public class CellSocietyRules {
     private static final String METHOD_RULE = "METHOD";
@@ -13,6 +11,7 @@ abstract public class CellSocietyRules {
     private ResourceBundle ruleBundle;
     private ResourceBundle translationBundle;
     private ResourceBundle valueBundle;
+    private Map<String, String> myParametersMap;
 
     private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
@@ -21,7 +20,15 @@ abstract public class CellSocietyRules {
     public CellSocietyRules(String myType){
         myRules = new ArrayList<>();
         initializeRuleAndValueBundles(myType);
+    }
+
+    public void setMyParameters(Map<String, String> parameters){
+        myParametersMap = parameters;
         initializeMyRules();
+    }
+
+    protected Map<String, String> getMyParameters(){
+        return myParametersMap;
     }
 
     protected void initializeMyRules(){

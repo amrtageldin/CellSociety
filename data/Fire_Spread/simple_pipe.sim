@@ -1,5 +1,6 @@
-SimType=Fire
+Type=Fire
 ConfigTitle=Simple Pipe
 Author=Unknown
 Description=A simple pipe flowing from top to bottom
 InitialStates=Fire_Spread/simple_pipe.csv
+Percent=30

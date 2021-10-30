@@ -3,14 +3,14 @@ package cellsociety.model;
 
 import cellsociety.controller.Grid;
 import cellsociety.ruleStructure.CellSocietyRules;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
   private CellSocietyRules myRules;
   private ResourceBundle statesBundle;
+  private Map<String, String> myParametersMap;
 
 
   public CellSocietyModel(String myType){
@@ -23,6 +23,15 @@ public abstract class CellSocietyModel {
     catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  public void setMyParameters(Map<String, String> parameters){
+    myParametersMap = parameters;
+    myRules.setMyParameters(myParametersMap);
+  }
+
+  public Map<String, String> getMyParameters(){
+    return myParametersMap;
   }
 
   public CellSocietyRules getMyRules(){
