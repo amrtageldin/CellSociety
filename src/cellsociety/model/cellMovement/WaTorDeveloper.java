@@ -1,4 +1,6 @@
-package cellsociety.model;
+package cellsociety.model.cellMovement;
+
+import cellsociety.model.Cells;
 
 import java.util.HashMap;
 import java.util.List;
