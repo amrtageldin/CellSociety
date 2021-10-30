@@ -2,7 +2,8 @@ package cellsociety.model;
 
 
 public class Cells {
-  public static final int INITIAL_NEXT_STATE = 0;
+
+  private static final int INITIAL_NEXT_STATE = 0;
   private int currentState;
   private Integer myNextState;
 
