@@ -24,8 +24,6 @@ public class WaTorModel extends CellSocietyModel{
     private static final int ENERGY_INCREASE = 1;
     private static final int INITIAL_MOVABLE_CELLS = 0;
     private int stepCheck = 0;
-    private Map<Cells, Integer> reproductionMap = new HashMap<>();
-    private Map<Cells, Integer> energyMap = new HashMap<>();
     private List<Cells> changedCells = new ArrayList<>();
     private WaTorDeveloper myDevelopmentStage = new WaTorDeveloper();
 
@@ -36,23 +34,26 @@ public class WaTorModel extends CellSocietyModel{
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
         stepCheck++;
-        myDevelopmentStage.updateReproduction(getStatesBundle(), reproductionMap, myCell, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
-        myDevelopmentStage.updateEnergy(getStatesBundle(),energyMap, myCell, ENERGY_DECREASE, ENERGY_INITIAL);
+        myDevelopmentStage.setResourceBundle(getStatesBundle());
+        myDevelopmentStage.initializeDevelopment(myCell);
         gridCheck(myGrid.colLength() * myGrid.rowLength());
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-        myDevelopmentStage.checkEnergy(getStatesBundle(), energyMap, myCell);
+        myDevelopmentStage.checkDevelopment(myCell, myNeighbors);
         updateNeighbors(myNeighbors);
-        myDevelopmentStage.checkReproduction(getStatesBundle(), reproductionMap, myCell, myNeighbors);
-        if(!changedCells.contains(myCell)) {
-            int movableCells = findMovableCells(myCell, myNeighbors);
-            checkState(myCell, getMyRules().generateNextState(movableCells, myCell.getCurrentState()), myNeighbors);
-        }
+        updateWaTorStates(myCell, myNeighbors);
     }
 
     private void gridCheck(int gridSize){
         if(stepCheck == gridSize + STEP_BUFFER){
             changedCells.clear();
             stepCheck = STEP_RESET;
+        }
+    }
+
+    private void updateWaTorStates(Cells myCell, List<Cells> myNeighbors) {
+        if(!changedCells.contains(myCell)) {
+            int movableCells = findMovableCells(myCell, myNeighbors);
+            checkState(myCell, getMyRules().generateNextState(movableCells, myCell.getCurrentState()), myNeighbors);
         }
     }
 
@@ -84,33 +85,26 @@ public class WaTorModel extends CellSocietyModel{
     private void moveCells(Cells c, Cells cell){
         if(c == cell){
             keepState(cell);
+            return;
         }
-        else {
-            changeNeighborCells(c, cell);
-            if(energyMap.containsKey(cell)){
-                myDevelopmentStage.updateEnergy(getStatesBundle(), energyMap, cell, NO_ENERGY, ENERGY_INITIAL);
-                myDevelopmentStage.updateEnergy(getStatesBundle(), energyMap, c, NO_ENERGY, energyMap.get(cell));
-                energyMap.remove(cell);
-            }
-        }
+        changeNeighborCells(c, cell);
+        myDevelopmentStage.energyVerification(cell, c);
     }
 
     private void eatCells(Cells c, Cells cell, List<Cells> myNeighbors) {
         if(c == cell){
             moveCells(myDevelopmentStage.findRightState(cell, myNeighbors, Integer.parseInt(getStatesBundle().getString(EMPTY))), cell);
+            return;
         }
-        else{
-            changeNeighborCells(c, cell);
-            myDevelopmentStage.updateEnergy(getStatesBundle(), energyMap, cell, ENERGY_INCREASE, NO_ENERGY);
-        }
+        changeNeighborCells(c, cell);
+        myDevelopmentStage.updateEnergy(cell, ENERGY_INCREASE, NO_ENERGY);
     }
 
     private void changeNeighborCells(Cells c, Cells cell){
         c.setMyNextState(cell.getCurrentState());
         cell.setMyNextState(Integer.parseInt(getStatesBundle().getString(EMPTY)));
         changedCells.add(c);
-        myDevelopmentStage.updateReproduction(getStatesBundle(), reproductionMap, c, REPRODUCTION_INITIAL, reproductionMap.get(cell));
-        reproductionMap.remove(cell);
+        myDevelopmentStage.reproductionVerification(cell, c);
     }
 
     private int findMovableCells(Cells myCell, List<Cells> myNeighbors){

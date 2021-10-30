@@ -1,5 +1,6 @@
 package cellsociety.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -12,21 +13,46 @@ public class WaTorDeveloper {
     private static final int REPRODUCTION_INITIAL = 0;
     private static final int REPRODUCTION_MAX = 5;
     private static final int NO_ENERGY = 0;
+    private static final int ENERGY_INITIAL = 2;
+    private static final int ENERGY_DECREASE = -1;
+    private ResourceBundle statesBundle;
+    private Map<Cells, Integer> reproductionMap = new HashMap<>();
+    private Map<Cells, Integer> energyMap = new HashMap<>();
 
-    public void updateReproduction(ResourceBundle statesBundle, Map<Cells, Integer> reproductionMap, Cells myCell, int reproductionIncrease, int reproductionInitial){
+    public void setResourceBundle(ResourceBundle bundle){
+        statesBundle = bundle;
+    }
+
+    public void initializeDevelopment(Cells myCell){
+        updateReproduction(myCell, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
+        updateEnergy(myCell, ENERGY_DECREASE, ENERGY_INITIAL);
+    }
+
+    private void updateReproduction(Cells myCell, int reproductionIncrease, int reproductionInitial){
         if(myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(SHARK)) ||
                 myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(FISH)) ||
                 myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(SHARK)) ||
                 myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(FISH))) {
             if (!reproductionMap.containsKey(myCell)) {
                 reproductionMap.put(myCell, reproductionInitial);
-            } else {
-                reproductionMap.put(myCell, reproductionMap.get(myCell) + reproductionIncrease);
+                return;
             }
+            reproductionMap.put(myCell, reproductionMap.get(myCell) + reproductionIncrease);
+        }
+        if(myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(EMPTY))){
+            reproductionMap.remove(myCell);
         }
     }
 
-    public void updateEnergy(ResourceBundle statesBundle, Map<Cells, Integer> energyMap, Cells myCell, int energyFactor, int energyInitial){
+    public void energyVerification(Cells cell, Cells c){
+        if(energyMap.containsKey(cell)){
+            updateEnergy(cell, NO_ENERGY, ENERGY_INITIAL);
+            updateEnergy(c, NO_ENERGY, energyMap.get(cell));
+            energyMap.remove(cell);
+        }
+    }
+
+    public void updateEnergy(Cells myCell, int energyFactor, int energyInitial){
         if(!energyMap.containsKey(myCell) && (myCell.getCurrentState() == Integer.parseInt(statesBundle.getString(SHARK))
                 || myCell.getMyNextState() == Integer.parseInt(statesBundle.getString(SHARK)))){
             energyMap.put(myCell,energyInitial);
@@ -36,26 +62,44 @@ public class WaTorDeveloper {
         }
     }
 
-    public void checkEnergy(ResourceBundle statesBundle, Map<Cells, Integer> energyMap, Cells myCell){
+    public void checkDevelopment(Cells myCell, List<Cells> myNeighbors){
+        checkEnergy(myCell);
+        checkReproduction(myCell, myNeighbors);
+    }
+
+    private void checkEnergy(Cells myCell){
         if(energyMap.containsKey(myCell)) {
             if (energyMap.get(myCell) <= NO_ENERGY) {
-                myCell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
-                myCell.updateMyCurrentState();
-                energyMap.remove(myCell);
+                outOfEnergy(myCell);
             }
         }
     }
 
-    public void checkReproduction(ResourceBundle statesBundle, Map<Cells, Integer> reproductionMap, Cells myCell, List<Cells> myNeighbors){
+    private void outOfEnergy(Cells myCell) {
+        myCell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
+        myCell.updateMyCurrentState();
+        energyMap.remove(myCell);
+    }
+
+    public void reproductionVerification(Cells cell, Cells c){
+        updateReproduction(c, REPRODUCTION_INITIAL, reproductionMap.get(cell));
+        reproductionMap.remove(cell);
+    }
+
+    private void checkReproduction(Cells myCell, List<Cells> myNeighbors){
         if(reproductionMap.containsKey(myCell)) {
             if (reproductionMap.get(myCell) >= REPRODUCTION_MAX) {
-                Cells c = findRightState(myCell, myNeighbors, Integer.parseInt(statesBundle.getString(EMPTY)));
-                reproduceCells(c, myCell);
-                reproductionMap.remove(myCell);
-                updateReproduction(statesBundle, reproductionMap, c, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
-                updateReproduction(statesBundle,reproductionMap,myCell, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
+                reachedReproductionMax(myCell, myNeighbors);
             }
         }
+    }
+
+    private void reachedReproductionMax(Cells myCell, List<Cells> myNeighbors) {
+        Cells c = findRightState(myCell, myNeighbors, Integer.parseInt(statesBundle.getString(EMPTY)));
+        reproduceCells(c, myCell);
+        reproductionMap.remove(myCell);
+        updateReproduction(c, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
+        updateReproduction(myCell, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
     }
 
     public void reproduceCells(Cells c, Cells myCell){
