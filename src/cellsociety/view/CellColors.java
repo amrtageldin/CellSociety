@@ -1,5 +1,7 @@
 package cellsociety.view;
 
+import cellsociety.controller.CellSocietyController;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -51,18 +53,20 @@ public class CellColors {
   private static final String SCHELLING_SEGREGATION = "SchellingSegregation";
   private static final String WA_TOR = "WaTor";
 
-  private final List<Color> colorMap;
+  private final List<Color> defaultColorMap;
+  private final CellSocietyController myController;
 
   /**
    * Constructor that initializes the colorMap for a specific game given the game type.
    *
-   * @param gameType String that represents the game type.
+   * @param controller that represents the game type.
    */
-  public CellColors(String gameType) {
+  public CellColors(CellSocietyController controller) {
     Map<String, List<Color>> map = Map.of(GAME_OF_LIFE, LIFE_STATE_COLORS, FIRE, FIRE_STATE_COLORS,
         PERCOLATION, PERCOLATE_STATE_COLORS, SCHELLING_SEGREGATION, SS_STATE_COLORS, WA_TOR,
         WATOR_COLORS);
-    colorMap = map.get(gameType);
+    defaultColorMap = map.get(controller.getMyGameType());
+    myController = controller;
   }
 
   /**
@@ -71,7 +75,20 @@ public class CellColors {
    * @return map of cell colors.
    */
   public List<Color> getColorMap() {
-    return colorMap;
+    if (myController.getMyParametersMap().containsKey("StateColors")) {
+      return createColorMap(myController.getMyParametersMap().get("StateColors"));
+    } else {
+      return defaultColorMap;
+    }
+  }
+
+  private List<Color> createColorMap(String colorMap) {
+    String[] map = colorMap.split(",");
+    List<Color> result = new ArrayList<>();
+    for (String i : map) {
+      result.add(Color.web(i));
+    }
+    return result;
   }
 
   /**
@@ -81,7 +98,7 @@ public class CellColors {
    */
   public int getRandomCellState(int currState) {
     Random rand = new Random();
-    int upperbound = colorMap.size();
+    int upperbound = getColorMap().size();
     int result = rand.nextInt(upperbound);
     if (result != currState) {
       return result;

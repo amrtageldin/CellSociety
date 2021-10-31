@@ -6,6 +6,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -88,7 +90,12 @@ public class CellSocietyView {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(myStage);
-    myController.loadFileType(selectedFile.toString());
+    try {
+      myController.loadFileType(selectedFile.toString());
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage", AlertType.ERROR);
+      error.show();
+    }
     if(myAnimation != null){
       togglePlay();
     }

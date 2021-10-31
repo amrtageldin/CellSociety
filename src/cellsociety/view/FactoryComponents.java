@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import java.lang.reflect.Method;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -109,6 +110,14 @@ public class FactoryComponents {
       dropdown.getItems().add(myResources.getString(label));
     }
     return dropdown;
+  }
+
+  public Alert createErrorMessage(String id, String content, Alert.AlertType alertType) {
+    Alert error = new Alert(Alert.AlertType.ERROR);
+    error.setHeaderText(myResources.getString(id));
+    error.setContentText(myResources.getString(content));
+    error.showAndWait();
+    return error;
   }
 
   private Node setId(String id, Node node) {
