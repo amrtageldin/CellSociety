@@ -74,6 +74,7 @@ public class CellSocietyController {
 
 
     public Map<String, String> getMyParametersMap(){
+        myParametersMap = myGameFactory.getParametersMap();
         return myParametersMap;
     }
 

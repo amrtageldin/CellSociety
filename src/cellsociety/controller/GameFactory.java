@@ -33,7 +33,7 @@ public class GameFactory {
         catch (IOException e){
             e.printStackTrace(); //TODO
         }
-        System.out.println(parametersMap.get("Percent"));
+        System.out.println(parametersMap.get("D"));
         return parametersMap.get(TYPE);
     }
 
