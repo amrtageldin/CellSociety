@@ -13,10 +13,12 @@ public class WaTorDeveloper {
     private static final String EMPTY = "EMPTY";
     private static final int REPRODUCTION_INCREASE = 1;
     private static final int REPRODUCTION_INITIAL = 0;
-    private static final int REPRODUCTION_MAX = 5;
     private static final int NO_ENERGY = 0;
-    private static final int ENERGY_INITIAL = 2;
     private static final int ENERGY_DECREASE = -1;
+    public static final String REPRODUCTION_KEY = "ReproductionMax";
+    public static final String ENERGY_KEY = "EnergyInitial";
+    private int REPRODUCTION_MAX;
+    private int ENERGY_INITIAL;
     private ResourceBundle statesBundle;
     private Map<Cells, Integer> reproductionMap = new HashMap<>();
     private Map<Cells, Integer> energyMap = new HashMap<>();
@@ -25,7 +27,9 @@ public class WaTorDeveloper {
         statesBundle = bundle;
     }
 
-    public void initializeDevelopment(Cells myCell){
+    public void initializeDevelopment(Cells myCell, Map<String, String> parameters){
+        REPRODUCTION_MAX = Integer.parseInt(parameters.get(REPRODUCTION_KEY));
+        ENERGY_INITIAL = Integer.parseInt(parameters.get(ENERGY_KEY));
         updateReproduction(myCell, REPRODUCTION_INCREASE, REPRODUCTION_INITIAL);
         updateEnergy(myCell, ENERGY_DECREASE, ENERGY_INITIAL);
     }
