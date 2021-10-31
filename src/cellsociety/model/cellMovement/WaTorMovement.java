@@ -68,7 +68,7 @@ public class WaTorMovement implements CellSocietyMovement {
             return;
         }
         changeNeighborCells(c, cell);
-        myDevelopmentStage.energyVerification(cell, c);
+        myDevelopmentStage.energyVerification(cell, c, NO_ENERGY);
     }
 
     private void eatCells(Cells c, Cells cell) {
@@ -77,7 +77,7 @@ public class WaTorMovement implements CellSocietyMovement {
             return;
         }
         changeNeighborCells(c, cell);
-        myDevelopmentStage.updateEnergy(cell, ENERGY_INCREASE, NO_ENERGY);
+        myDevelopmentStage.energyVerification(cell,c, ENERGY_INCREASE);
     }
 
     private void changeNeighborCells(Cells c, Cells cell){

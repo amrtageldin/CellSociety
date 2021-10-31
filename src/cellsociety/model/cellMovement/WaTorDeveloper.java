@@ -55,9 +55,9 @@ public class WaTorDeveloper {
     }
 
 
-    public void energyVerification(Cells cell, Cells c){
+    public void energyVerification(Cells cell, Cells c, int energyUpdate){
         if(energyMap.containsKey(cell)){
-            updateEnergy(cell, NO_ENERGY, ENERGY_INITIAL);
+            updateEnergy(cell, energyUpdate, ENERGY_INITIAL);
             updateEnergy(c, NO_ENERGY, energyMap.get(cell));
             energyMap.remove(cell);
         }
@@ -115,6 +115,7 @@ public class WaTorDeveloper {
     }
 
     public void reproduceCells(Cells c, Cells myCell){
+        myCell.updateMyCurrentState();
         c.setMyNextState(myCell.getCurrentState());
         c.updateMyCurrentState();
     }
