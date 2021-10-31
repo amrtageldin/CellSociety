@@ -1,0 +1,7 @@
+Type=WaTor
+Title=TenReproductionSevenEnergy
+Author=Reya Magan
+Description=Sharks and Fish can reproduce after 10 chrona, sharks start with 7 energy
+InitialStates=wa_tor/ten-reproduction-seven-energy.csv
+ReproductionMax=10
+EnergyInitial=7
