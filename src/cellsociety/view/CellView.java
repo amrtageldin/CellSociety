@@ -1,48 +1,93 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import java.util.List;
 import java.util.Map;
-import javafx.scene.paint.Color;
+import java.util.ResourceBundle;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+
 
 /**
- * Started on trying to do the other grids, not doing very well sadly.
+ * @author Evelyn Cupil-Garcia
+ * <p>
+ * Class that implements the shape type for a cell in a game.
  */
 public class CellView {
-  private CellColors myCellColors;
-  private final List<Color> myStateColors;
-  Map<String, Polygon> cellMap;
+
   CellSocietyController myController;
+  ResourceBundle myMagicValues;
 
-  private final String TRIANGLE = "Triangle";
-  private final String SQUARE = "Square";
-  private final String HEXAGON = "Hexagon";
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+  public static final String TRIANGLE = "Triangle";
+  public static final String SQUARE = "Square";
+  public static final String HEXAGON = "Hexagon";
+  private final static String r = "r";
+  private final static String n = "n";
+  private final static String tileWidth = "tileWidth";
+  private final static String oneHalf = "half";
+  private final static String num = "const";
 
+  /**
+   * Constructor that initializes the controller and magic values.
+   *
+   * @param controller to get information on cell shape.
+   */
   public CellView(CellSocietyController controller) {
-    setupCellMap();
-    myCellColors = new CellColors(controller);
-    myStateColors = myCellColors.getColorMap();
     myController = controller;
+    myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
-  public Polygon drawCell() {
+  /**
+   * Draws the cell based on user's input in sim file or does the default which is a square.
+   *
+   * @param x x-location of the cell
+   * @param y y-location of the cell
+   * @param r radius of the cell
+   * @return cell created at a certain x/y location with a radius if applicable
+   */
+  public Polygon drawCell(double x, double y, double r) {
     if (myController.getMyParametersMap().containsKey("CellShape")) {
-      return cellMap.get(myController.getMyParametersMap().get("CellShape"));
+      return determineCell(myController.getMyParametersMap().get("CellShape"), x, y, r);
     } else {
-      return cellMap.get(SQUARE);
+      return drawSquare(x, y, r);
     }
   }
 
-  public void setupCellMap() {
+  private Polygon determineCell(String cellShape, double x, double y, double r) {
+    Map<String, Polygon> map = Map.of(HEXAGON, drawHexagon(x, y), SQUARE, drawSquare(x, y, r),
+        TRIANGLE, drawTriangle(x, y, r));
+    if (map.containsKey(cellShape)) {
+      return map.get(cellShape);
+    } else {
+      return map.get(SQUARE);
+    }
+  }
+
+  private Polygon drawHexagon(double x, double y) {
+    Polygon hexagon = new Polygon();
+    double TILE_WIDTH = Double.parseDouble(myMagicValues.getString(tileWidth));
+    double radius = Double.parseDouble(myMagicValues.getString(r));
+    double innerRadius = Double.parseDouble(myMagicValues.getString(n));
+    double var = Double.parseDouble(myMagicValues.getString(num));
+    double half = Double.parseDouble(myMagicValues.getString(oneHalf));
+    hexagon.getPoints().addAll(x, y,
+        x, y + radius,
+        x + innerRadius, y + radius * var,
+        x + TILE_WIDTH, y + radius,
+        x + TILE_WIDTH, y,
+        x + innerRadius, y - radius * half);
+    return hexagon;
+  }
+
+  private Polygon drawSquare(double x, double y, double r) {
+    Polygon square = new Polygon();
+    square.getPoints().addAll(x, y, x, y + r, x + r, y + r, x + r, y);
+    return square;
+  }
+
+  private Polygon drawTriangle(double x, double y, double r) {
+    double half = Double.parseDouble(myMagicValues.getString(oneHalf));
     Polygon triangle = new Polygon();
-    triangle.getPoints().addAll(50.0, 0.0,  0.0, 50.0,100.0, 50.0);
-    Polygon hexagon = new Polygon(100.0, 0.0,120.0, 20.0,120.0,
-        40.0,100.0, 60.0,80.0,
-        40.0,80.0, 20.0);
-    //Rectangle rectangle = new Rectangle();
-    cellMap = Map.of(TRIANGLE, triangle, HEXAGON, hexagon);
+    triangle.getPoints().addAll(x, y, x + r * half, y + r * half, x + r, y);
+    return triangle;
   }
 }

@@ -25,7 +25,6 @@ public class GameOfLifeModel extends CellSocietyModel{
         Map<Integer, Consumer<Integer>> intMap = Map.of(alive, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState())),
             dead, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState()))
         );
-
         this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
     }
 

@@ -8,9 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -18,7 +16,6 @@ import javafx.scene.shape.Shape;
  * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
- * TODO: Refactor Rectangle to Polygon instead to decide on cell shape.
  */
 public class GridView {
 
@@ -29,11 +26,13 @@ public class GridView {
   private final List<Color> stateColors;
   private final CellColors myCellColors;
   private final CellView myCellView;
+  private final Boolean isGridVisible;
 
   public final String gap = "gap";
   public final String screenWidth = "screenWidth";
   public final String screenHeight = "screenHeight";
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+
 
   /**
    * Constructor that initializes the Grid.
@@ -41,8 +40,13 @@ public class GridView {
    * @param controller CellSocietyController that provides grid parsed from csv file.
    */
   public GridView(CellSocietyController controller) {
+    if (controller.getMyParametersMap().containsKey("GridVisible")) {
+      isGridVisible = Boolean.getBoolean(controller.getMyParametersMap().get("GridVisible"));
+    } else {
+      isGridVisible = true;
+    }
     myGrid = controller.getMyGrid();
-    myPaneNodes = new Rectangle[myGrid.rowLength()][myGrid.colLength()];
+    myPaneNodes = new Polygon[myGrid.rowLength()][myGrid.colLength()];
     myCellColors = new CellColors(controller);
     stateColors = myCellColors.getColorMap();
     myCellView = new CellView(controller);
@@ -59,7 +63,7 @@ public class GridView {
     pane.setId("Grid");
     pane.setVgap(Integer.parseInt(myMagicValues.getString(gap)));
     pane.setHgap(Integer.parseInt(myMagicValues.getString(gap)));
-    pane.setGridLinesVisible(true);
+    pane.setGridLinesVisible(isGridVisible);
     drawGrid();
     return pane;
   }
@@ -68,9 +72,8 @@ public class GridView {
     for (int i = 0; i < myGrid.rowLength(); i++) {
       for (int j = 0; j < myGrid.colLength(); j++) {
         int currState = myGrid.getCell(i,j).getCurrentState();
-//        Polygon newCell = myCellView.drawCell();
-//        newCell.setFill(stateColors.get(currState));
-        Rectangle cell = drawCell(stateColors.get(currState));
+        Polygon cell = myCellView.drawCell(i, j, findCellDimension());
+        cell.setFill(stateColors.get(currState));
         setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
@@ -78,22 +81,17 @@ public class GridView {
     }
   }
 
-  private void setCellClickAction(Rectangle cell, int i, int j) {
+  private void setCellClickAction(Polygon cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
       int setState = myCellColors.getRandomCellState(myGrid.getCell(i,j).getCurrentState());
       myGrid.getCell(i,j).setCurrentState(setState);
-      Rectangle newCell = drawCell(stateColors.get(setState));
+      Polygon newCell = myCellView.drawCell(i, j, findCellDimension());
+      newCell.setFill(myCellColors.getColorMap().get(setState));
       myPaneNodes[i][j] = newCell;
       pane.add(myPaneNodes[i][j], j, i);
       setCellClickAction(newCell, i, j);
     };
     cell.setOnMouseClicked(event);
-  }
-
-  private Rectangle drawCell(Paint currState) {
-    Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
-    cell.setFill(currState);
-    return cell;
   }
 
   private int findCellDimension() {

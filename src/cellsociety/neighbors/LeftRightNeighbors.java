@@ -12,8 +12,8 @@ public class LeftRightNeighbors extends CellSocietyNeighbors{
 
     public List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
         List<Cells> myCells = new ArrayList<>();
-        int[] xChanges = new int[]{-1,1};
-        for (int j : xChanges){
+        int[] yChanges = new int[]{-1,1};
+        for (int j : yChanges){
             if (colIsValid(col + j, myGrid)){
                 myCells.add(myGrid.getCell(row,col+j));
             }
