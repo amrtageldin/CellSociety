@@ -102,18 +102,23 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    if (!gridLoaded) {
-      gridPanel = new HBox();
-      gridPanel.setId("GridPanel");
-      gridPanel.getChildren().add(setupGridSection());
-      root.setCenter(gridPanel);
-      startSimulation();
-      gridLoaded = true;
-    }
-    else {
-      togglePlay();
-      gridPanel.getChildren().add(setupGridSection());
-      togglePlay();
+    try {
+      if (!gridLoaded) {
+        gridPanel = new HBox();
+        gridPanel.setId("GridPanel");
+        gridPanel.getChildren().add(setupGridSection());
+        root.setCenter(gridPanel);
+        startSimulation();
+        gridLoaded = true;
+      }
+      else {
+        togglePlay();
+        gridPanel.getChildren().add(setupGridSection());
+        togglePlay();
+      }
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage", AlertType.ERROR);
+      error.show();
     }
   }
 
