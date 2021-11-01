@@ -83,11 +83,23 @@ public class WaTorModelTest {
         assertEquals(count, 7);
     }
 
-    @Test void stepTwiceAndCheckStatesTest(){
+    @Test
+    void stepTwiceAndCheckStatesTest(){
         g = getMyModel("eight-reproduction-one-energy");
         Grid myGrid = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
         myCellSocietyController.step();
         assertEquals(g.getNextState(myGrid.getCell(1,1)), 0);
     }
+
+    @Test
+    void reproductionTest(){
+        g = getMyModel("only-fish");
+        Grid myGrid = myCellSocietyController.getMyGrid();
+        for(int i = 0; i < 5; i++){
+            myCellSocietyController.step();
+        }
+        assertEquals(g.getNextState(myGrid.getCell(0,0)), 1);
+    }
+
 }
