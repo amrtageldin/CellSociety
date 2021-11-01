@@ -54,7 +54,7 @@ public class Grid {
   private void initializeRandomCells(int i, String[] nextCell){
     Random r = new Random();
     for(int j = 0; j < nextCell.length; j++){
-      myGrid[i][j] = new Cells(r.nextInt(cellStatesList.size()));
+      myGrid[i][j] = new Cells(cellStatesList.get(r.nextInt(cellStatesList.size())));
     }
   }
 
