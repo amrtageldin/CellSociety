@@ -68,7 +68,7 @@ public class WaTorModelTest {
     }
 
     @Test
-    void numEmptyAtEndTest(){
+    void numEmptyAtEndOfFirstStepTest(){
         g = getMyModel("five-reproduction-three-energy");
         Grid myGrid = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
@@ -81,5 +81,13 @@ public class WaTorModelTest {
             }
         }
         assertEquals(count, 7);
+    }
+
+    @Test void stepTwiceAndCheckStatesTest(){
+        g = getMyModel("eight-reproduction-one-energy");
+        Grid myGrid = myCellSocietyController.getMyGrid();
+        myCellSocietyController.step();
+        myCellSocietyController.step();
+        assertEquals(g.getNextState(myGrid.getCell(1,1)), 0);
     }
 }
