@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -40,7 +41,7 @@ public class GridView {
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
     myPaneNodes = new Rectangle[myGrid.rowLength()][myGrid.colLength()];
-    myCellColors = new CellColors(controller.getMyGameType());
+    myCellColors = new CellColors(controller);
     stateColors = myCellColors.getColorMap();
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
@@ -85,6 +86,7 @@ public class GridView {
   }
 
   private Rectangle drawCell(Paint currState) {
+    Polygon cells = new Polygon();
     Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
     cell.setFill(currState);
     return cell;
