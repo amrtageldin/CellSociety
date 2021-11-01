@@ -22,13 +22,11 @@ public class CellColors {
 
   public static final List<Color> FIRE_STATE_COLORS = List.of(
       Color.LIGHTGREY, // empty color
-      Color.LIGHTGREY, // empty color
       Color.RED, // burning color
       Color.GREEN // tree color
   );
 
   public static final List<Color> PERCOLATE_STATE_COLORS = List.of(
-      Color.BLACK, // closed color
       Color.BLACK, // closed color
       Color.BLUE, // percolated color
       Color.WHITE // open color

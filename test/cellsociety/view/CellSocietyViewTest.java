@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -82,11 +83,11 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   private boolean checkGridMatches() {
-    Rectangle[][] gridNodes = display.getMyGridView().getMyPaneNodes();
+    Shape[][] gridNodes = display.getMyGridView().getMyPaneNodes();
 
     for (int i = 0; i < controller.getMyGrid().rowLength(); i++) {
       for (int j = 0; j < controller.getMyGrid().colLength(); j++) {
-        Rectangle cell = gridNodes[i][j];
+        Shape cell = gridNodes[i][j];
         int color = controller.getMyGrid().getCell(i,j).getCurrentState();
         if (cell.getFill() != STATE_COLORS.get(color)) {
           return false;
@@ -166,9 +167,9 @@ public class CellSocietyViewTest extends DukeApplicationTest {
     clickOn(myStart);
     Button step = lookup("Step").query();
     clickOn(step);
-    Rectangle[][] firstStep = display.getMyGridView().getMyPaneNodes();
+    Shape[][] firstStep = display.getMyGridView().getMyPaneNodes();
     clickOn(step);
-    Rectangle[][] secondStep = display.getMyGridView().getMyPaneNodes();
+    Shape[][] secondStep = display.getMyGridView().getMyPaneNodes();
     assertNotEquals(firstStep, secondStep);
   }
 
