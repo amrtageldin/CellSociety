@@ -153,7 +153,6 @@ public class CellSocietyViewComponents {
         colorMode = colorMap.get(colorMode);
       }
       root.getTop().setId(colorMode + "MainPane");
-      System.out.println(root.getTop().getId());
       root.getRight().setId(colorMode + "AboutPane");
       root.setId(colorMode);
     };
