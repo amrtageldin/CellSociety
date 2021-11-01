@@ -1,5 +1,6 @@
 package cellsociety.view;
 
+import cellsociety.controller.CellSocietyController;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ public class CellSocietyViewComponents {
   private final FactoryComponents myFactoryComponents;
   private final ResourceBundle myMagicValues;
   private final CellSocietyView myCellSocietyView;
+  private VBox myAboutPanel;
 
   public final String maxValue = "maxValue";
 
@@ -47,6 +49,27 @@ public class CellSocietyViewComponents {
     bottomText.setMaxSize(Integer.parseInt(myMagicValues.getString(maxValue)),
         Integer.parseInt(myMagicValues.getString(maxValue)));
     return bottomText;
+  }
+
+  public VBox populateAboutSection(CellSocietyController controller) {
+    myAboutPanel = new VBox();
+    myAboutPanel.setId("AboutPane");
+    Label gameType = myFactoryComponents.makeLabel("gameType");
+    gameType.setText(controller.getMyGameType());
+    myAboutPanel.getChildren().add(gameType);
+    checkParameter("Author", controller);
+    checkParameter("Title", controller);
+    checkParameter("Description", controller);
+    checkParameter("StateColors", controller);
+    return myAboutPanel;
+  }
+
+  private void checkParameter(String param, CellSocietyController controller) {
+    if (controller.getMyParametersMap().containsKey(param)) {
+      Label myParam = myFactoryComponents.makeLabel(param);
+      myParam.setText(myParam.getText() + controller.getMyParametersMap().get(param));
+      myAboutPanel.getChildren().add(myParam);
+    }
   }
 
   private HBox setupTopButtonPanel(BorderPane root) {
