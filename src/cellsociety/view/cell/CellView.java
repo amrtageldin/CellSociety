@@ -29,7 +29,7 @@ public class CellView {
   /**
    * Constructor that initializes the controller and magic values.
    *
-   * @param controller
+   * @param controller to get information on cell shape.
    */
   public CellView(CellSocietyController controller) {
     myController = controller;
