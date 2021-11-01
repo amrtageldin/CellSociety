@@ -1,5 +1,6 @@
 package cellsociety.ruleStructure;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.rule.Rule;
 
 import java.lang.reflect.Method;
@@ -7,19 +8,22 @@ import java.util.*;
 
 abstract public class CellSocietyRules {
     private static final String METHOD_RULE = "METHOD";
+    private static final String RULE_ERROR = "RuleError";
     private final List<Rule> myRules;
     private ResourceBundle ruleBundle;
     private ResourceBundle translationBundle;
     private ResourceBundle valueBundle;
     private Map<String, String> myParametersMap;
+    private ErrorFactory myErrorFactory;
 
     private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
-    protected String parameter; //TODO: need to change to put in sim file
+    protected String parameter;
 
     public CellSocietyRules(String myType, Map<String, String> parameters){
         myRules = new ArrayList<>();
         myParametersMap = parameters;
+        myErrorFactory = new ErrorFactory();
         initializeRuleAndValueBundles(myType);
         initializeMyRules();
     }
@@ -40,7 +44,7 @@ abstract public class CellSocietyRules {
                     method.invoke(this);
                 }
                 catch (Exception e){
-                    e.printStackTrace();
+                    myErrorFactory.updateError(RULE_ERROR);
                 }
                 ruleSet[1] = parameter;
             }
@@ -60,7 +64,7 @@ abstract public class CellSocietyRules {
             myRules.add(myRule);
         }
         catch (Exception e){
-            e.printStackTrace();
+            myErrorFactory.updateError(RULE_ERROR);
         }
 
     }
@@ -77,7 +81,6 @@ abstract public class CellSocietyRules {
             }
         }
             return currentState;
-
     }
 
     protected ResourceBundle initializeBundle(String bundleBase, String packageName) {
@@ -90,7 +93,6 @@ abstract public class CellSocietyRules {
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
 
-
-
+    public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 
 }

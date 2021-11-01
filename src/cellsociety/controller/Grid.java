@@ -1,11 +1,14 @@
 package cellsociety.controller;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
 import javafx.scene.control.Cell;
 
 public class Grid {
   private Cells[][] myGrid;
+  private static final String INVALID_GRID = "InvalidGrid";
+  private ErrorFactory myErrorFactory = new ErrorFactory();
   public Grid(int rowCount, int colCount ){
     myGrid = new Cells[rowCount][colCount];
   }
@@ -23,7 +26,7 @@ public class Grid {
       }
     }
     catch(Exception e){
-      e.printStackTrace(); //NEED TO CHANGE LATER
+      myErrorFactory.updateError(INVALID_GRID);
     }
 
   }
@@ -41,5 +44,9 @@ public class Grid {
   }
   public void setCell(int i, int j, Cells myCell){
     myGrid[i][j] = myCell;
+  }
+
+  public ErrorFactory getMyErrorFactory(){
+    return myErrorFactory;
   }
 }

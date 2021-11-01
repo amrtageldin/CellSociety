@@ -116,7 +116,7 @@ public class FactoryComponents {
     Alert error = new Alert(Alert.AlertType.ERROR);
     error.setHeaderText(myResources.getString(id));
     error.setContentText(myResources.getString(content));
-    error.showAndWait();
+    error.show();
     return error;
   }
 

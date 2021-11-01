@@ -1,5 +1,6 @@
 package cellsociety.controller;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
 
@@ -7,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class GridFactory {
+    private static final String INVALID_GRID = "InvalidGrid";
+    private ErrorFactory myErrorFactory = new ErrorFactory();
     private Grid myGrid;
     private String rowCount;
     private String colCount;
@@ -23,14 +26,13 @@ public class GridFactory {
         try {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReader(fileReader);
-
             initializeRowAndColumnCounts(csvReader);
             initializeGrid();
             myGrid.initializeCells(csvReader);
-
         }
         catch(FileNotFoundException e){
-            e.printStackTrace(); //NEED TO COME BACK AND FIX!!!
+           myGrid.getMyErrorFactory().updateError(INVALID_GRID);
+           myErrorFactory = myGrid.getMyErrorFactory();
         }
         return myGrid;
     }
@@ -39,15 +41,11 @@ public class GridFactory {
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-
-            rowCount = rowAndColumn[1]; // TODO: index issue
+            rowCount = rowAndColumn[1];
             colCount = rowAndColumn[0];
-
         }
         catch(Exception e){
-            rowCount = "0";
-            colCount = "0";
-
+           myErrorFactory.updateError(INVALID_GRID);
         }
     }
 
@@ -55,4 +53,5 @@ public class GridFactory {
         myGrid = new Grid(Integer.parseInt(rowCount),Integer.parseInt(colCount));
     }
 
+    public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 }
