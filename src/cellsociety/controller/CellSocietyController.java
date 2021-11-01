@@ -11,12 +11,14 @@ import java.util.ResourceBundle;
 public class CellSocietyController {
     private CellSocietyModel myModel;
     private final ResourceBundle myFileType;
+    private final ResourceBundle myErrors;
     private final GridFactory myGridFactory;
     private final GameFactory myGameFactory;
     private Grid myGrid;
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
+    private static final String ERRORS_ENGLISH = "ErrorsEnglish";
     private Map<String, String> myParametersMap;
 
     /**
@@ -25,6 +27,7 @@ public class CellSocietyController {
      */
     public CellSocietyController(){
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
+        myErrors = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + ERRORS_ENGLISH);
         myGridFactory = new GridFactory();
         myGameFactory = new GameFactory();
         myParametersMap = new HashMap<>();
