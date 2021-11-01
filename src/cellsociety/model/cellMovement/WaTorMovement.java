@@ -27,11 +27,12 @@ public class WaTorMovement implements CellSocietyMovement {
         changedCells = new ArrayList<>();
     }
 
-    public void setInitialParameters(Cells cell, Grid grid, List<Cells> neighbors, ResourceBundle statesBundle){
+    public void setInitialParameters(Cells cell, Grid grid, List<Cells> neighbors, ResourceBundle statesBundle,
+                                     Map<String, String> parameters){
         myNeighbors = neighbors;
         myStatesBundle = statesBundle;
         myDevelopmentStage.setResourceBundle(myStatesBundle);
-        myDevelopmentStage.initializeDevelopment(cell);
+        myDevelopmentStage.initializeDevelopment(cell, parameters);
         myDevelopmentStage.checkDevelopment(cell, myNeighbors);
     }
 
@@ -67,7 +68,7 @@ public class WaTorMovement implements CellSocietyMovement {
             return;
         }
         changeNeighborCells(c, cell);
-        myDevelopmentStage.energyVerification(cell, c);
+        myDevelopmentStage.energyVerification(cell, c, NO_ENERGY);
     }
 
     private void eatCells(Cells c, Cells cell) {
@@ -76,7 +77,7 @@ public class WaTorMovement implements CellSocietyMovement {
             return;
         }
         changeNeighborCells(c, cell);
-        myDevelopmentStage.updateEnergy(cell, ENERGY_INCREASE, NO_ENERGY);
+        myDevelopmentStage.energyVerification(cell,c, ENERGY_INCREASE);
     }
 
     private void changeNeighborCells(Cells c, Cells cell){

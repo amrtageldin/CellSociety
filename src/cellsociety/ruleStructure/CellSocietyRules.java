@@ -24,10 +24,6 @@ abstract public class CellSocietyRules {
         initializeMyRules();
     }
 
-//    public void setMyParameters(Map<String, String> parameters){
-//        myParametersMap = parameters;
-//        initializeMyRules();
-//    }
 
     protected Map<String, String> getMyParameters(){
         return myParametersMap;
