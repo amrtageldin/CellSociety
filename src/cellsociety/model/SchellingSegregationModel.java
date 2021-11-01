@@ -18,7 +18,7 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
+        List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row, col, myGrid);
         int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
         double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
         int state = getMyRules().generateNextState((int) (

@@ -27,7 +27,7 @@ public class WaTorModel extends CellSocietyModel{
         changedCells = myWaTorMovement.getStep();
         stepCheck++;
         gridCheck(myGrid.colLength() * myGrid.rowLength());
-        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
+        List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row, col, myGrid);
         myWaTorMovement.setInitialParameters(myCell, myGrid, myNeighbors, getStatesBundle(), getMyParameters());
         updateNeighbors(myNeighbors);
         updateWaTorStates(myCell, myNeighbors);

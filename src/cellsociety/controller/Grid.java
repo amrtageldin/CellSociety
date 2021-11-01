@@ -5,22 +5,37 @@ import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
 import javafx.scene.control.Cell;
 
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
+
 public class Grid {
+  public static final String X = "x";
   private Cells[][] myGrid;
   private static final String INVALID_GRID = "InvalidGrid";
   private ErrorFactory myErrorFactory = new ErrorFactory();
+  private ArrayList<Integer> cellStatesList = new ArrayList<>();
+
   public Grid(int rowCount, int colCount ){
     myGrid = new Cells[rowCount][colCount];
   }
 
+  public void getCellStates(String cellStates){
+    String[] cellStateStrings = cellStates.split(",");
+    for(String s : cellStateStrings){
+      cellStatesList.add(Integer.parseInt(s));
+    }
+  }
 
   public void initializeCells(CSVReader csvReader){
     try {
-      String nextCell[];
+      String[] nextCell;
       int i = 0;
       while ((nextCell = csvReader.readNext()) != null) {
-        for (int j = 0; j < nextCell.length; j++) {
-          myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
+        if (Objects.equals(nextCell[0], X)) {
+          initializeRandomCells(i, nextCell);
+        } else {
+          initializeCSVReadCells(i, nextCell);
         }
         i++;
       }
@@ -28,7 +43,19 @@ public class Grid {
     catch(Exception e){
       myErrorFactory.updateError(INVALID_GRID);
     }
+  }
 
+  private void initializeCSVReadCells(int i, String[] nextCell){
+    for (int j = 0; j < nextCell.length; j++) {
+      myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
+    }
+  }
+
+  private void initializeRandomCells(int i, String[] nextCell){
+    Random r = new Random();
+    for(int j = 0; j < nextCell.length; j++){
+      myGrid[i][j] = new Cells(cellStatesList.get(r.nextInt(cellStatesList.size())));
+    }
   }
 
   public int rowLength(){

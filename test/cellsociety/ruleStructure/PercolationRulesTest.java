@@ -18,27 +18,13 @@ public class PercolationRulesTest {
     }
 
     @Test
-    void TestNeverChangesIfClosed(){
-        assertEquals(myPercolationRules.generateNextState(0, 0), 0);
-        assertEquals(myPercolationRules.generateNextState(1, 0), 0);
-        assertEquals(myPercolationRules.generateNextState(2, 0), 0);
-    }
-
-    @Test
-    void TestNeverChangesIfPercolated(){
-        assertEquals(myPercolationRules.generateNextState(0, 2), 2);
-        assertEquals(myPercolationRules.generateNextState(1, 2), 2);
-        assertEquals(myPercolationRules.generateNextState(2, 2), 2);
-    }
-
-    @Test
     void TestIfOpenAndNoOpenNeighbors(){
-        assertEquals(myPercolationRules.generateNextState(0, 3), 3);
+        assertEquals(myPercolationRules.generateNextState(0, 2), 2);
     }
 
     @Test
     void TestIfOpenAndOpenNeighbors(){
-        assertEquals(myPercolationRules.generateNextState(3, 3), 2);
+        assertEquals(myPercolationRules.generateNextState(3, 2), 1);
     }
 
 
