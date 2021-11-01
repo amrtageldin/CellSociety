@@ -224,11 +224,18 @@ public class CellSocietyView {
     }
   }
 
+<<<<<<< HEAD
   /**
    * Getter method that returns the GridView.
    *
    * @return GridView.
    */
+=======
+  private void addHistogram() {
+    root.setLeft(myViewComponents.setupHistogram(myController.getCellStateSeries()));
+  }
+
+>>>>>>> 56caaf79648cb8bb532fc6b9398dd5d43cdf49e3
   public GridView getMyGridView() {
     return myGridView;
   }
@@ -241,6 +248,7 @@ public class CellSocietyView {
     return vbox;
   }
 
+<<<<<<< HEAD
 //  private VBox setupFirstGridSection() {
 //    VBox vbox = new VBox();
 //    vbox.setId("Grid");
@@ -255,6 +263,22 @@ public class CellSocietyView {
 //    vbox.getChildren().add(mySecondGridView.setupGrid());
 //    return vbox;
 //  }
+=======
+  private VBox setupFirstGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    vbox.getChildren().add(myGridView.setupGrid());
+    return vbox;
+  }
+
+  private VBox setupSecondGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    mySecondGridView = new GridView(myController);
+    vbox.getChildren().add(mySecondGridView.setupGrid());
+    return vbox;
+  }
+>>>>>>> 56caaf79648cb8bb532fc6b9398dd5d43cdf49e3
 
   private void errorCheck(){
     if(myController.getErrorExists()){
