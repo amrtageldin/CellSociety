@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.view.cell.CellColors;
 import java.util.List;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;

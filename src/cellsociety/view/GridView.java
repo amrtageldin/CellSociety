@@ -2,8 +2,6 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.controller.Grid;
-import cellsociety.view.cell.CellColors;
-import cellsociety.view.cell.CellView;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;

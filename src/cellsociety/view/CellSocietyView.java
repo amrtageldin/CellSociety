@@ -106,7 +106,7 @@ public class CellSocietyView {
   private void startGame() {
     try {
       if (gridLoaded) {
-        addGrid();
+//        addGrid();
         multiGrid = true;
       }
       else {
@@ -122,7 +122,7 @@ public class CellSocietyView {
 
   private void setupGridPanel() {
     if (multiGrid) {
-      addGrid();
+//      addGrid();
     }
     else {
       gridPanel = new HBox();
@@ -132,20 +132,20 @@ public class CellSocietyView {
     }
   }
 
-  private void addGrid() {
-    if (!gridLoaded) {
-      multiGridPanel = new HBox();
-      multiGridPanel.setId("GridPanel");
-      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
-      root.setCenter(multiGridPanel);
-    } else {
-      multiGridPanel = gridPanel;
-      multiGridPanel.setId("GridPanel");
-      multiGridPanel.getChildren().add(setupSecondGridSection());
-      root.setCenter(multiGridPanel);
-      gridLoaded = false;
-    }
-  }
+//  private void addGrid() {
+//    if (!gridLoaded) {
+//      multiGridPanel = new HBox();
+//      multiGridPanel.setId("GridPanel");
+//      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
+//      root.setCenter(multiGridPanel);
+//    } else {
+//      multiGridPanel = gridPanel;
+//      multiGridPanel.setId("GridPanel");
+//      multiGridPanel.getChildren().add(setupSecondGridSection());
+//      root.setCenter(multiGridPanel);
+//      gridLoaded = false;
+//    }
+//  }
 
   private void startSimulation() {
     root.setRight(myViewComponents.populateAboutSection(myController));
@@ -241,20 +241,20 @@ public class CellSocietyView {
     return vbox;
   }
 
-  private VBox setupFirstGridSection() {
-    VBox vbox = new VBox();
-    vbox.setId("Grid");
-    vbox.getChildren().add(myGridView.setupGrid());
-    return vbox;
-  }
-
-  private VBox setupSecondGridSection() {
-    VBox vbox = new VBox();
-    vbox.setId("Grid");
-    mySecondGridView = new GridView(myController);
-    vbox.getChildren().add(mySecondGridView.setupGrid());
-    return vbox;
-  }
+//  private VBox setupFirstGridSection() {
+//    VBox vbox = new VBox();
+//    vbox.setId("Grid");
+//    vbox.getChildren().add(myGridView.setupGrid());
+//    return vbox;
+//  }
+//
+//  private VBox setupSecondGridSection() {
+//    VBox vbox = new VBox();
+//    vbox.setId("Grid");
+//    mySecondGridView = new GridView(myController);
+//    vbox.getChildren().add(mySecondGridView.setupGrid());
+//    return vbox;
+//  }
 
   private void errorCheck(){
     if(myController.getErrorExists()){

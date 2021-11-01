@@ -1,4 +1,4 @@
-package cellsociety.view.cell;
+package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import java.util.ArrayList;
