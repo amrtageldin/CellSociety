@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
  */
 public class CellSocietyViewComponents {
 
-  private final FactoryComponents myFactoryComponents;
+  private FactoryComponents myFactoryComponents;
   private final ResourceBundle myMagicValues;
   private final CellSocietyView myCellSocietyView;
   private VBox myAboutPanel;
@@ -157,5 +158,9 @@ public class CellSocietyViewComponents {
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
+  }
+
+  public void updateLanguage(String language) {
+
   }
 }

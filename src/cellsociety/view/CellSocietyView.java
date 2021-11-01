@@ -22,7 +22,7 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that displays the UI components for all Cell Society Game types.
- * TODO: Missing double screen functionality, missing different grid types
+ * TODO: Missing double screen functionality
  *  
  */
 public class CellSocietyView {
@@ -59,6 +59,7 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
+
     myViewComponents = new CellSocietyViewComponents(language, this);
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
@@ -100,6 +101,9 @@ public class CellSocietyView {
   }
 
   private void startGame() {
+    if (myController.getMyParametersMap().containsKey("Language")) {
+      myViewComponents.updateLanguage(myController.getMyParametersMap().get("Language"));
+    }
     try {
       if (!gridLoaded) {
         gridPanel = new HBox();
@@ -136,39 +140,64 @@ public class CellSocietyView {
   }
 
   private void step() {
-    if (myController != null) {
-      myController.step();
-      errorCheck();
-      myAnimation.stop();
+    try {
+      if (myController != null) {
+        myController.step();
+        errorCheck();
+        myAnimation.stop();
+      }
+      myAnimation.play();
+      root.setCenter(setupGridSection());
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    myAnimation.play();
-    root.setCenter(setupGridSection());
-  }
+    }
 
   private void pauseAndStep() {
-    step();
-    myAnimation.stop();
-    isPlaying = false;
+    try {
+      step();
+      myAnimation.stop();
+      isPlaying = false;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void togglePlay() {
-    if (isPlaying) {
-      myAnimation.stop();
-    } else {
-      myAnimation.play();
+    try {
+      if (isPlaying) {
+        myAnimation.stop();
+      } else {
+        myAnimation.play();
+      }
+      isPlaying = !isPlaying;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    isPlaying = !isPlaying;
   }
 
   private void speedUp() {
-    myAnimation.setRate(
-        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-    System.out.println("Sped up!");
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+      System.out.println("Sped up!");
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void slowDown() {
-    myAnimation.setRate(
-        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   public GridView getMyGridView() {
