@@ -42,9 +42,9 @@ public class CellSocietyView {
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
-  private boolean startedAlready;
-  private boolean addingGrid;
   private HBox gridPanel;
+  private HBox multiGridPanel;
+  private boolean multiGrid;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -154,27 +154,73 @@ public class CellSocietyView {
     myController.loadFileType(selectedFile.toString());
   }
 
+//  private void startGame() {
+//    if (!gridLoaded) {
+//      gridPanel = new HBox();
+//      gridPanel.setId("GridPanel");
+//      gridPanel.getChildren().add(setupGridSection());
+//      root.setCenter(gridPanel);
+//      startSimulation();
+//      gridLoaded = true;
+//    }
+//    else {
+//      togglePlay();
+//      gridPanel.getChildren().add(setupGridSection());
+//      togglePlay();
+//    }
+//  }
+
+//  private void setupGridPanel() {
+//    if (!gridLoaded) {
+//      gridPanel = new HBox();
+//      gridPanel.setId("GridPanel");
+//      root.setCenter(gridPanel);
+//      gridPanel.getChildren().add(setupGridSection());
+//    }
+//    else {
+//      gridPanel.getChildren().add(setupGridSection());
+//      root.setCenter(gridPanel);
+//    }
+//  }
+
   private void startGame() {
-    if (startedAlready) {
-      addingGrid = true;
+    if (gridLoaded) {
+      addGrid();
+      multiGrid = true;
     }
     else {
+      setupGridPanel();
       startSimulation();
-      startedAlready = true;
+      gridLoaded = true;
     }
   }
 
   private void setupGridPanel() {
-    if (!addingGrid) {
+    if (multiGrid) {
+      addGrid();
+    }
+    else {
       gridPanel = new HBox();
       gridPanel.setId("GridPanel");
       root.setCenter(gridPanel);
-      gridPanel.getChildren().add(setupGrid());
+      gridPanel.getChildren().add(setupGridSection());
+    }
+  }
+
+  private void addGrid() {
+    if (!gridLoaded) {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
+      for (Node grid : multiGridPanel.getChildren()) {
+        gridPanel.getChildren().add(grid);
+      }
     }
     else {
-      gridPanel.getChildren().add(setupGrid());
-      root.setCenter(gridPanel);
-      addingGrid = false;
+      multiGridPanel = gridPanel;
+      multiGridPanel.getChildren().add(setupGridSection());
+      root.setCenter(multiGridPanel);
+      gridLoaded = false;
     }
   }
 
@@ -247,7 +293,7 @@ public class CellSocietyView {
     return bottomText;
   }
 
-  private VBox setupGrid() {
+  private VBox setupGridSection() {
     VBox vbox = new VBox();
     vbox.setId("Grid");
     myGridView = new GridView(myController);
