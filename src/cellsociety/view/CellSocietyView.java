@@ -196,6 +196,12 @@ public class CellSocietyView {
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
+  private void addHistogram() {
+    VBox histogramBox = new VBox();
+    histogramBox.getChildren().add(myViewComponents.setupHistogram());
+    root.setLeft(histogramBox);
+  }
+
   public GridView getMyGridView() {
     return myGridView;
   }
