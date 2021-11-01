@@ -119,7 +119,6 @@ public class CellSocietyView {
 
   private void startSimulation() {
     root.setRight(myViewComponents.populateAboutSection(myController));
-    //myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
     if (myAnimation != null) {
       myAnimation.stop();
     }
