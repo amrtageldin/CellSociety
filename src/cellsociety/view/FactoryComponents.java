@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -116,7 +117,7 @@ public class FactoryComponents {
     return dropdown;
   }
 
-  public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis, XYChart.Series cellStateData) {
+  public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis, Series cellStateData) {
     LineChart histogram = new LineChart(xAxis, yAxis);
     histogram.setId(label);
     histogram.setTitle(label);

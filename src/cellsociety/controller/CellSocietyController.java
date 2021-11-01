@@ -22,9 +22,8 @@ public class CellSocietyController {
     private static final String FILE_TYPE = "FileType";
     private String error;
     private boolean errorExists;
-    private XYChart.Series cellStateSeries = new XYChart.Series();
+    private int[] cellStateCounts;
     private double stepCount;
-    private double state0Count;
 
     /**
      * Constructor for controller within CellSociety. Initializes controller as well as relevant variables
@@ -110,22 +109,23 @@ public class CellSocietyController {
         updateGrid();
     }
 
-    private void updateGrid(){
-        state0Count = 0.0;
+    private void updateGrid() {
+        cellStateCounts = new int[4];
         for (int i = 0; i < myGrid.rowLength(); i++) {
             for (int j = 0; j < myGrid.colLength(); j++) {
-                Cells thisCell = myGrid.getCell(i,j);
+                Cells thisCell = myGrid.getCell(i, j);
                 thisCell.updateMyCurrentState();
-                if (thisCell.getCurrentState()==0) {
-                    state0Count++;
-                }
+                cellStateCounts[thisCell.getCurrentState()]++;
             }
         }
-        cellStateSeries.getData().add(new XYChart.Data(stepCount, state0Count));
     }
 
-    public XYChart.Series getCellStateSeries() {
-        return cellStateSeries;
+    public int[] getCellStateCounts() {
+        return cellStateCounts;
+    }
+
+    public double getStepCount() {
+        return stepCount;
     }
 
     private void checkErrors(ErrorFactory error){
