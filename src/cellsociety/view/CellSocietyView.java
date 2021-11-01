@@ -99,9 +99,7 @@ public class CellSocietyView {
     if(myAnimation != null){
       togglePlay();
     }
-    if(myController.getErrorExists()){
-      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError(), AlertType.ERROR);
-    }
+    errorCheck();
   }
 
   private void startGame() {
@@ -131,12 +129,14 @@ public class CellSocietyView {
         new KeyFrame(Duration.seconds(Double.parseDouble(myMagicValues.getString(secondDelay))),
             e -> step()));
     myAnimation.play();
+    errorCheck();
     isPlaying = true;
   }
 
   private void step() {
     if (myController != null) {
       myController.step();
+      errorCheck();
       myAnimation.stop();
     }
     myAnimation.play();
@@ -179,6 +179,12 @@ public class CellSocietyView {
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
+  }
+
+  private void errorCheck(){
+    if(myController.getErrorExists()){
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError(), AlertType.ERROR);
+    }
   }
 
   /**

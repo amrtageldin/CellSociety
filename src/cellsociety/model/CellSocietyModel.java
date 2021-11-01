@@ -36,6 +36,9 @@ public abstract class CellSocietyModel {
   }
 
   public CellSocietyRules getMyRules(){
+    if(myRules.getMyErrorFactory().errorExists()){
+      myErrorFactory.updateError(myRules.getMyErrorFactory().getErrorKey());
+    }
     return myRules;
   }
 
@@ -85,7 +88,12 @@ public abstract class CellSocietyModel {
   protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
   protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer){
-    consumer.accept(currentState);
+    try {
+      consumer.accept(currentState);
+    }
+    catch (NullPointerException e){
+      myErrorFactory.updateError(GAME_ERROR);
+    }
   }
 
   public ErrorFactory getMyErrorFactory(){

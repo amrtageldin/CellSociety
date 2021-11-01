@@ -14,13 +14,10 @@ public class CellSocietyController {
     private final ResourceBundle myFileType;
     private final GridFactory myGridFactory;
     private final GameFactory myGameFactory;
-    private final ErrorFactory myErrorFactory;
     private Grid myGrid;
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
-    private static final String ERRORS_ENGLISH = "ErrorsEnglish";
-    private Map<String, String> myParametersMap;
     private String error;
     private boolean errorExists;
 
@@ -32,8 +29,6 @@ public class CellSocietyController {
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
         myGridFactory = new GridFactory();
         myGameFactory = new GameFactory();
-        myErrorFactory = new ErrorFactory();
-        myParametersMap = new HashMap<>();
     }
 
     /**
@@ -72,7 +67,7 @@ public class CellSocietyController {
             myGameType = gameType;
         }
         catch(Exception e){
-            checkErrors(myModel.getMyErrorFactory());
+            checkErrors(myGameFactory.getMyErrorFactory());
         }
     }
 
@@ -116,7 +111,6 @@ public class CellSocietyController {
                 thisCell.updateMyCurrentState();
             }
         }
-
     }
 
 
