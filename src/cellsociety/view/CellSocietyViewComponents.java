@@ -152,13 +152,14 @@ public class CellSocietyViewComponents {
     return colorOptions;
   }
 
-  public LineChart setupHistogram() {
+  public VBox setupHistogram() {
+    VBox vbox = new VBox();
     Double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     Double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
     NumberAxis xAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
-    NumberAxis yAxis = new NumberAxis(axisLowerBound, 60.0, axisTickMarks);
-    LineChart histogram = new LineChart(xAxis, yAxis);
-    return histogram;
+    NumberAxis yAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
+    vbox.getChildren().add(myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis));
+    return vbox;
   }
 
   private void setupDropDownCommands(ComboBox<String> dropdown, BorderPane root) {

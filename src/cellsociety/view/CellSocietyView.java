@@ -197,9 +197,7 @@ public class CellSocietyView {
   }
 
   private void addHistogram() {
-    VBox histogramBox = new VBox();
-    histogramBox.getChildren().add(myViewComponents.setupHistogram());
-    root.setLeft(histogramBox);
+    root.setLeft(myViewComponents.setupHistogram());
   }
 
   public GridView getMyGridView() {
