@@ -4,3 +4,4 @@ Author=Reya Magan
 Description=Each Cell-Species type needs to have 72% similar neighbors
 InitialStates=schelling_segregation/six-empty.csv
 Percent=72
+Neighbors=FullNeighbors

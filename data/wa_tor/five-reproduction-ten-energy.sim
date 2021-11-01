@@ -5,3 +5,4 @@ Description=Sharks and Fish can reproduce after 5 chrona, sharks start with 10 e
 InitialStates=wa_tor/five-reproduction-ten-energy.csv
 ReproductionMax=5
 EnergyInitial=10
+Neighbors=RectangleNeighbors
