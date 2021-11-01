@@ -58,7 +58,7 @@ public class CellSocietyViewComponents {
    *
    * @param stage for height of the pane.
    * @param root  to have access to panes.
-   * @return
+   * @return Main pane.
    */
   public Node setupTopText(Stage stage, BorderPane root) {
     VBox vbox = new VBox();
