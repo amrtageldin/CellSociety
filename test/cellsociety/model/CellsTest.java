@@ -18,6 +18,7 @@ public class CellsTest {
 
     @Test
     void setNextStateTest(){
+        cell.setCurrentState(2);
         cell.setMyNextState(1);
         assertEquals(cell.getMyNextState(), 1);
     }
@@ -41,4 +42,12 @@ public class CellsTest {
         cell.updateMyCurrentState();
         assertEquals(cell.getMyNextState(), 1);
     }
+
+    @Test
+    void setCurrentState(){
+        cell.setCurrentState(1);
+        assertEquals(cell.getCurrentState(), 1);
+    }
+
+
 }

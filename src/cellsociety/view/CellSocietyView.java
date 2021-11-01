@@ -7,8 +7,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,9 +21,8 @@ import javafx.util.Duration;
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
- * Class that sets up the display for all Cell Society Game types.
- * TODO: Missing double screen functionality,error message handling,
- *  about section parsing to display, missing color choosing for cell state.
+ * Class that displays the UI components for all Cell Society Game types.
+ * TODO: Missing double screen functionality, missing different grid types
  *  
  */
 public class CellSocietyView {
@@ -93,7 +90,7 @@ public class CellSocietyView {
     try {
       myController.loadFileType(selectedFile.toString());
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage", AlertType.ERROR);
+      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
       error.show();
     }
     if(myAnimation != null){
@@ -103,23 +100,28 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    if (!gridLoaded) {
-      gridPanel = new HBox();
-      gridPanel.setId("GridPanel");
-      gridPanel.getChildren().add(setupGridSection());
-      root.setCenter(gridPanel);
-      startSimulation();
-      gridLoaded = true;
-    }
-    else {
-      togglePlay();
-      gridPanel.getChildren().add(setupGridSection());
-      togglePlay();
+    try {
+      if (!gridLoaded) {
+        gridPanel = new HBox();
+        gridPanel.setId("GridPanel");
+        gridPanel.getChildren().add(setupGridSection());
+        root.setCenter(gridPanel);
+        startSimulation();
+        gridLoaded = true;
+      }
+      else {
+        togglePlay();
+        gridPanel.getChildren().add(setupGridSection());
+        togglePlay();
+      }
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
   }
 
   private void startSimulation() {
-    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
+    root.setRight(myViewComponents.populateAboutSection(myController));
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -183,7 +185,7 @@ public class CellSocietyView {
 
   private void errorCheck(){
     if(myController.getErrorExists()){
-      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError(), AlertType.ERROR);
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
     }
   }
 

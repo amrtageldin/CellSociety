@@ -3,6 +3,7 @@ package cellsociety.ruleStructure;
 import cellsociety.Errors.ErrorFactory;
 import cellsociety.rule.Rule;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 

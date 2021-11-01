@@ -5,7 +5,6 @@ import cellsociety.model.CellSocietyModel;
 
 import cellsociety.model.Cells;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 

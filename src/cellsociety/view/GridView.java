@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  * @author Evelyn Cupil-Garcia
@@ -22,11 +23,12 @@ import javafx.scene.shape.Rectangle;
 public class GridView {
 
   private final Grid myGrid;
-  private final Rectangle[][] myPaneNodes;
+  private final Shape[][] myPaneNodes;
   private GridPane pane;
   private final ResourceBundle myMagicValues;
   private final List<Color> stateColors;
   private final CellColors myCellColors;
+  private final CellView myCellView;
 
   public final String gap = "gap";
   public final String screenWidth = "screenWidth";
@@ -43,6 +45,7 @@ public class GridView {
     myPaneNodes = new Rectangle[myGrid.rowLength()][myGrid.colLength()];
     myCellColors = new CellColors(controller);
     stateColors = myCellColors.getColorMap();
+    myCellView = new CellView(controller);
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
@@ -65,6 +68,8 @@ public class GridView {
     for (int i = 0; i < myGrid.rowLength(); i++) {
       for (int j = 0; j < myGrid.colLength(); j++) {
         int currState = myGrid.getCell(i,j).getCurrentState();
+//        Polygon newCell = myCellView.drawCell();
+//        newCell.setFill(stateColors.get(currState));
         Rectangle cell = drawCell(stateColors.get(currState));
         setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
@@ -86,7 +91,6 @@ public class GridView {
   }
 
   private Rectangle drawCell(Paint currState) {
-    Polygon cells = new Polygon();
     Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
     cell.setFill(currState);
     return cell;
@@ -98,7 +102,7 @@ public class GridView {
     return Math.min(width, height);
   }
 
-  public Rectangle[][] getMyPaneNodes() {
+  public Shape[][] getMyPaneNodes() {
     return myPaneNodes;
   }
 }
