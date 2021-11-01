@@ -12,7 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * @author Evelyn Cupil-Garcia
+ * <p>
+ * Class that uses FactoryComponents class to create the panels and UI components that are displayed
+ * in the game.
+ */
 public class CellSocietyViewComponents {
+
   private final FactoryComponents myFactoryComponents;
   private final ResourceBundle myMagicValues;
   private final CellSocietyView myCellSocietyView;
@@ -22,18 +29,37 @@ public class CellSocietyViewComponents {
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
+  /**
+   * Constructor method that initializes the class.
+   *
+   * @param language        that the game is in.
+   * @param cellSocietyView takes in CellSocietyView for methods related to UI components.
+   */
   public CellSocietyViewComponents(String language, CellSocietyView cellSocietyView) {
     myFactoryComponents = new FactoryComponents(language);
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
     myCellSocietyView = cellSocietyView;
   }
 
+  /**
+   * Creates the Game Mode Panel to initialize the game that contains the UI buttons.
+   *
+   * @param root so we can add to the correct area.
+   * @return panel with all components in it.
+   */
   public Node setupGameModePanel(BorderPane root) {
     VBox panel = new VBox();
     panel.getChildren().addAll(setupTopButtonPanel(root), setupBottomButtonPanel());
     return panel;
   }
 
+  /**
+   * Creates the Main Pane with the GameMode Panel and Display text.
+   *
+   * @param stage for height of the pane.
+   * @param root  to have access to panes.
+   * @return
+   */
   public Node setupTopText(Stage stage, BorderPane root) {
     VBox vbox = new VBox();
     Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
@@ -43,6 +69,11 @@ public class CellSocietyViewComponents {
     return vbox;
   }
 
+  /**
+   * Creates the general about section before a game is loaded.
+   *
+   * @return general label for about section.
+   */
   public Label setupAboutSection() {
     Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
     bottomText.setId("AboutPane");
@@ -51,6 +82,12 @@ public class CellSocietyViewComponents {
     return bottomText;
   }
 
+  /**
+   * Creates the about section after a game is loaded.
+   *
+   * @param controller to check if certain parameters exist for the game to display.
+   * @return updated about pane.
+   */
   public VBox populateAboutSection(CellSocietyController controller) {
     myAboutPanel = new VBox();
     myAboutPanel.setId("AboutPane");
@@ -78,7 +115,8 @@ public class CellSocietyViewComponents {
     Node simulationType = myFactoryComponents.makeButton("SimulationType", myCellSocietyView);
     Node initialGrid = myFactoryComponents.makeButton("InitialGrid", myCellSocietyView);
     Node playButton = myFactoryComponents.makeButton("Play", myCellSocietyView);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton, setupColorOptions(root));
+    setupPanel.getChildren()
+        .addAll(simulationType, initialGrid, playButton, setupColorOptions(root));
     return setupPanel;
   }
 

@@ -22,7 +22,7 @@ import javafx.util.Duration;
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
- * Class that sets up the display for all Cell Society Game types.
+ * Class that displays the UI components for all Cell Society Game types.
  * TODO: Missing double screen functionality, missing different grid types
  *  
  */
