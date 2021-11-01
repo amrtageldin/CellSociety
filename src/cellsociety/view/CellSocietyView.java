@@ -33,10 +33,13 @@ public class CellSocietyView {
   private final CellSocietyController myController;
   CellSocietyViewComponents myViewComponents;
   private GridView myGridView;
+  private GridView mySecondGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
   private HBox gridPanel;
+  private HBox multiGridPanel;
+  private boolean multiGrid;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -105,22 +108,45 @@ public class CellSocietyView {
       myViewComponents.updateLanguage(myController.getMyParametersMap().get("Language"));
     }
     try {
-      if (!gridLoaded) {
-        gridPanel = new HBox();
-        gridPanel.setId("GridPanel");
-        gridPanel.getChildren().add(setupGridSection());
-        root.setCenter(gridPanel);
-        startSimulation();
-        gridLoaded = true;
+      if (gridLoaded) {
+        addGrid();
+        multiGrid = true;
       }
       else {
-        togglePlay();
-        gridPanel.getChildren().add(setupGridSection());
-        togglePlay();
+        setupGridPanel();
+        startSimulation();
+        gridLoaded = true;
       }
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
+    }
+  }
+
+  private void setupGridPanel() {
+    if (multiGrid) {
+      addGrid();
+    }
+    else {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
+      gridPanel.getChildren().add(setupGridSection());
+    }
+  }
+
+  private void addGrid() {
+    if (!gridLoaded) {
+      multiGridPanel = new HBox();
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+    } else {
+      multiGridPanel = gridPanel;
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().add(setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+      gridLoaded = false;
     }
   }
 
@@ -147,12 +173,13 @@ public class CellSocietyView {
         myAnimation.stop();
       }
       myAnimation.play();
-      root.setCenter(setupGridSection());
+      setupGridPanel();
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
     }
-    }
+  }
+
 
   private void pauseAndStep() {
     try {
@@ -209,6 +236,21 @@ public class CellSocietyView {
     vbox.setId("Grid");
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
+    return vbox;
+  }
+
+  private VBox setupFirstGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    vbox.getChildren().add(myGridView.setupGrid());
+    return vbox;
+  }
+
+  private VBox setupSecondGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    mySecondGridView = new GridView(myController);
+    vbox.getChildren().add(mySecondGridView.setupGrid());
     return vbox;
   }
 
