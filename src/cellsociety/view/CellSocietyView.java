@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -156,14 +157,19 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    if (gridLoaded) {
-      addGrid();
-      multiGrid = true;
-    }
-    else {
-      setupGridPanel();
-      startSimulation();
-      gridLoaded = true;
+    try {
+      if (gridLoaded) {
+        addGrid();
+        multiGrid = true;
+      }
+      else {
+        setupGridPanel();
+        startSimulation();
+        gridLoaded = true;
+      }
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
   }
 
@@ -303,6 +309,12 @@ public class CellSocietyView {
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
+  }
+
+  private void errorCheck(){
+    if(myController.getErrorExists()){
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
+    }
   }
 
   /**
