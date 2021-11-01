@@ -105,18 +105,19 @@ public class CellSocietyView {
 
   private void startGame() {
     try {
-      if (gridLoaded) {
-//        addGrid();
-        multiGrid = true;
-      }
-      else {
+//      if (gridLoaded) {
+////        addGrid();
+//        multiGrid = true;
+//      }
+//      else {
+//        setupGridPanel();
+//        startSimulation();
+//        gridLoaded = true;
+//      }
         setupGridPanel();
-        startSimulation();
-        gridLoaded = true;
-      }
+      startSimulation();
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
     }
   }
 
@@ -172,8 +173,8 @@ public class CellSocietyView {
       myAnimation.play();
       setupGridPanel();
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+
     }
   }
 
@@ -184,8 +185,7 @@ public class CellSocietyView {
       myAnimation.stop();
       isPlaying = false;
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
     }
   }
 
@@ -198,8 +198,8 @@ public class CellSocietyView {
       }
       isPlaying = !isPlaying;
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+
     }
   }
 
@@ -209,8 +209,7 @@ public class CellSocietyView {
           myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
       System.out.println("Sped up!");
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
     }
   }
 
@@ -219,8 +218,7 @@ public class CellSocietyView {
       myAnimation.setRate(
           myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+      myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
     }
   }
 
