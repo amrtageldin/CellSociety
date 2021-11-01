@@ -118,6 +118,7 @@
 
 #GridPanel {
   -fx-alignment: center;
+  -fx-spacing: 20;
 }
 
 #Grid {

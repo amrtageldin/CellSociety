@@ -7,6 +7,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,10 +36,13 @@ public class CellSocietyView {
   private final CellSocietyController myController;
   CellSocietyViewComponents myViewComponents;
   private GridView myGridView;
+  private GridView mySecondGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
   private HBox gridPanel;
+  private HBox multiGridPanel;
+  private boolean multiGrid;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -101,22 +107,45 @@ public class CellSocietyView {
 
   private void startGame() {
     try {
-      if (!gridLoaded) {
-        gridPanel = new HBox();
-        gridPanel.setId("GridPanel");
-        gridPanel.getChildren().add(setupGridSection());
-        root.setCenter(gridPanel);
-        startSimulation();
-        gridLoaded = true;
+      if (gridLoaded) {
+        addGrid();
+        multiGrid = true;
       }
       else {
-        togglePlay();
-        gridPanel.getChildren().add(setupGridSection());
-        togglePlay();
+        setupGridPanel();
+        startSimulation();
+        gridLoaded = true;
       }
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
+    }
+  }
+
+  private void setupGridPanel() {
+    if (multiGrid) {
+      addGrid();
+    }
+    else {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
+      gridPanel.getChildren().add(setupGridSection());
+    }
+  }
+
+  private void addGrid() {
+    if (!gridLoaded) {
+      multiGridPanel = new HBox();
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+    } else {
+      multiGridPanel = gridPanel;
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().add(setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+      gridLoaded = false;
     }
   }
 
@@ -142,7 +171,7 @@ public class CellSocietyView {
       myAnimation.stop();
     }
     myAnimation.play();
-    root.setCenter(setupGridSection());
+    setupGridPanel();
   }
 
   private void pauseAndStep() {
@@ -163,7 +192,6 @@ public class CellSocietyView {
   private void speedUp() {
     myAnimation.setRate(
         myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-    System.out.println("Sped up!");
   }
 
   private void slowDown() {
@@ -181,6 +209,40 @@ public class CellSocietyView {
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
+  }
+
+  private VBox setupFirstGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    vbox.getChildren().add(myGridView.setupGrid());
+    return vbox;
+  }
+
+  private VBox setupSecondGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    mySecondGridView = new GridView(myController);
+    vbox.getChildren().add(mySecondGridView.setupGrid());
+    return vbox;
+  }
+
+  private ComboBox<String> setupColorOptions() {
+    String[] options = {"LightMode", "DarkMode", "BDMode"};
+    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
+        options);
+    setupDropDownCommands(colorOptions);
+    return colorOptions;
+  }
+
+  private void setupDropDownCommands(ComboBox<String> dropdown) {
+    EventHandler<ActionEvent> event = event1 -> {
+      String colorMode = dropdown.getValue();
+      colorMode = colorMode.replace(" ", "");
+      root.getTop().setId(colorMode + "MainPane");
+      root.getRight().setId(colorMode + "AboutPane");
+      root.setId(colorMode);
+    };
+    dropdown.setOnAction(event);
   }
 
   private void errorCheck(){
