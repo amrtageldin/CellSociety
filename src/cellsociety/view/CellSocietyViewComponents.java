@@ -1,6 +1,8 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +28,10 @@ public class CellSocietyViewComponents {
   private VBox myAboutPanel;
 
   public final String maxValue = "maxValue";
+
+  public final Map<String, String> colorMap = Map.of("Modooscuro", "DarkMode", "Modobajo",
+      "LightMode",
+      "MododelDiabloAzul", "BlueDevilMode");
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
@@ -144,8 +150,11 @@ public class CellSocietyViewComponents {
     EventHandler<ActionEvent> event = event1 -> {
       String colorMode = dropdown.getValue();
       colorMode = colorMode.replace(" ", "");
+      if (colorMap.containsKey(colorMode)) {
+        colorMode = colorMap.get(colorMode);
+      }
       root.getTop().setId(colorMode + "MainPane");
-      System.out.println(root.getRight().getId());
+      System.out.println(root.getTop().getId());
       root.getRight().setId(colorMode + "AboutPane");
       root.setId(colorMode);
     };
