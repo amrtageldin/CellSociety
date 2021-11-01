@@ -1,1 +1,6 @@
 Type=SchellingSegregation
+Title=TwelveEmpty
+Author=Reya Magan
+Description=Each Cell-Species type needs to have 5% similar neighbors
+InitialStates=schelling_segregation/twelve-empty.csv
+Percent=5

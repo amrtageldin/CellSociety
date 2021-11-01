@@ -1,32 +1,52 @@
 package cellsociety.model;
 
 
+import cellsociety.Errors.ErrorFactory;
+import cellsociety.controller.Grid;
 import cellsociety.ruleStructure.CellSocietyRules;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
-  protected CellSocietyRules myRules;
-  protected ResourceBundle statesBundle;
-  protected final String modelResourceBundleBase = "cellsociety.model.resources.";
-  public static final int SCALE_FACTOR = 100;
+  private static final String GAME_ERROR = "GameError";
+  private CellSocietyRules myRules;
+  private ResourceBundle statesBundle;
+  private Map<String, String> myParametersMap;
+  private ErrorFactory myErrorFactory;
 
 
-  public CellSocietyModel(String myType){
+  public CellSocietyModel(String myType, Map<String, String> parameters){
+    myParametersMap = parameters;
+    myErrorFactory = new ErrorFactory();
     try{
-      Class [] paramTypesSub = {String.class};
-      Object [] paramValuesSub = {myType};
-      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(paramTypesSub).newInstance(paramValuesSub);
+      Object [] paramValuesSub = {myType, myParametersMap};
+      myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
+      String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
-      e.printStackTrace();
+      myErrorFactory.updateError(GAME_ERROR);
     }
   }
 
-  public abstract void setNextState(Cells myCell, int row, int col, Cells[][] myGrid);
+
+  public Map<String, String> getMyParameters(){
+    return myParametersMap;
+  }
+
+  public CellSocietyRules getMyRules(){
+    if(myRules.getMyErrorFactory().errorExists()){
+      myErrorFactory.updateError(myRules.getMyErrorFactory().getErrorKey());
+    }
+    return myRules;
+  }
+
+  public ResourceBundle getStatesBundle(){
+    return statesBundle;
+  }
+
+  public abstract void setNextState(Cells myCell, int row, int col, Grid myGrid);
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
@@ -39,7 +59,7 @@ public abstract class CellSocietyModel {
   }
 
 
-  protected List<Cells> generateNeighbors(int row, int col, Cells[][] myGrid) {
+  protected List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
     int[] xChanges = new int[]{-1,0,1};
     int[] yChanges = new int[]{-1,0,1};
     List<Cells> myCells = new ArrayList<>();
@@ -47,7 +67,7 @@ public abstract class CellSocietyModel {
       if (rowIsValid(row + i, myGrid)){
         for (int j : yChanges){
           if (colIsValid(col + j, myGrid) && !(i == 0 && j == 0)){
-            myCells.add(myGrid[row + i][ col + j]);
+            myCells.add(myGrid.getCell(row + i, col + j));
           }
         }
 
@@ -56,19 +76,28 @@ public abstract class CellSocietyModel {
     return myCells;
   }
 
-  protected boolean colIsValid(int col, Cells[][] myGrid) {
-    return col >=0 && col < myGrid[0].length;
+  protected boolean colIsValid(int col, Grid myGrid) {
+    return col >=0 && col < myGrid.colLength();
   }
 
-  protected boolean rowIsValid(int row, Cells[][] myGrid) {
-    return row >=0 && row < myGrid.length;
+  protected boolean rowIsValid(int row, Grid myGrid) {
+    return row >=0 && row < myGrid.rowLength();
   }
 
 
   protected int getNextState(Cells myCell) {return myCell.getMyNextState();}
 
   protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer){
-    consumer.accept(currentState);
+    try {
+      consumer.accept(currentState);
+    }
+    catch (NullPointerException e){
+      myErrorFactory.updateError(GAME_ERROR);
+    }
+  }
+
+  public ErrorFactory getMyErrorFactory(){
+    return myErrorFactory;
   }
 
 }

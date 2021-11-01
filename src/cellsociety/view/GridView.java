@@ -1,31 +1,33 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.model.Cells;
+import cellsociety.controller.Grid;
+import cellsociety.view.cell.CellColors;
+import cellsociety.view.cell.CellView;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 /**
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
  * Class that displays the grid for the games.
- * TODO: Refactor Rectangle to Polygon instead to decide on cell shape.
  */
 public class GridView {
 
-  private final Cells[][] myGrid;
-  private final Rectangle[][] myPaneNodes;
+  private final Grid myGrid;
+  private final Shape[][] myPaneNodes;
   private GridPane pane;
   private final ResourceBundle myMagicValues;
   private final List<Color> stateColors;
   private final CellColors myCellColors;
+  private final CellView myCellView;
 
   public final String gap = "gap";
   public final String screenWidth = "screenWidth";
@@ -39,9 +41,10 @@ public class GridView {
    */
   public GridView(CellSocietyController controller) {
     myGrid = controller.getMyGrid();
-    myPaneNodes = new Rectangle[myGrid.length][myGrid[0].length];
-    myCellColors = new CellColors(controller.getMyGameType());
+    myPaneNodes = new Polygon[myGrid.rowLength()][myGrid.colLength()];
+    myCellColors = new CellColors(controller);
     stateColors = myCellColors.getColorMap();
+    myCellView = new CellView(controller);
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
@@ -61,10 +64,11 @@ public class GridView {
   }
 
   private void drawGrid() {
-    for (int i = 0; i < myGrid.length; i++) {
-      for (int j = 0; j < myGrid[0].length; j++) {
-        int currState = myGrid[i][j].getCurrentState();
-        Rectangle cell = drawCell(stateColors.get(currState));
+    for (int i = 0; i < myGrid.rowLength(); i++) {
+      for (int j = 0; j < myGrid.colLength(); j++) {
+        int currState = myGrid.getCell(i,j).getCurrentState();
+        Polygon cell = myCellView.drawCell(i, j, findCellDimension());
+        cell.setFill(stateColors.get(currState));
         setCellClickAction(cell, i, j);
         myPaneNodes[i][j] = cell;
         pane.add(myPaneNodes[i][j], j, i);
@@ -72,11 +76,12 @@ public class GridView {
     }
   }
 
-  private void setCellClickAction(Rectangle cell, int i, int j) {
+  private void setCellClickAction(Polygon cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
-      int setState = myCellColors.getRandomCellState(myGrid[i][j].getCurrentState());
-      myGrid[i][j].setCurrentState(setState);
-      Rectangle newCell = drawCell(stateColors.get(setState));
+      int setState = myCellColors.getRandomCellState(myGrid.getCell(i,j).getCurrentState());
+      myGrid.getCell(i,j).setCurrentState(setState);
+      Polygon newCell = myCellView.drawCell(i, j, findCellDimension());
+      newCell.setFill(myCellColors.getColorMap().get(setState));
       myPaneNodes[i][j] = newCell;
       pane.add(myPaneNodes[i][j], j, i);
       setCellClickAction(newCell, i, j);
@@ -84,19 +89,13 @@ public class GridView {
     cell.setOnMouseClicked(event);
   }
 
-  private Rectangle drawCell(Paint currState) {
-    Rectangle cell = new Rectangle(findCellDimension(), findCellDimension());
-    cell.setFill(currState);
-    return cell;
-  }
-
   private int findCellDimension() {
-    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.length;
-    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid[0].length;
+    int width = Integer.parseInt(myMagicValues.getString(screenWidth)) / myGrid.rowLength();
+    int height = Integer.parseInt(myMagicValues.getString(screenHeight)) / myGrid.colLength();
     return Math.min(width, height);
   }
 
-  public Rectangle[][] getMyPaneNodes() {
+  public Shape[][] getMyPaneNodes() {
     return myPaneNodes;
   }
 }

@@ -5,12 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PercolationRulesTest {
     private PercolationRules myPercolationRules;
 
     @BeforeEach
     public void setUp(){
-         myPercolationRules = new PercolationRules("Percolation");
+        Map<String, String> parameters = new HashMap<>();
+         myPercolationRules = new PercolationRules("Percolation", parameters);
     }
 
     @Test

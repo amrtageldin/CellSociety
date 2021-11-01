@@ -1,5 +1,6 @@
 package cellsociety.controller;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
 
@@ -7,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class GridFactory {
-    private Cells[][] myGrid;
+    private static final String INVALID_GRID = "InvalidGrid";
+    private ErrorFactory myErrorFactory = new ErrorFactory();
+    private Grid myGrid;
     private String rowCount;
     private String colCount;
 
@@ -19,18 +22,17 @@ public class GridFactory {
      *            cell
      * @return: myGrid - a Cells[][] object with original states for all cells
      */
-    public Cells[][] setUpGrid(String file){
+    public Grid setUpGrid(String file){
         try {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReader(fileReader);
-
             initializeRowAndColumnCounts(csvReader);
             initializeGrid();
-            initializeCells(csvReader);
-
+            myGrid.initializeCells(csvReader);
         }
         catch(FileNotFoundException e){
-            e.printStackTrace(); //NEED TO COME BACK AND FIX!!!
+           myGrid.getMyErrorFactory().updateError(INVALID_GRID);
+           myErrorFactory = myGrid.getMyErrorFactory();
         }
         return myGrid;
     }
@@ -39,37 +41,17 @@ public class GridFactory {
     private void initializeRowAndColumnCounts(CSVReader csvReader){
         try {
             String[] rowAndColumn = csvReader.readNext();
-
-            rowCount = rowAndColumn[1]; // TODO: index issue
+            rowCount = rowAndColumn[1];
             colCount = rowAndColumn[0];
-
         }
         catch(Exception e){
-            rowCount = "0";
-            colCount = "0";
-
+           myErrorFactory.updateError(INVALID_GRID);
         }
     }
 
     private void initializeGrid() {
-        myGrid = new Cells[Integer.parseInt(rowCount)][Integer.parseInt(colCount)];
+        myGrid = new Grid(Integer.parseInt(rowCount),Integer.parseInt(colCount));
     }
 
-
-    private void initializeCells(CSVReader csvReader){
-       try {
-           String nextCell[];
-           int i = 0;
-           while ((nextCell = csvReader.readNext()) != null) {
-               for (int j = 0; j < nextCell.length; j++) {
-                   myGrid[i][j] = new Cells(Integer.parseInt(nextCell[j]));
-               }
-               i++;
-           }
-       }
-       catch(Exception e){
-           e.printStackTrace(); //NEED TO CHANGE LATER
-       }
-
-    }
+    public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 }

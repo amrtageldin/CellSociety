@@ -1,90 +1,76 @@
 package cellsociety.model;
 
-import java.util.HashMap;
+import cellsociety.controller.Grid;
+import cellsociety.model.cellMovement.WaTorMovement;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+
 public class WaTorModel extends CellSocietyModel{
-    private static final int INITIAL_REPRODUCTION = 0;
-    private static final int REPRODUCTION_INCREASE = 1;
     private static final String FISH = "FISH";
     private static final String SHARK = "SHARK";
-    public static final int INITIAL_ENERGY = 5;
-    public static final int ENERGY_DECREASE = 1;
-    private Map<Cells, Integer> reproductionMap = new HashMap<>();
-    private Map<Cells, Integer> energyMap = new HashMap<>();
+    private static final String EMPTY = "EMPTY";
+    private static final int STEP_RESET = 1;
+    private static final int STEP_BUFFER = 1;
+    private int stepCheck = 0;
+    private int movableCells = 0;
+    private List<Cells> changedCells = new ArrayList<>();
+    private WaTorMovement myWaTorMovement = new WaTorMovement();
 
-    public WaTorModel(String type) {
-        super(type);
-    }
-    //TODO: Still working on this, just mapping out right now
+    public WaTorModel(String type, Map<String, String> parameters) { super(type, parameters);}
 
     @Override
-    public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
+    public void setNextState(Cells myCell, int row, int col, Grid myGrid){
+        changedCells = myWaTorMovement.getStep();
+        stepCheck++;
+        gridCheck(myGrid.colLength() * myGrid.rowLength());
         List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-        checkAnimals(myCell);
-        animalConditions(myCell, myNeighbors);
-        myCell.setMyNextState(2); //TODO: just adding this rn so no stack traces are printed
+        myWaTorMovement.setInitialParameters(myCell, myGrid, myNeighbors, getStatesBundle(), getMyParameters());
+        updateNeighbors(myNeighbors);
+        updateWaTorStates(myCell, myNeighbors);
     }
 
-    private void checkAnimals(Cells myCell){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> setUpAnimalReproduction(myCell)
-        ,0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
-
-    private void setUpAnimalReproduction(Cells myCell){
-        if(!reproductionMap.containsKey(myCell)){
-            reproductionMap.put(myCell, INITIAL_REPRODUCTION);
-        }
-        else{
-            reproductionMap.put(myCell, reproductionMap.get(myCell) + REPRODUCTION_INCREASE);
+    private void gridCheck(int gridSize){
+        if(stepCheck == gridSize + STEP_BUFFER){
+            changedCells.clear();
+            stepCheck = STEP_RESET;
         }
     }
 
-    private void setUpAnimalEnergy(Cells myCell){
-        if (!energyMap.containsKey(myCell)) {
-            energyMap.put(myCell, INITIAL_ENERGY);
-        }
-        else{
-            energyMap.put(myCell, energyMap.get(myCell) - ENERGY_DECREASE);
-        }
-        setUpAnimalReproduction(myCell);
-    }
-
-    private void animalConditions(Cells myCell, List<Cells> myNeighbors){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
-                        0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
-
-    private void checkAnimalEnergy(Cells myCell, List<Cells> myNeighbors){
-        if(energyMap.get(myCell) == 0){
-            energyMap.remove(myCell);
-            myCell.setMyNextState(0);
-            myCell.updateMyCurrentState();
-        }
-        checkAnimalReproduction(myCell, myNeighbors);
-    }
-
-    private void checkAnimalReproduction(Cells myCell, List<Cells> myNeighbors){
-        if(reproductionMap.get(myCell) == 5){
-            for(Cells c: myNeighbors){
-                if(c.getCurrentState() == 0){
-                    c.setMyNextState(myCell.getCurrentState());
-                    c.updateMyCurrentState();
-                    reproductionMap.put(c, INITIAL_REPRODUCTION);
-                    myCell.setMyNextState(myCell.getCurrentState());
-                    reproductionMap.remove(myCell);
-                    myCell.updateMyCurrentState();
-                }
-            }
+    private void updateWaTorStates(Cells myCell, List<Cells> myNeighbors) {
+        if(!changedCells.contains(myCell)) {
+            int movableCells = findMovableCells(myCell, myNeighbors);
+            myWaTorMovement.checkState(myCell, getMyRules().generateNextState(movableCells, myCell.getCurrentState()));
         }
     }
 
+    private void updateNeighbors(List<Cells> myNeighbors){
+        myNeighbors.removeIf(c -> changedCells.contains(c));
+    }
+
+
+    private int findMovableCells(Cells myCell, List<Cells> myNeighbors){
+        Map<Integer, Consumer<Integer>> movableMap =
+                Map.of(Integer.parseInt(getStatesBundle().getString(FISH)),
+                        integer -> movableCellsForFish(myNeighbors),
+                        Integer.parseInt(getStatesBundle().getString(SHARK)),
+                        integer -> movableCellsForShark(myNeighbors),
+                        Integer.parseInt(getStatesBundle().getString(EMPTY)),
+                        integer -> {});
+        consumerGenerateNextState(myCell.getCurrentState(), movableMap.get(myCell.getCurrentState()));
+        return movableCells;
+    }
+
+    private void movableCellsForFish(List<Cells> neighbors){
+        movableCells = quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(EMPTY)), neighbors);
+    }
+
+    private void movableCellsForShark(List<Cells> neighbors){
+        movableCells = neighbors.size() - quantityOfCellsOfGivenStateInCluster(Integer.parseInt(getStatesBundle().getString(SHARK)), neighbors);
+    }
 }
+
+

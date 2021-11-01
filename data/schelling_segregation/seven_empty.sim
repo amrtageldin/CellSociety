@@ -1,1 +1,6 @@
 Type=SchellingSegregation
+Title=SevenEmpty
+Author=Reya Magan
+Description=Each Cell-Species type needs to have 30% similar neighbors
+InitialStates=schelling_segregation/seven-empty.csv
+Percent=30

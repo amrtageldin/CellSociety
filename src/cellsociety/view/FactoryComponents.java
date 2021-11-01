@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import java.lang.reflect.Method;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,7 +24,7 @@ public class FactoryComponents {
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
   /**
-   * Constructor for the FactoryComponents class that initializes it's resource bundle.
+   * Constructor for the FactoryComponents class that initializes its resource bundle.
    *
    * @param language What language property will be used (English or Spanish).
    */
@@ -109,6 +110,14 @@ public class FactoryComponents {
       dropdown.getItems().add(myResources.getString(label));
     }
     return dropdown;
+  }
+
+  public Alert createErrorMessage(String id, String content) {
+    Alert error = new Alert(Alert.AlertType.ERROR);
+    error.setHeaderText(myResources.getString(id));
+    error.setContentText(myResources.getString(content));
+    error.show();
+    return error;
   }
 
   private Node setId(String id, Node node) {

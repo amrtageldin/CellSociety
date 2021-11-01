@@ -1,14 +1,15 @@
 package cellsociety.ruleStructure;
 
-import java.lang.reflect.Method;
+
+import java.util.Map;
 
 public class SchellingSegregationRules extends CellSocietyRules{
-    private String percent;
+    private static final String PERCENT = "Percent";
 
-    public SchellingSegregationRules(String myType){ super(myType);}
+    public SchellingSegregationRules(String type, Map<String, String> parameters) { super(type, parameters);}
 
     protected void percentCheck(){
-        parameter = "30"; //TODO: once we have input from view this will change
+        parameter = getMyParameters().get(PERCENT);
     }
 
 }

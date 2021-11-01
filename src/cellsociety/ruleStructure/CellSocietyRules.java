@@ -1,29 +1,36 @@
 package cellsociety.ruleStructure;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.rule.Rule;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 abstract public class CellSocietyRules {
-    public static final String METHOD_RULE = "METHOD";
-    protected List<Rule> myRules;
-    protected ResourceBundle ruleBundle;
-    protected ResourceBundle translationBundle;
-    protected ResourceBundle valueBundle;
+    private static final String METHOD_RULE = "METHOD";
+    private static final String RULE_ERROR = "RuleError";
+    private final List<Rule> myRules;
+    private ResourceBundle ruleBundle;
+    private ResourceBundle translationBundle;
+    private ResourceBundle valueBundle;
+    private Map<String, String> myParametersMap;
+    private ErrorFactory myErrorFactory;
 
-    protected final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
-    protected final String ruleBundleBase = "cellsociety.rule.Rule";
-    protected final String modelResourceBundleBase = "cellsociety.model.resources.";
+    private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
     protected String parameter;
 
-    public CellSocietyRules(String myType){
+    public CellSocietyRules(String myType, Map<String, String> parameters){
         myRules = new ArrayList<>();
+        myParametersMap = parameters;
+        myErrorFactory = new ErrorFactory();
         initializeRuleAndValueBundles(myType);
         initializeMyRules();
+    }
+
+
+    protected Map<String, String> getMyParameters(){
+        return myParametersMap;
     }
 
     protected void initializeMyRules(){
@@ -37,7 +44,7 @@ abstract public class CellSocietyRules {
                     method.invoke(this);
                 }
                 catch (Exception e){
-                    e.printStackTrace();
+                    myErrorFactory.updateError(RULE_ERROR);
                 }
                 ruleSet[1] = parameter;
             }
@@ -50,13 +57,14 @@ abstract public class CellSocietyRules {
         Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
 
         try{
+            String ruleBundleBase = "cellsociety.rule.Rule";
             Rule myRule = (Rule) Class.forName(
-                            String.format("%s%s",ruleBundleBase, translationBundle.getString(ruleSet[0]))).
+                            String.format("%s%s", ruleBundleBase, translationBundle.getString(ruleSet[0]))).
                     getConstructor(paramTypesSub).newInstance(paramValuesSub);
             myRules.add(myRule);
         }
         catch (Exception e){
-            e.printStackTrace();
+            myErrorFactory.updateError(RULE_ERROR);
         }
 
     }
@@ -73,7 +81,6 @@ abstract public class CellSocietyRules {
             }
         }
             return currentState;
-
     }
 
     protected ResourceBundle initializeBundle(String bundleBase, String packageName) {
@@ -82,9 +89,10 @@ abstract public class CellSocietyRules {
 
     protected void initializeRuleAndValueBundles(String base) {
         ruleBundle = initializeBundle(ruleResourceBundleBase, String.format("%sRules", base));
+        String modelResourceBundleBase = "cellsociety.model.resources.";
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
 
-
+    public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 
 }
