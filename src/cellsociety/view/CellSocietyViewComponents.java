@@ -107,6 +107,7 @@ public class CellSocietyViewComponents {
       String colorMode = dropdown.getValue();
       colorMode = colorMode.replace(" ", "");
       root.getTop().setId(colorMode + "MainPane");
+      System.out.println(root.getRight().getId());
       root.getRight().setId(colorMode + "AboutPane");
       root.setId(colorMode);
     };

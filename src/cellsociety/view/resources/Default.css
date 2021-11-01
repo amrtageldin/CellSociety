@@ -25,22 +25,22 @@
 #BlueDevilModeAboutPane {
   -fx-background-color: #2427bf;
   -fx-text-fill: white;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: white;
+  -fx-font-size: 12;
 }
 
 #DarkModeAboutPane {
   -fx-background-color: #262b33;
   -fx-text-fill: white;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: white;
+  -fx-font-size: 12;
 }
 
 #LightModeAboutPane {
   -fx-background-color: #f5f5ff;
   -fx-text-fill: black;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: black;
+  -fx-font-size: 12;
 }
 
 .gridPane {

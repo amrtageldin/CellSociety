@@ -24,8 +24,7 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that sets up the display for all Cell Society Game types.
- * TODO: Missing double screen functionality,error message handling,
- *  about section parsing to display, missing color choosing for cell state.
+ * TODO: Missing double screen functionality, missing different grid types
  *  
  */
 public class CellSocietyView {
