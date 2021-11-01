@@ -9,7 +9,17 @@ import java.io.FileReader;
 import java.util.Map;
 
 public class GridFactory {
+    private static final String FIRE = "Fire_Spread";
     private static final String INVALID_GRID = "InvalidGrid";
+    private static final String WA_TOR = "wa_tor";
+    private static final String PERCOLATION_STATES = "0,1,2";
+    private static final String WA_TOR_STATES = "0,1,2";
+    private static final String FIRE_STATES = "0,1,2";
+    private static final String GAME_OF_LIFE = "game_of_life";
+    private static final String GAME_OF_LIFE_STATES = "0,1";
+    private static final String PERCOLATION = "percolation";
+    private static final String SCHELLING_SEGREGATION = "schelling_segregation";
+    private static final String SCHELLING_SEGREGATION_STATES = "0,2,3";
     private ErrorFactory myErrorFactory = new ErrorFactory();
     private Grid myGrid;
     private String rowCount;
@@ -18,9 +28,11 @@ public class GridFactory {
     private Map<String, String> gameStates;
 
     public GridFactory(){
-        gameStates = Map.of("wa_tor", "0,1,2",
-                "Fire_Spread", "0,1,2", "game_of_life", "0,1", "percolation",
-                "0,1,2", "schelling_segregation", "0,2,3");
+        gameStates = Map.of(WA_TOR, WA_TOR_STATES,
+                FIRE, FIRE_STATES,
+                GAME_OF_LIFE, GAME_OF_LIFE_STATES,
+                PERCOLATION, PERCOLATION_STATES,
+                SCHELLING_SEGREGATION, SCHELLING_SEGREGATION_STATES);
     }
     /**
      * This method initially sets up the grid that has a state value for each cell. It reads in
