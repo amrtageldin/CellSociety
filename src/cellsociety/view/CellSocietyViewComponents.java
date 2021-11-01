@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that uses FactoryComponents class to create the panels and UI components that are displayed
  * in the game.
@@ -132,8 +133,9 @@ public class CellSocietyViewComponents {
     Node stepButton = myFactoryComponents.makeButton("Step", myCellSocietyView);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", myCellSocietyView);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", myCellSocietyView);
+    Node histogramButton = myFactoryComponents.makeButton("CheckHistogram", myCellSocietyView);
     livePanel.getChildren()
-        .addAll(animationButton, stepButton, speedUpButton, slowDownButton);
+        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, histogramButton);
     return livePanel;
   }
 

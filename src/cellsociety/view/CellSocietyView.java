@@ -7,9 +7,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -224,25 +221,6 @@ public class CellSocietyView {
     mySecondGridView = new GridView(myController);
     vbox.getChildren().add(mySecondGridView.setupGrid());
     return vbox;
-  }
-
-  private ComboBox<String> setupColorOptions() {
-    String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
-        options);
-    setupDropDownCommands(colorOptions);
-    return colorOptions;
-  }
-
-  private void setupDropDownCommands(ComboBox<String> dropdown) {
-    EventHandler<ActionEvent> event = event1 -> {
-      String colorMode = dropdown.getValue();
-      colorMode = colorMode.replace(" ", "");
-      root.getTop().setId(colorMode + "MainPane");
-      root.getRight().setId(colorMode + "AboutPane");
-      root.setId(colorMode);
-    };
-    dropdown.setOnAction(event);
   }
 
   private void errorCheck(){
