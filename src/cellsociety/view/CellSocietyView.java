@@ -227,6 +227,11 @@ public class CellSocietyView {
     }
   }
 
+  /**
+   * Getter method that returns the GridView.
+   *
+   * @return GridView.
+   */
   public GridView getMyGridView() {
     return myGridView;
   }
