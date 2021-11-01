@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
