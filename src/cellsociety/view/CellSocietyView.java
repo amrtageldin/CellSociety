@@ -7,7 +7,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -91,7 +90,7 @@ public class CellSocietyView {
     try {
       myController.loadFileType(selectedFile.toString());
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage", AlertType.ERROR);
+      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
       error.show();
     }
     if(myAnimation != null){
@@ -116,7 +115,7 @@ public class CellSocietyView {
         togglePlay();
       }
     } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage", AlertType.ERROR);
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
     }
   }
@@ -186,7 +185,7 @@ public class CellSocietyView {
 
   private void errorCheck(){
     if(myController.getErrorExists()){
-      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError(), AlertType.ERROR);
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
     }
   }
 

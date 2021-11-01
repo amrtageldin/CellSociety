@@ -24,7 +24,7 @@ public class FactoryComponents {
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
   /**
-   * Constructor for the FactoryComponents class that initializes it's resource bundle.
+   * Constructor for the FactoryComponents class that initializes its resource bundle.
    *
    * @param language What language property will be used (English or Spanish).
    */
@@ -112,7 +112,7 @@ public class FactoryComponents {
     return dropdown;
   }
 
-  public Alert createErrorMessage(String id, String content, Alert.AlertType alertType) {
+  public Alert createErrorMessage(String id, String content) {
     Alert error = new Alert(Alert.AlertType.ERROR);
     error.setHeaderText(myResources.getString(id));
     error.setContentText(myResources.getString(content));
