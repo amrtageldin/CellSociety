@@ -15,7 +15,7 @@ abstract public class CellSocietyRules {
 
     private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
-    protected String parameter; //TODO: need to change to put in sim file
+    protected String parameter;
 
     public CellSocietyRules(String myType, Map<String, String> parameters){
         myRules = new ArrayList<>();
@@ -77,7 +77,6 @@ abstract public class CellSocietyRules {
             }
         }
             return currentState;
-
     }
 
     protected ResourceBundle initializeBundle(String bundleBase, String packageName) {
@@ -89,8 +88,5 @@ abstract public class CellSocietyRules {
         String modelResourceBundleBase = "cellsociety.model.resources.";
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
-
-
-
 
 }

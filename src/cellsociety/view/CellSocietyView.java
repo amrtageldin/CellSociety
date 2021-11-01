@@ -99,6 +99,9 @@ public class CellSocietyView {
     if(myAnimation != null){
       togglePlay();
     }
+    if(myController.getErrorExists()){
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError(), AlertType.ERROR);
+    }
   }
 
   private void startGame() {

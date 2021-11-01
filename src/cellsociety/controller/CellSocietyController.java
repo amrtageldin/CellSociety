@@ -1,5 +1,6 @@
 package cellsociety.controller;
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.model.CellSocietyModel;
 
 import cellsociety.model.Cells;
@@ -11,15 +12,17 @@ import java.util.ResourceBundle;
 public class CellSocietyController {
     private CellSocietyModel myModel;
     private final ResourceBundle myFileType;
-    private final ResourceBundle myErrors;
     private final GridFactory myGridFactory;
     private final GameFactory myGameFactory;
+    private final ErrorFactory myErrorFactory;
     private Grid myGrid;
     private String myGameType;
     private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.controller.resources.";
     private static final String FILE_TYPE = "FileType";
     private static final String ERRORS_ENGLISH = "ErrorsEnglish";
     private Map<String, String> myParametersMap;
+    private String error;
+    private boolean errorExists;
 
     /**
      * Constructor for controller within CellSociety. Initializes controller as well as relevant variables
@@ -27,9 +30,9 @@ public class CellSocietyController {
      */
     public CellSocietyController(){
         myFileType = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + FILE_TYPE);
-        myErrors = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + ERRORS_ENGLISH);
         myGridFactory = new GridFactory();
         myGameFactory = new GameFactory();
+        myErrorFactory = new ErrorFactory();
         myParametersMap = new HashMap<>();
     }
 
@@ -51,6 +54,7 @@ public class CellSocietyController {
 
     private void createGridFromFile(String file){
         myGrid = myGridFactory.setUpGrid(file);
+        checkErrors(myGridFactory.getMyErrorFactory());
     }
 
     /**
@@ -58,9 +62,7 @@ public class CellSocietyController {
      * cell in the grid, so that it can be displayed on the game scene
      * @return myGrid - grid of Cells with current states
      */
-    public Grid getMyGrid(){
-        return myGrid;
-    }
+    public Grid getMyGrid(){return myGrid;}
 
     private void createSimFromFile(String file){
         try {
@@ -68,13 +70,11 @@ public class CellSocietyController {
             Object [] paramValuesSub = {gameType, myGameFactory.getParametersMap()};
             myModel = (CellSocietyModel) Class.forName(String.format("cellsociety.model.%sModel", gameType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
             myGameType = gameType;
-
         }
         catch(Exception e){
-            e.printStackTrace();
+            checkErrors(myModel.getMyErrorFactory());
         }
     }
-
 
     public Map<String, String> getMyParametersMap(){
         return myGameFactory.getParametersMap();
@@ -103,6 +103,7 @@ public class CellSocietyController {
             for (int j = 0; j < myGrid.colLength(); j++){
                 Cells thisCell = myGrid.getCell(i,j);
                 myModel.setNextState(thisCell, i, j, myGrid);
+                checkErrors(myModel.getMyErrorFactory());
             }
         }
         updateGrid();
@@ -116,5 +117,27 @@ public class CellSocietyController {
             }
         }
 
+    }
+
+
+    private void checkErrors(ErrorFactory error){
+        if(error.errorExists()){
+            setErrors(error);
+        }
+    }
+
+    private void setErrors(ErrorFactory errors){
+        errorExists = true;
+        error = errors.getErrorKey();
+        errors.setErrorNoLongerExists();
+    }
+
+    public String getMyError(){
+        errorExists = false;
+        return error;
+    }
+
+    public boolean getErrorExists(){
+        return errorExists;
     }
 }

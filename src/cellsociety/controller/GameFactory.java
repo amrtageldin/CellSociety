@@ -1,16 +1,18 @@
 package cellsociety.controller;
 
 
+import cellsociety.Errors.ErrorFactory;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameFactory {
     public static final String TYPE = "Type";
+    private static final String SIM_ERROR = "SimError";
     private Map<String, String> parametersMap = new HashMap<>();
+    private ErrorFactory myErrorFactory = new ErrorFactory();
 
     /**
      * This method takes in the loaded .sim file, and parses it to determine which game type
@@ -30,15 +32,18 @@ public class GameFactory {
                 line = reader.readLine();
             }
         }
-        catch (IOException e){
-            e.printStackTrace(); //TODO
+        catch (Exception e){
+            myErrorFactory.updateError(SIM_ERROR);
         }
-        System.out.println(parametersMap.get("D"));
         return parametersMap.get(TYPE);
     }
 
     public Map<String, String> getParametersMap(){
         return parametersMap;
+    }
+
+    public ErrorFactory getMyErrorFactory(){
+        return myErrorFactory;
     }
 
 }

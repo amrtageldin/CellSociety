@@ -1,6 +1,7 @@
 package cellsociety.model;
 
 
+import cellsociety.Errors.ErrorFactory;
 import cellsociety.controller.Grid;
 import cellsociety.ruleStructure.CellSocietyRules;
 
@@ -8,13 +9,16 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class CellSocietyModel {
+  private static final String GAME_ERROR = "GameError";
   private CellSocietyRules myRules;
   private ResourceBundle statesBundle;
   private Map<String, String> myParametersMap;
+  private ErrorFactory myErrorFactory;
 
 
   public CellSocietyModel(String myType, Map<String, String> parameters){
     myParametersMap = parameters;
+    myErrorFactory = new ErrorFactory();
     try{
       Object [] paramValuesSub = {myType, myParametersMap};
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
@@ -22,7 +26,7 @@ public abstract class CellSocietyModel {
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
     catch (Exception e){
-      e.printStackTrace();
+      myErrorFactory.updateError(GAME_ERROR);
     }
   }
 
@@ -82,6 +86,10 @@ public abstract class CellSocietyModel {
 
   protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer){
     consumer.accept(currentState);
+  }
+
+  public ErrorFactory getMyErrorFactory(){
+    return myErrorFactory;
   }
 
 }
