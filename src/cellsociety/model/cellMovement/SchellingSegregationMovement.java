@@ -18,7 +18,8 @@ public class SchellingSegregationMovement implements CellSocietyMovement{
     private Grid myGrid;
     private ResourceBundle myStatesBundle;
 
-    public void setInitialParameters(Cells cell, Grid grid, List<Cells> neighbors, ResourceBundle statesBundle){
+    public void setInitialParameters(Cells cell, Grid grid, List<Cells> neighbors, ResourceBundle statesBundle,
+                                     Map<String, String> parameters){
         myGrid = grid;
         myStatesBundle = statesBundle;
     }
