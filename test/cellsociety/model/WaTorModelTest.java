@@ -5,6 +5,8 @@ import cellsociety.controller.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -102,4 +104,19 @@ public class WaTorModelTest {
         assertEquals(g.getNextState(myGrid.getCell(0,0)), 1);
     }
 
+    @Test
+    void randomGridTest(){
+        int count = 0;
+        g = getMyModel("random");
+        Grid cell = myCellSocietyController.getMyGrid();
+        List<Cells> neighbors = g.getMyNeighbors().generateNeighbors(0,0, cell);
+        for(Cells c: neighbors){
+            if(c.getCurrentState() != cell.getCell(0,0).getCurrentState()){
+                count++;
+            }
+        }
+        if(count != 0 && cell.getCell(0,0).getCurrentState()!= 0){
+            assertNotEquals(cell.getCell(0,0).getMyNextState(), cell.getCell(0,0).getCurrentState());
+        }
+    }
 }

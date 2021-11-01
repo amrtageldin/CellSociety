@@ -135,4 +135,12 @@ public class CellSocietyControllerTest {
         }
 
     }
+
+    @Test
+    void makeRandomGridTest(){
+        myCellSocietyController.loadFileType("data/game_of_life/random.csv");
+        Grid cell = myCellSocietyController.getMyGrid();
+        int cellValue = cell.getCell(0,0).getCurrentState();
+        assertEquals(cell.getCell(0,0).getCurrentState(), cellValue);
+    }
 }
