@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -152,13 +153,13 @@ public class CellSocietyViewComponents {
     return colorOptions;
   }
 
-  public VBox setupHistogram() {
+  public VBox setupHistogram(XYChart.Series cellStateData) {
     VBox vbox = new VBox();
     Double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     Double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
     NumberAxis xAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
     NumberAxis yAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
-    vbox.getChildren().add(myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis));
+    vbox.getChildren().add(myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis, cellStateData));
     return vbox;
   }
 

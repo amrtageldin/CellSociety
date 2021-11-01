@@ -197,7 +197,7 @@ public class CellSocietyView {
   }
 
   private void addHistogram() {
-    root.setLeft(myViewComponents.setupHistogram());
+    root.setLeft(myViewComponents.setupHistogram(myController.getCellStateSeries()));
   }
 
   public GridView getMyGridView() {

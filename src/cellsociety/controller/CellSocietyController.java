@@ -7,6 +7,9 @@ import cellsociety.model.Cells;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 
 public class CellSocietyController {
     private CellSocietyModel myModel;
@@ -19,6 +22,9 @@ public class CellSocietyController {
     private static final String FILE_TYPE = "FileType";
     private String error;
     private boolean errorExists;
+    private XYChart.Series cellStateSeries = new XYChart.Series();
+    private double stepCount;
+    private double state0Count;
 
     /**
      * Constructor for controller within CellSociety. Initializes controller as well as relevant variables
@@ -100,18 +106,27 @@ public class CellSocietyController {
                 checkErrors(myModel.getMyErrorFactory());
             }
         }
+        stepCount++;
         updateGrid();
     }
 
     private void updateGrid(){
+        state0Count = 0.0;
         for (int i = 0; i < myGrid.rowLength(); i++) {
             for (int j = 0; j < myGrid.colLength(); j++) {
                 Cells thisCell = myGrid.getCell(i,j);
                 thisCell.updateMyCurrentState();
+                if (thisCell.getCurrentState()==0) {
+                    state0Count++;
+                }
             }
         }
+        cellStateSeries.getData().add(new XYChart.Data(stepCount, state0Count));
     }
 
+    public XYChart.Series getCellStateSeries() {
+        return cellStateSeries;
+    }
 
     private void checkErrors(ErrorFactory error){
         if(error.errorExists()){
