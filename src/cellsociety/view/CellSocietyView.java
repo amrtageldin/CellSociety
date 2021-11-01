@@ -104,9 +104,6 @@ public class CellSocietyView {
   }
 
   private void startGame() {
-    if (myController.getMyParametersMap().containsKey("Language")) {
-      myViewComponents.updateLanguage(myController.getMyParametersMap().get("Language"));
-    }
     try {
       if (gridLoaded) {
         addGrid();
