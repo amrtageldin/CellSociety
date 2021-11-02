@@ -22,18 +22,15 @@ import javafx.stage.Stage;
  */
 public class CellSocietyViewComponents {
 
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+  public final String maxValue = "maxValue";
+  public final Map<String, String> colorMap = Map.of("Modooscuro", "DarkMode", "Modobajo",
+      "LightMode",
+      "MododelDiabloAzul", "BlueDevilMode");
   private final FactoryComponents myFactoryComponents;
   private final ResourceBundle myMagicValues;
   private final CellSocietyView myCellSocietyView;
   private VBox myAboutPanel;
-
-  public final String maxValue = "maxValue";
-
-  public final Map<String, String> colorMap = Map.of("Modooscuro", "DarkMode", "Modobajo",
-      "LightMode",
-      "MododelDiabloAzul", "BlueDevilMode");
-
-  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
   /**
    * Constructor method that initializes the class.

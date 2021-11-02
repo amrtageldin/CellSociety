@@ -1,6 +1,7 @@
 package cellsociety.view;
 
 import java.lang.reflect.Method;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -8,8 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
-import java.util.ResourceBundle;
 import javafx.scene.control.Slider;
 
 /**
@@ -20,11 +19,9 @@ import javafx.scene.control.Slider;
  */
 public class FactoryComponents {
 
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private final ResourceBundle myResources;
   private final ResourceBundle myResourceMethods;
-
-
-  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
 
   /**
    * Constructor for the FactoryComponents class that initializes its resource bundle.
@@ -52,7 +49,6 @@ public class FactoryComponents {
    * Method that edits text within a Label
    *
    * @param id Label identifier.
-   *
    */
   public void setLabel(Label label, String id) {
     label.setText(myResources.getString(id));
@@ -61,7 +57,7 @@ public class FactoryComponents {
   /**
    * Method that creates a Button.
    *
-   * @param label   Button identifier for id/text.
+   * @param label Button identifier for id/text.
    * @return Node that has id as label and the button itself.
    */
   public Node makeButton(String label, CellSocietyView cell) {
@@ -75,8 +71,7 @@ public class FactoryComponents {
               Method m = cell.getClass().getDeclaredMethod(a);
               m.setAccessible(true);
               m.invoke(cell);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
               return;
             }
           }
@@ -89,8 +84,8 @@ public class FactoryComponents {
    * Method that creates a slider.
    *
    * @param label Slider identifier.
-   * @param min min number on slider.
-   * @param max max number on slider.
+   * @param min   min number on slider.
+   * @param max   max number on slider.
    * @return slider component.
    */
   public Slider makeSlider(String label, int min, int max, int increment) {

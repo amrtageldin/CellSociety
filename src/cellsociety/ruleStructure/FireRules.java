@@ -11,10 +11,13 @@ public class FireRules extends CellSocietyRules {
 
   /**
    * Initialize the FireRules
-   * @param type use String "Percolation" to create the rules
+   *
+   * @param type       use String "Percolation" to create the rules
    * @param parameters parameter to deem threshold for if a fire burns or not
    */
-  public FireRules(String type, Map<String, String> parameters) { super(type, parameters);}
+  public FireRules(String type, Map<String, String> parameters) {
+    super(type, parameters);
+  }
 
 
 }

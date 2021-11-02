@@ -10,9 +10,12 @@ public class PercolationRules extends CellSocietyRules {
 
   /**
    * Initialize the PercolationRules
-   * @param type use String "Percolation" to create the rules
+   *
+   * @param type       use String "Percolation" to create the rules
    * @param parameters no relevant parameters are passed
    */
-  public PercolationRules(String type, Map<String, String> parameters) { super(type, parameters);}
+  public PercolationRules(String type, Map<String, String> parameters) {
+    super(type, parameters);
+  }
 
 }
