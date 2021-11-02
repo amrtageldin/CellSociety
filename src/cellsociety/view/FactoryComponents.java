@@ -1,10 +1,13 @@
 package cellsociety.view;
 
 import java.lang.reflect.Method;
-import java.util.ResourceBundle;
+import java.util.Locale.Category;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -100,6 +103,13 @@ public class FactoryComponents {
     return (Slider) setId(label, slider);
   }
 
+  /**
+   * Method that creates a dropdown menu (ComboBox)
+   *
+   * @param id dropdown identifier.
+   * @param labels options when dropping down.
+   * @return ComboBox component.
+   */
   public ComboBox<String> makeDropDownMenu(String id, String[] labels) {
     ComboBox<String> dropdown = new ComboBox<>();
     dropdown.setId(id);
@@ -110,6 +120,14 @@ public class FactoryComponents {
     return dropdown;
   }
 
+  /**
+   * Method that creates a histogram (LineChart).
+   *
+   * @param label histogram identifier and title.
+   * @param xAxis x-axis for the data to be graphed on.
+   * @param yAxis y-axis for the data to be graphed on.
+   * @return LineChart component.
+   */
   public LineChart<Number, Number> makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis) {
     LineChart<Number, Number> histogram = new LineChart<>(xAxis, yAxis);
     histogram.setId(label);
@@ -117,6 +135,56 @@ public class FactoryComponents {
     return histogram;
   }
 
+  /**
+   * Method that creates a BarChart.
+   *
+   * @param label barChart identifier and title.
+   * @param xAxis x-axis for the data to be graphed on.
+   * @param yAxis y-axis for the data to be graphed on.
+   * @return BarChart component.
+   */
+  public BarChart<Category, Number> makeBarChart(String label, CategoryAxis xAxis, NumberAxis yAxis) {
+    BarChart barchart = new BarChart<>(xAxis, yAxis);
+    barchart.setId(label);
+    barchart.setTitle(myResources.getString(label));
+    return barchart;
+  }
+
+  /**
+   * Method that creates a CategoryAxis.
+   *
+   * @param label CategoryAxis identifier and title.
+   * @return CategoryAxis component.
+   */
+  public CategoryAxis makeCategoryAxis(String label) {
+    CategoryAxis axis = new CategoryAxis();
+    axis.setLabel(myResources.getString(label));
+    axis.setId(label);
+    return axis;
+  }
+
+  /**
+   * Method that creates a NumberAxis for BarCharts.
+   *
+   * @param label NumberAxis identifier and title.
+   * @return NumberAxis component.
+   */
+  public NumberAxis makeBarChartAxis(String label) {
+    NumberAxis axis = new NumberAxis();
+    axis.setLabel(myResources.getString(label));
+    axis.setId(label);
+    return axis;
+  }
+
+  /**
+   * Method that creates a NumberAxis for LineCharts.
+   *
+   * @param label NumberAxis identifier and title.
+   * @param lowerBound Lower limit of the axis.
+   * @param upperBound Upper limit of the axis.
+   * @param tickSteps increments for the axis (where the ticks are marked).
+   * @return NumberAxis component.
+   */
   public NumberAxis makeAxis(String label, double lowerBound, double upperBound, double tickSteps) {
     NumberAxis axis = new NumberAxis(lowerBound, upperBound, tickSteps);
     axis.setLabel(myResources.getString(label));
@@ -124,6 +192,23 @@ public class FactoryComponents {
     return axis;
   }
 
+  /**
+   * Method that names a Series for charts.
+   *
+   * @param label Series title.
+   * @param series Series to be named.
+   */
+  public void nameSeries(String label, XYChart.Series series) {
+    series.setName(myResources.getString(label));
+  }
+
+  /**
+   * Method that creates an Alert to be displayed
+   *
+   * @param id Alert header text.
+   * @param content Content or text in the body of the alert.
+   * @return Alert component
+   */
   public Alert createErrorMessage(String id, String content) {
     Alert error = new Alert(Alert.AlertType.ERROR);
     error.setHeaderText(myResources.getString(id));

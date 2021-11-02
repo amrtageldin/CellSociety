@@ -127,6 +127,12 @@
   -fx-background-color: lightblue;
 }
 
+#BarChartPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-background-color: lightblue;
+}
+
 
 #CellStateCount {
   -fx-alignment: center;
@@ -178,6 +184,7 @@
 
 #CellStatesOverTime {
   -fx-font-size: 13;
+  -fx-alignment: center;
   -fx-font-family: "Segoe UI Semibold";
   -fx-border-radius: 8px;
   -fx-background-radius: 8px;
