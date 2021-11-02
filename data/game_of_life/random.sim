@@ -1,6 +1,0 @@
-Type=GameOfLife
-Title=Beehive
-Author=John Conway
-Description=Examples of a randomly generated grid
-InitialStates=game_of_life/random.csv
-Neighbors=FullNeighbors

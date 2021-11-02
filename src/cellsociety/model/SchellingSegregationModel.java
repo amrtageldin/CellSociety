@@ -1,65 +1,71 @@
 package cellsociety.model;
 
-import cellsociety.controller.Grid;
-import cellsociety.model.cellMovement.SchellingSegregationMovement;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.function.Consumer;
 
-/**
- * This class extends the CellSocietyModel class to implement the SchellingSegregation game for
- * CellSociety. It overrides the abstract setNextState() method within the abstract class to set up
- * the next state of a cell as a result of applied SchellingSegregation-specific rules.
- */
-public class SchellingSegregationModel extends CellSocietyModel {
+public class SchellingSegregationModel extends CellSocietyModel{
 
-  private static final String EMPTY = "EMPTY";
-  private static final int SCALE_FACTOR = 100;
-  private final SchellingSegregationMovement mySchellingSegregationMovement = new SchellingSegregationMovement();
+    private static final String EMPTY = "EMPTY";
+    private static final String SAME = "SAME";
+    private static final String MOVE = "MOVE";
+    private static final String A = "A";
+    private static final String B = "B";
 
-  /**
-   * The constructor for the SchellingSegregation Model. It takes in the same variables as the
-   * abstract class.
-   *
-   * @param type:       The type of game being played, in this case it is SchellingSegregation.
-   * @param parameters: All of the relevant parameters for the SchellingSegregation game. This
-   *                    includes the percent of same group neighbors needed for a cell to stay in
-   *                    its position. This also includes the neighboring rules for the current
-   *                    game.
-   */
-  public SchellingSegregationModel(String type, Map<String, String> parameters) {
-    super(type, parameters);
-  }
+    public SchellingSegregationModel(String type) { super(type);}
 
-  /**
-   * This method overrides the abstract setNextState method in the abstract CellSocietyModel class.
-   * It finds all of the percent same group neighbors of a given cell. If this percent is greater
-   * than or equal to the percent specified within the .sim file, the cell does not move. However if
-   * the percent is not met, then the cell must move to an empty cell until it finds a neighborhood
-   * that has at least the specified .sim file percentage of same group neighbors. This class uses
-   * the SchellingSegregationMovement class to deal with cell movement.
-   *
-   * @param myCell: the current cell being considered in the state-changing process
-   * @param row:    the row number of the current cell
-   * @param col:    the column number of the current cell
-   * @param myGrid: the grid of all the cells, we use the current cell's row and column
-   */
-  @Override
-  public void setNextState(Cells myCell, int row, int col, Grid myGrid) {
-    List<Cells> myNeighbors = neighborGenerator(row, col, myGrid);
-    int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(),
-        neighborGenerator(row, col, myGrid));
-    double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
-    int state = getMyRules().generateNextState((int) (
-        SCALE_FACTOR * propSameCells), myCell.getCurrentState());
-    mySchellingSegregationMovement.setInitialParameters(myCell, myGrid, myNeighbors,
-        getStatesBundle(), getMyParameters());
-    mySchellingSegregationMovement.checkState(myCell, state);
-  }
+    @Override
+    public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
+        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
+        int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
+        double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
+        int state = myRules.generateNextState((int) (
+                SCALE_FACTOR *propSameCells), myCell.getCurrentState());
+        checkState(myCell, state, myGrid);
+    }
 
-  private double percentSameNeighbors(int sameCells, List<Cells> neighbors) {
-    neighbors.removeIf(c -> c.getCurrentState() == bundleToInteger(EMPTY));
-    int neighborsLeft = neighbors.size();
-    return ((double) sameCells / neighborsLeft);
-  }
+    private double percentSameNeighbors(int sameCells, List<Cells> neighbors){
+        neighbors.removeIf(c -> c.getCurrentState() == Integer.parseInt(statesBundle.getString(EMPTY)));
+        int neighborsLeft = neighbors.size();
+        return ((double) sameCells /neighborsLeft);
+    }
 
+
+    private void checkState(Cells cell, int state, Cells[][] grid){
+        Map<Integer, Consumer<Integer>> intMap = Map.of( Integer.parseInt(statesBundle.getString(SAME)), integers -> keepState(cell),
+            Integer.parseInt(statesBundle.getString(MOVE)), integers -> moveState(cell, grid)
+        );
+        consumerGenerateNextState(state, intMap.get(state));
+    }
+
+
+    private void moveState(Cells cell, Cells[][] grid){
+        Map<Integer, Consumer<Integer>> intMap = Map.of(Integer.parseInt(statesBundle.getString(A)), integers -> moveCells(cell, grid),
+                Integer.parseInt(statesBundle.getString(B)), integer -> moveCells(cell, grid),
+                Integer.parseInt(statesBundle.getString(EMPTY)), integer -> keepState(cell));
+        consumerGenerateNextState(cell.getCurrentState(), intMap.get(cell.getCurrentState()));
+    }
+
+    private void moveCells(Cells cell, Cells[][] grid){
+        findEmpty(cell, grid);
+        cell.setMyNextState(Integer.parseInt(statesBundle.getString(EMPTY)));
+        cell.updateMyCurrentState();
+    }
+    private void keepState(Cells cell){
+        cell.setMyNextState(cell.getCurrentState());
+    }
+
+    private void findEmpty(Cells cell, Cells[][] grid) {
+        Random r = new Random();
+        int randRow = r.nextInt(grid.length);
+        int randCol = r.nextInt(grid[0].length);
+        if(grid[randRow][randCol].getCurrentState() == Integer.parseInt(statesBundle.getString(EMPTY))){
+            grid[randRow][randCol].setMyNextState(cell.getCurrentState());
+            grid[randRow][randCol].updateMyCurrentState();
+        }
+        else{
+            findEmpty(cell, grid);
+        }
+    }
 }

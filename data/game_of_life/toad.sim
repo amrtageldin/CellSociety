@@ -3,4 +3,3 @@ Title=Toad
 Author=John Conway
 Description=Examples of an oscillation
 InitialStates=game_of_life/toad.csv
-Neighbors=FullNeighbors

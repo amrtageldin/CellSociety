@@ -3,9 +3,6 @@ package cellsociety.ruleStructure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SchellingSegregationRulesTest {
@@ -13,9 +10,7 @@ public class SchellingSegregationRulesTest {
 
     @BeforeEach
     public void setUp(){
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("Percent", "30");
-        mySchellingSegregationRules = new SchellingSegregationRules("SchellingSegregation", parameters);
+        mySchellingSegregationRules = new SchellingSegregationRules("SchellingSegregation");
     }
 
     @Test
