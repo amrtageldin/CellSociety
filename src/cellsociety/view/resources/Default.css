@@ -124,6 +124,7 @@
 #HistogramPane {
   -fx-alignment: center;
   -fx-spacing: 20;
+  -fx-background-color: lightblue;
 }
 
 
@@ -182,3 +183,5 @@
   -fx-background-radius: 8px;
   -fx-text-alignment: center;
 }
+
+
