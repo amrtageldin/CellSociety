@@ -121,6 +121,41 @@
   -fx-spacing: 20;
 }
 
+#HistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-background-color: lightblue;
+}
+
+
+#CellStateCount {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+#LightModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #ffffff;
+}
+
+#DarkModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-text-background-color: lightgray;
+  -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #3f3f47;
+}
+
+#BlueDevilModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #0462b5;
+}
+
 #Grid {
   -fx-alignment: center;
 }
@@ -140,3 +175,13 @@
   -fx-background-radius: 8px;
   -fx-text-alignment: center;
 }
+
+#CellStatesOverTime {
+  -fx-font-size: 13;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-text-alignment: center;
+}
+
+
