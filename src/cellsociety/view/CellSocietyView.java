@@ -54,6 +54,7 @@ public class CellSocietyView {
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
+  public final String gap = "gap";
   public final String secondDelay = "secondDelay";
   public final String speedUpRate = "speedUpRate";
   public final String slowDownRate = "slowDownRate";
@@ -215,16 +216,27 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
-    Double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
-    Double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
-    NumberAxis xAxis = new NumberAxis(axisLowerBound, myController.getStepCount(), axisTickMarks);
-    NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
-    LineChart histogram = myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis);
+    LineChart histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
     histogram.setLegendSide(Side.LEFT);
     vbox.getChildren().add(histogram);
     return vbox;
+  }
+
+  private NumberAxis setupHistogramXAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
+    int axisGap = Integer.parseInt(myMagicValues.getString(gap));
+    NumberAxis xAxis = new NumberAxis(axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
+    return xAxis;
+  }
+
+  private NumberAxis setupHistogramYAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
+    NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
+    return yAxis;
   }
 
   private void addHistogram() {

@@ -120,7 +120,7 @@ public class FactoryComponents {
   public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis) {
     LineChart histogram = new LineChart(xAxis, yAxis);
     histogram.setId(label);
-    histogram.setTitle(label);
+    histogram.setTitle(myResources.getString(label));
     return histogram;
   }
 

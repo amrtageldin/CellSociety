@@ -99,6 +99,10 @@ public class GridView {
     return (int) myGrid.rowLength()* myGrid.colLength();
   }
 
+  public int getColLength() {
+    return myGrid.colLength();
+  }
+
   public Shape[][] getMyPaneNodes() {
     return myPaneNodes;
   }

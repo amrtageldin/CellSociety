@@ -154,13 +154,6 @@ public class CellSocietyViewComponents {
     return colorOptions;
   }
 
-  public VBox setupHistogram(NumberAxis xAxis, NumberAxis yAxis) {
-    VBox vbox = new VBox();
-
-    vbox.getChildren().add(myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis));
-    return vbox;
-  }
-
   private void setupDropDownCommands(ComboBox<String> dropdown, BorderPane root) {
     EventHandler<ActionEvent> event = event1 -> {
       String colorMode = dropdown.getValue();
