@@ -154,16 +154,6 @@ public class CellSocietyViewComponents {
     return colorOptions;
   }
 
-  public VBox setupHistogram(Series cellStateData) {
-    VBox vbox = new VBox();
-    Double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
-    Double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
-    NumberAxis xAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
-    NumberAxis yAxis = new NumberAxis(axisLowerBound, 20.0, axisTickMarks);
-    vbox.getChildren().add(myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis, cellStateData));
-    return vbox;
-  }
-
   private void setupDropDownCommands(ComboBox<String> dropdown, BorderPane root) {
     EventHandler<ActionEvent> event = event1 -> {
       String colorMode = dropdown.getValue();
@@ -173,6 +163,7 @@ public class CellSocietyViewComponents {
       }
       root.getTop().setId(colorMode + "MainPane");
       root.getRight().setId(colorMode + "AboutPane");
+      root.getLeft().setId(colorMode + "HistogramPane");
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
