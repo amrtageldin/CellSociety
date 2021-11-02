@@ -48,10 +48,6 @@ public class CellSocietyView {
   private boolean multiGrid;
   private boolean histogramAdded;
   private boolean barChartAdded;
-  private int state0;
-  private int state1;
-  private int state2;
-  private int state3;
   private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
@@ -257,8 +253,12 @@ public class CellSocietyView {
     BarChart<Category, Number> barchart = myFactoryComponents.makeBarChart("CellStateCount", myFactoryComponents.makeCategoryAxis("CellState"), myFactoryComponents.makeBarChartAxis("NumberOfCells"));
     XYChart.Series state0series = new XYChart.Series();
     XYChart.Series state1series = new XYChart.Series();
+    XYChart.Series state2series = new XYChart.Series();
+    XYChart.Series state3series = new XYChart.Series();
     state0series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_0), myController.getCellStateCounts()[0]));
     state1series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_1), myController.getCellStateCounts()[1]));
+    state2series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_2), myController.getCellStateCounts()[2]));
+    state3series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_3), myController.getCellStateCounts()[3]));
     barchart.getData().addAll(state0series, state1series);
     barchart.setLegendSide(Side.LEFT);
     vbox.getChildren().add(barchart);
