@@ -11,6 +11,13 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 
+/**
+ * This is the controller for the CellSociety application. The controller is the only connection point
+ * between the front-end (view) and back-end (model). The controller takes in the file inputs from the user,
+ * and then creates a valid game and grid corresponding to the inputted files. It also serves as the starting
+ * point for the animation: the animation in the view calls the step() method in the controller, which connects
+ * with the model to update cell states based on given rules (dependent on the game type).
+ */
 public class CellSocietyController {
     private CellSocietyModel myModel;
     private final ResourceBundle myFileType;
@@ -75,10 +82,22 @@ public class CellSocietyController {
         }
     }
 
+    /**
+     * This method returns a Map of all of the parameters that exist within a .sim file for a game.
+     * This is called by the view so that it can get and display relevant parameters such as
+     * cell colors and shapes.
+     * @return myGameFactory.getParametersMap() : a map of all of the parameters separated by their
+     * keys (i.e. Color=#F0000)
+     */
     public Map<String, String> getMyParametersMap(){
         return myGameFactory.getParametersMap();
     }
 
+    /**
+     * This method returns the model that has been initiated through the loading of a .sim file.
+     * It is used for testing purposes.
+     * @return myModel: the current model being played.
+     */
     public CellSocietyModel getMyModel(){
         return myModel;
     }
@@ -140,11 +159,23 @@ public class CellSocietyController {
         errors.setErrorNoLongerExists();
     }
 
+    /**
+     * This method is called by the view to return any errors that come up within the backend.
+     * For example, if conflicting game .sim and .csv files are loaded, an error is returned.
+     * @return error: the key for the error message to be returned, values are described in the
+     * view resource bundles.
+     */
     public String getMyError(){
         errorExists = false;
         return error;
     }
 
+    /**
+     * This method is called by the view to check to see if the backend threw any errors,
+     * if so, the error key is returned using the getMyError() method.
+     * @return errorExists: a boolean that tells the view if an error in the backend exists
+     * or not.
+     */
     public boolean getErrorExists(){
         return errorExists;
     }
