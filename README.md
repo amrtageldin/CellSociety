@@ -18,8 +18,9 @@ Finish Date: 11/2
 Hours Spent: ~50 each
 
 ### Primary Roles
-Reya Magan - Involved with the backend. Implemented the Schelling and WaTor games, and pair programmed on the GameOfLife game.
-Also implemented neighbor policies, as well as random cell configuration. Pair programmed the rule set up. Created the parsing mechanisms for the .sim and .csv files, and used reflection for both classes and methods to call the relevant ones.
+
+Reya Magan - Involved with the backend. Implemented the Schelling and WaTor games, and pair programmed on the GameOfLife game. 
+Also implemented neighbor policies, as well as random cell configuration. Pair programmed the rule set up. Created the parsing mechanisms for the .sim and .csv files, and used reflection for both classes and methods to call the relevant ones. 
 Also refactored a lot to include consumers + abstract wherever possible. Refactored to make sure that instance variables were not accessed directly. Implemented error handling for the back-end. Implemented method reflection within
 the rule structure to call relevant methods within Schelling and Fire games to set percent parameters.
 

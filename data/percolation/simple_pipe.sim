@@ -3,3 +3,4 @@ ConfigTitle=Simple Pipe
 Author=Unknown
 Description=A simple pipe flowing from top to bottom
 InitialStates=percolation/simple_pipe.csv
+Neighbors=FullNeighbors
