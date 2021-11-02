@@ -7,6 +7,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -151,6 +152,10 @@ public class FactoryComponents {
     axis.setLabel(myResources.getString(label));
     axis.setId(label);
     return axis;
+  }
+
+  public void nameSeries(String label, XYChart.Series series) {
+    series.setName(myResources.getString(label));
   }
 
 

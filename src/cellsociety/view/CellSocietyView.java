@@ -259,7 +259,7 @@ public class CellSocietyView {
     state1series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_1), myController.getCellStateCounts()[1]));
     state2series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_2), myController.getCellStateCounts()[2]));
     state3series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_3), myController.getCellStateCounts()[3]));
-    barchart.getData().addAll(state0series, state1series);
+    barchart.getData().addAll(state0series, state1series, state2series, state3series);
     barchart.setLegendSide(Side.LEFT);
     vbox.getChildren().add(barchart);
     return vbox;
@@ -278,7 +278,9 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
-    vbox.setId("HistogramPane");
+    if (root.getTop().getId()=="MainPane") {
+      vbox.setId("HistogramPane");
+    }
     LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
@@ -316,9 +318,13 @@ public class CellSocietyView {
   private void updateStateSeries() {
     double stepCount = myController.getStepCount();
     series0.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0]));
+    myFactoryComponents.nameSeries("Series0", series0);
     series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
+    myFactoryComponents.nameSeries("Series1", series1);
     series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
+    myFactoryComponents.nameSeries("Series2", series2);
     series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
+    myFactoryComponents.nameSeries("Series3", series3);
   }
 
   /**
