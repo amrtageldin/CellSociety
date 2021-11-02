@@ -17,8 +17,8 @@ abstract public class CellSocietyRules {
     private ResourceBundle ruleBundle;
     private ResourceBundle translationBundle;
     private ResourceBundle valueBundle;
-    private Map<String, String> myParametersMap;
-    private ErrorFactory myErrorFactory;
+    private final Map<String, String> myParametersMap;
+    private final ErrorFactory myErrorFactory;
 
     private final String ruleResourceBundleBase = "cellsociety.ruleStructure.ruleResources.";
 
@@ -62,14 +62,13 @@ abstract public class CellSocietyRules {
     }
 
     protected void runThroughRules(String[] ruleSet){
-        Class [] paramTypesSub = {int.class, Integer.class};
         Object [] paramValuesSub = {Integer.parseInt(ruleSet[1]), Integer.parseInt(valueBundle.getString(ruleSet[2]))};
 
         try{
             String ruleBundleBase = "cellsociety.rule.Rule";
             Rule myRule = (Rule) Class.forName(
                             String.format("%s%s", ruleBundleBase, translationBundle.getString(ruleSet[0]))).
-                    getConstructor(paramTypesSub).newInstance(paramValuesSub);
+                    getConstructor(new Class[]{int.class, Integer.class}).newInstance(paramValuesSub);
             myRules.add(myRule);
         }
         catch (Exception e){
