@@ -1,12 +1,14 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.util.Locale.Category;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -45,6 +47,10 @@ public class CellSocietyView {
   private HBox multiGridPanel;
   private boolean multiGrid;
   private boolean histogramAdded;
+  private int state0;
+  private int state1;
+  private int state2;
+  private int state3;
   private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
@@ -222,6 +228,15 @@ public class CellSocietyView {
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
+  private VBox setupBarChart() {
+    VBox vbox = new VBox();
+    vbox.setId("BarChartPane");
+    BarChart<Category, Number> barchart = myFactoryComponents.makeBarChart("CellStateCount", myFactoryComponents.makeCategoryAxis("CellState"), myFactoryComponents.makeBarChartAxis("NumberOfCells"));
+    //barchart.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0])
+    return vbox;
+  }
+
+
   private VBox setupHistogram() {
     VBox vbox = new VBox();
     vbox.setId("HistogramPane");
@@ -264,6 +279,10 @@ public class CellSocietyView {
     series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
     series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
     series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
+    state0 = myController.getCellStateCounts()[0];
+    state1 = myController.getCellStateCounts()[1];
+    state2 = myController.getCellStateCounts()[2];
+    state3 = myController.getCellStateCounts()[3];
   }
 
   /**

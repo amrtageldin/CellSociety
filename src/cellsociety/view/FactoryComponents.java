@@ -1,7 +1,10 @@
 package cellsociety.view;
 
 import java.lang.reflect.Method;
+import java.util.Locale.Category;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Alert;
@@ -120,6 +123,27 @@ public class FactoryComponents {
     histogram.setId(label);
     histogram.setTitle(myResources.getString(label));
     return histogram;
+  }
+
+  public BarChart<Category, Number> makeBarChart(String label, CategoryAxis xAxis, NumberAxis yAxis) {
+    BarChart barchart = new BarChart<>(xAxis, yAxis);
+    barchart.setId(label);
+    barchart.setTitle(myResources.getString(label));
+    return barchart;
+  }
+
+  public CategoryAxis makeCategoryAxis(String label) {
+    CategoryAxis axis = new CategoryAxis();
+    axis.setLabel(myResources.getString(label));
+    axis.setId(label);
+    return axis;
+  }
+
+  public NumberAxis makeBarChartAxis(String label) {
+    NumberAxis axis = new NumberAxis();
+    axis.setLabel(myResources.getString(label));
+    axis.setId(label);
+    return axis;
   }
 
   public NumberAxis makeAxis(String label, double lowerBound, double upperBound, double tickSteps) {
