@@ -17,15 +17,14 @@ public class FireModel extends CellSocietyModel{
 
   @Override
   public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-    List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row,col, myGrid);
-    int initialState = Integer.parseInt(getStatesBundle().getString(BURNING));
-    int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
+    int initialState = bundleToInteger(BURNING);
+    int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, neighborGenerator(row,col,myGrid));
     int randomlyGeneratedNumber = (int) Math.floor(Math.random() * SCALE_FACTOR) * quantityOfBurningCells;
 
 
-    Integer empty = Integer.parseInt(getStatesBundle().getString(EMPTY));
-    Integer burning = Integer.parseInt(getStatesBundle().getString(BURNING));
-    Integer tree = Integer.parseInt(getStatesBundle().getString(TREE));
+    Integer empty = bundleToInteger(EMPTY);
+    Integer burning = bundleToInteger(BURNING);
+    Integer tree = bundleToInteger(TREE);
 
     Map<Integer, Consumer<Integer>> intMap = Map.of(empty, integers -> myCell.setMyNextState(empty),
         burning, integers-> myCell.setMyNextState(empty),

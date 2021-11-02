@@ -3,7 +3,7 @@ package cellsociety.model;
 
 import cellsociety.Errors.ErrorFactory;
 import cellsociety.controller.Grid;
-import cellsociety.neighbors.CellSocietyNeighbors;
+import cellsociety.model.neighbors.*;
 import cellsociety.ruleStructure.CellSocietyRules;
 
 import java.util.*;
@@ -24,7 +24,7 @@ public abstract class CellSocietyModel {
     try{
       Object [] paramValuesSub = {myType, myParametersMap};
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
-      myNeighbors = (CellSocietyNeighbors) Class.forName(String.format("cellsociety.neighbors.%s", myParametersMap.get("Neighbors"))).getConstructor().newInstance();
+      myNeighbors = (CellSocietyNeighbors) Class.forName(String.format("cellsociety.model.neighbors.%s", myParametersMap.get("Neighbors"))).getConstructor().newInstance();
       String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
@@ -82,6 +82,14 @@ public abstract class CellSocietyModel {
 
   public ErrorFactory getMyErrorFactory(){
     return myErrorFactory;
+  }
+
+  protected List<Cells> neighborGenerator(int row, int col, Grid myGrid) {
+    return getMyNeighbors().generateNeighbors(row,col, myGrid);
+  }
+
+  protected Integer bundleToInteger(String myString){
+    return Integer.parseInt(getStatesBundle().getString(myString));
   }
 
 }

@@ -16,22 +16,17 @@ public class GameOfLifeModel extends CellSocietyModel{
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-        try {
-            List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row, col, myGrid);
-            int initialState = Integer.parseInt(getStatesBundle().getString(ALIVE));
-            int quantityOfLivingCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
+        int initialState = bundleToInteger(ALIVE);
+        int quantityOfLivingCells = quantityOfCellsOfGivenStateInCluster(initialState, neighborGenerator(row,col,myGrid));
 
-            Integer alive = Integer.parseInt(getStatesBundle().getString(ALIVE));
-            Integer dead = Integer.parseInt(getStatesBundle().getString(DEAD));
+        Integer alive = bundleToInteger(ALIVE);
+        Integer dead = bundleToInteger(DEAD);
 
-            Map<Integer, Consumer<Integer>> intMap = Map.of(alive, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState())),
-                    dead, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState()))
-            );
-            this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
-        }
-        catch (Exception e){
-            getMyErrorFactory().updateError(GAME_ERROR);
-        }
+        Map<Integer, Consumer<Integer>> intMap = Map.of(alive, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState())),
+            dead, integers -> myCell.setMyNextState(getMyRules().generateNextState(quantityOfLivingCells, myCell.getCurrentState()))
+        );
+        this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
     }
+
 
 }

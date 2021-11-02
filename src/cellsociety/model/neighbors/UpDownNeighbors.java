@@ -1,4 +1,4 @@
-package cellsociety.neighbors;
+package cellsociety.model.neighbors;
 
 import cellsociety.controller.Grid;
 import cellsociety.model.Cells;
