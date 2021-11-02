@@ -163,7 +163,6 @@ public class CellSocietyViewComponents {
       }
       root.getTop().setId(colorMode + "MainPane");
       root.getRight().setId(colorMode + "AboutPane");
-      root.getLeft().setId(colorMode + "HistogramPane");
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);

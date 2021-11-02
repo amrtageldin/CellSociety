@@ -84,12 +84,4 @@ public abstract class CellSocietyModel {
     return myErrorFactory;
   }
 
-  protected List<Cells> neighborGenerator(int row, int col, Grid myGrid) {
-    return getMyNeighbors().generateNeighbors(row,col, myGrid);
-  }
-
-  protected Integer bundleToInteger(String myString){
-    return Integer.parseInt(getStatesBundle().getString(myString));
-  }
-
 }

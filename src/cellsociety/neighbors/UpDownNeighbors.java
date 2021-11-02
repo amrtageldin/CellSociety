@@ -11,12 +11,13 @@ public class UpDownNeighbors extends CellSocietyNeighbors{
   public UpDownNeighbors(){super();}
 
   public List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
+    List<Cells> myCells = new ArrayList<>();
     int[] yChanges = new int[]{-1,1};
     for (int i : yChanges){
       if (rowIsValid(row + i, myGrid)){
-        addToMyCells(myGrid.getCell(row + i,col));
+        myCells.add(myGrid.getCell(row + i,col));
       }
     }
-    return getMyCells();
+    return myCells;
   }
 }

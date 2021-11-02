@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CellSocietyNeighbors {
-    private List<Cells> myCells;
-    public CellSocietyNeighbors(){
-        myCells = new ArrayList<>();
-    }
 
     public abstract List<Cells> generateNeighbors(int row, int col, Grid myGrid);
 
@@ -21,18 +17,4 @@ public abstract class CellSocietyNeighbors {
     protected boolean rowIsValid(int row, Grid myGrid) {
         return row >=0 && row < myGrid.rowLength();
     }
-
-    protected List<Cells> getMyCells(){
-        return myCells;
-    }
-
-    protected void addToMyCells(Cells newCell){
-        myCells.add(newCell);
-    }
-
-    protected void addAllToMyCells(List<Cells> newCells){
-        myCells.addAll(newCells);
-    }
-
-
 }
