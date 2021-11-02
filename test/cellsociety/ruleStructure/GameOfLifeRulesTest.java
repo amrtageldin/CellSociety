@@ -2,6 +2,9 @@ package cellsociety.ruleStructure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameOfLifeRulesTest {
@@ -9,7 +12,8 @@ public class GameOfLifeRulesTest {
 
     @BeforeEach
     public void setUp(){
-         myGameOfLifeRules = new GameOfLifeRules("GameOfLife");
+        Map<String, String> parameters = new HashMap<>();
+         myGameOfLifeRules = new GameOfLifeRules("GameOfLife", parameters);
     }
 
     @Test

@@ -1,90 +1,107 @@
 package cellsociety.model;
 
-import java.util.HashMap;
+import cellsociety.controller.Grid;
+import cellsociety.model.cellMovement.WaTorMovement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class WaTorModel extends CellSocietyModel{
-    private static final int INITIAL_REPRODUCTION = 0;
-    private static final int REPRODUCTION_INCREASE = 1;
-    private static final String FISH = "FISH";
-    private static final String SHARK = "SHARK";
-    public static final int INITIAL_ENERGY = 5;
-    public static final int ENERGY_DECREASE = 1;
-    private Map<Cells, Integer> reproductionMap = new HashMap<>();
-    private Map<Cells, Integer> energyMap = new HashMap<>();
+/**
+ * This class extends the CellSocietyModel class to implement the WaTor game for CellSociety. It
+ * overrides the abstract setNextState() method within the abstract class to set up the next state
+ * of a cell as a result of applied WaTor-specific rules.
+ */
+public class WaTorModel extends CellSocietyModel {
 
-    public WaTorModel(String type) {
-        super(type);
+  private static final String FISH = "FISH";
+  private static final String SHARK = "SHARK";
+  private static final String EMPTY = "EMPTY";
+  private static final int STEP_RESET = 1;
+  private static final int STEP_BUFFER = 1;
+  private final WaTorMovement myWaTorMovement = new WaTorMovement();
+  private int stepCheck = 0;
+  private int movableCells = 0;
+  private List<Cells> changedCells = new ArrayList<>();
+
+  /**
+   * The constructor for the WaTor Model. It takes in the same variables as the abstract class.
+   *
+   * @param type:       The type of game being played, in this case it is WaTor.
+   * @param parameters: All of the relevant parameters for the SchellingSegregation game. This
+   *                    includes the max reproduction required for cells to reproduce, as well as
+   *                    the starting energy levels for Shark cells. This also includes the
+   *                    neighboring rules for the current game.
+   */
+  public WaTorModel(String type, Map<String, String> parameters) {
+    super(type, parameters);
+  }
+
+  /**
+   * This method overrides the abstract setNextState method in the abstract CellSocietyModel class.
+   * It moves the Fish and Shark cells to open spots (empty cells for fish and empty or fish cells
+   * for sharks). It also uses the WaTorMovement class to move these cells as well as keep track of
+   * the reproduction and energy stages each relevant cell is at. Empty cells are not changed unless
+   * a shark or fish cell moves into them.
+   *
+   * @param myCell: the current cell being considered in the state-changing process
+   * @param row:    the row number of the current cell
+   * @param col:    the column number of the current cell
+   * @param myGrid: the grid of all the cells, we use the current cell's row and column
+   */
+  @Override
+  public void setNextState(Cells myCell, int row, int col, Grid myGrid) {
+    changedCells = myWaTorMovement.getStep();
+    stepCheck++;
+    gridCheck(myGrid.colLength() * myGrid.rowLength());
+    List<Cells> myNeighbors = neighborGenerator(row, col, myGrid);
+    myWaTorMovement.setInitialParameters(myCell, myGrid, myNeighbors, getStatesBundle(),
+        getMyParameters());
+    updateNeighbors(myNeighbors);
+    updateWaTorStates(myCell, myNeighbors);
+  }
+
+  private void gridCheck(int gridSize) {
+    if (stepCheck == gridSize + STEP_BUFFER) {
+      changedCells.clear();
+      stepCheck = STEP_RESET;
     }
-    //TODO: Still working on this, just mapping out right now
+  }
 
-    @Override
-    public void setNextState(Cells myCell, int row, int col, Cells[][] myGrid){
-        List<Cells> myNeighbors = generateNeighbors(row, col, myGrid);
-        checkAnimals(myCell);
-        animalConditions(myCell, myNeighbors);
-        myCell.setMyNextState(2); //TODO: just adding this rn so no stack traces are printed
+  private void updateWaTorStates(Cells myCell, List<Cells> myNeighbors) {
+    if (!changedCells.contains(myCell)) {
+      int movableCells = findMovableCells(myCell, myNeighbors);
+      myWaTorMovement.checkState(myCell,
+          getMyRules().generateNextState(movableCells, myCell.getCurrentState()));
     }
+  }
 
-    private void checkAnimals(Cells myCell){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> setUpAnimalEnergy(myCell),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> setUpAnimalReproduction(myCell)
-        ,0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
+  private void updateNeighbors(List<Cells> myNeighbors) {
+    myNeighbors.removeIf(c -> changedCells.contains(c));
+  }
 
-    private void setUpAnimalReproduction(Cells myCell){
-        if(!reproductionMap.containsKey(myCell)){
-            reproductionMap.put(myCell, INITIAL_REPRODUCTION);
-        }
-        else{
-            reproductionMap.put(myCell, reproductionMap.get(myCell) + REPRODUCTION_INCREASE);
-        }
-    }
 
-    private void setUpAnimalEnergy(Cells myCell){
-        if (!energyMap.containsKey(myCell)) {
-            energyMap.put(myCell, INITIAL_ENERGY);
-        }
-        else{
-            energyMap.put(myCell, energyMap.get(myCell) - ENERGY_DECREASE);
-        }
-        setUpAnimalReproduction(myCell);
-    }
+  private int findMovableCells(Cells myCell, List<Cells> myNeighbors) {
+    Map<Integer, Consumer<Integer>> movableMap =
+        Map.of(bundleToInteger(FISH),
+            integer -> movableCellsForFish(myNeighbors),
+            bundleToInteger(SHARK),
+            integer -> movableCellsForShark(myNeighbors),
+            bundleToInteger(EMPTY),
+            integer -> {
+            });
+    consumerGenerateNextState(myCell.getCurrentState(), movableMap.get(myCell.getCurrentState()));
+    return movableCells;
+  }
 
-    private void animalConditions(Cells myCell, List<Cells> myNeighbors){
-        Map<Integer, Consumer<Integer>> animalCheck =
-                Map.of(Integer.parseInt(statesBundle.getString(SHARK)), integer -> checkAnimalEnergy(myCell, myNeighbors),
-                        Integer.parseInt(statesBundle.getString(FISH)), integer -> checkAnimalReproduction(myCell, myNeighbors),
-                        0, integer -> {});
-        consumerGenerateNextState(myCell.getCurrentState(), animalCheck.get(myCell.getCurrentState()));
-    }
+  private void movableCellsForFish(List<Cells> neighbors) {
+    movableCells = quantityOfCellsOfGivenStateInCluster(bundleToInteger(EMPTY), neighbors);
+  }
 
-    private void checkAnimalEnergy(Cells myCell, List<Cells> myNeighbors){
-        if(energyMap.get(myCell) == 0){
-            energyMap.remove(myCell);
-            myCell.setMyNextState(0);
-            myCell.updateMyCurrentState();
-        }
-        checkAnimalReproduction(myCell, myNeighbors);
-    }
-
-    private void checkAnimalReproduction(Cells myCell, List<Cells> myNeighbors){
-        if(reproductionMap.get(myCell) == 5){
-            for(Cells c: myNeighbors){
-                if(c.getCurrentState() == 0){
-                    c.setMyNextState(myCell.getCurrentState());
-                    c.updateMyCurrentState();
-                    reproductionMap.put(c, INITIAL_REPRODUCTION);
-                    myCell.setMyNextState(myCell.getCurrentState());
-                    reproductionMap.remove(myCell);
-                    myCell.updateMyCurrentState();
-                }
-            }
-        }
-    }
-
+  private void movableCellsForShark(List<Cells> neighbors) {
+    movableCells =
+        neighbors.size() - quantityOfCellsOfGivenStateInCluster(bundleToInteger(SHARK), neighbors);
+  }
 }
+
+
