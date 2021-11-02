@@ -6,6 +6,11 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -40,12 +45,19 @@ public class CellSocietyView {
   private HBox gridPanel;
   private HBox multiGridPanel;
   private boolean multiGrid;
+  private XYChart.Series series0 = new XYChart.Series();
+  private XYChart.Series series1 = new XYChart.Series();
+  private XYChart.Series series2 = new XYChart.Series();
+  private XYChart.Series series3 = new XYChart.Series();
+  private XYChart.Series stepSeries = new XYChart.Series();
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
   public final String secondDelay = "secondDelay";
   public final String speedUpRate = "speedUpRate";
   public final String slowDownRate = "slowDownRate";
+  public final String axisStart = "axisStart";
+  public final String axisStep = "axisStep";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -169,6 +181,7 @@ public class CellSocietyView {
     }
     myAnimation.play();
     setupGridPanel();
+    updateStateSeries();
   }
 
   private void pauseAndStep() {
@@ -196,8 +209,28 @@ public class CellSocietyView {
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
+  private VBox setupHistogram() {
+    VBox vbox = new VBox();
+    Double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    Double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
+    NumberAxis xAxis = new NumberAxis(axisLowerBound, myController.getStepCount(), axisTickMarks);
+    NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
+    LineChart histogram = myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis);
+    histogram.getData().add(series0);
+    vbox.getChildren().add(histogram);
+    return vbox;
+  }
+
   private void addHistogram() {
-    root.setLeft(myViewComponents.setupHistogram(myController.getCellStateSeries()));
+    root.setLeft(setupHistogram());
+  }
+
+  private void updateStateSeries() {
+    double stepCount = myController.getStepCount();
+    series0.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[0]));
+    series1.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[1]));
+    series2.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[2]));
+    series3.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[3]));
   }
 
   public GridView getMyGridView() {
