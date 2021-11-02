@@ -182,11 +182,11 @@ public class CellSocietyView {
       myAnimation.stop();
     }
     myAnimation.play();
-    setupGridPanel();
     updateStateSeries();
     if (histogramAdded) {
       addHistogram();
     }
+    setupGridPanel();
   }
 
   private void pauseAndStep() {
@@ -216,6 +216,7 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
+    vbox.setId("HistogramPane");
     LineChart histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
@@ -228,14 +229,14 @@ public class CellSocietyView {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
     int axisGap = Integer.parseInt(myMagicValues.getString(gap));
-    NumberAxis xAxis = new NumberAxis(axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
+    NumberAxis xAxis = myFactoryComponents.makeAxis("StepCount", axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
     return xAxis;
   }
 
   private NumberAxis setupHistogramYAxis() {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
-    NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
+    NumberAxis yAxis = myFactoryComponents.makeAxis("CellStateCount", axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
     return yAxis;
   }
 

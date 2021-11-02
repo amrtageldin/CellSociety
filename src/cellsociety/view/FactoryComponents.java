@@ -124,6 +124,13 @@ public class FactoryComponents {
     return histogram;
   }
 
+  public NumberAxis makeAxis(String label, double lowerBound, double upperBound, double tickSteps) {
+    NumberAxis axis = new NumberAxis(lowerBound, upperBound, tickSteps);
+    axis.setLabel(myResources.getString(label));
+    axis.setId(label);
+    return axis;
+  }
+
   public Alert createErrorMessage(String id, String content) {
     Alert error = new Alert(Alert.AlertType.ERROR);
     error.setHeaderText(myResources.getString(id));
