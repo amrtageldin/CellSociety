@@ -117,15 +117,19 @@ public class CellSocietyController {
      * within the model. At the end the grid is updated such that every cell's next state is now its current state.
      */
     public void step(){
-        for (int i = 0; i < myGrid.rowLength(); i++){
-            for (int j = 0; j < myGrid.colLength(); j++){
-                Cells thisCell = myGrid.getCell(i,j);
-                myModel.setNextState(thisCell, i, j, myGrid);
-                checkErrors(myModel.getMyErrorFactory());
+        try {
+            for (int i = 0; i < myGrid.rowLength(); i++) {
+                for (int j = 0; j < myGrid.colLength(); j++) {
+                    Cells thisCell = myGrid.getCell(i, j);
+                    myModel.setNextState(thisCell, i, j, myGrid);
+                }
             }
+            stepCount++;
+            updateGrid();
         }
-        stepCount++;
-        updateGrid();
+        catch(Exception e){
+            checkErrors(myModel.getMyErrorFactory());
+        }
     }
 
     private void updateGrid() {

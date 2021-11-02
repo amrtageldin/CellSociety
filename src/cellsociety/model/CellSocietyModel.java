@@ -55,10 +55,15 @@ public abstract class CellSocietyModel {
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
-    for (Cells eachCell : myRelevantCluster){
-      if (eachCell.getCurrentState() == state) {
-        runningCountOfState++;
+    try {
+      for (Cells eachCell : myRelevantCluster) {
+        if (eachCell.getCurrentState() == state) {
+          runningCountOfState++;
+        }
       }
+    }
+    catch(Exception e){
+      myErrorFactory.updateError(GAME_ERROR);
     }
     return runningCountOfState;
   }
