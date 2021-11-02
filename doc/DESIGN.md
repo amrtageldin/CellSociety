@@ -20,11 +20,13 @@ the rule structure to call relevant methods within Schelling and Fire games to s
    consumers + abstract methods wherever possible.
    (note: Amr and Reya did lots of Peer programming)
 
- * Team Member #3
+ * Team Member #3: Lucas Josephy 
+Involved with the frontend. Implemented BarCharts, Histogram, animation, colormodes, and split other responsibilities as they appeared with Evelyn.
 
- * Team Member #4
+ * Team Member #4: Evelyn CG
+Involved with the frontend. Implemented Grid, CellView, testing, and split other repsonsibilities as they appeared with Luke.
 
-
+   
 ## Design goals
 Our main design goal was to make our program closed to modification, but open to extension. 
 We wanted to make each part of our application as abstract as possible, so if any changes were to be
@@ -108,8 +110,12 @@ New types of neighbors
 New types of rules
 New games, within pre-existing game classes or as their own game
 new Initial cell state setups
+Adding to factory classes
+Creating new types of Cells
 
 
 #### Other Features not yet Done
 Different shape for grids
 edge policies
+Split screen feature not fully functional
+Uploading images for cells

@@ -1,7 +1,9 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.io.File;
 import java.util.Locale.Category;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -29,17 +31,6 @@ import javafx.util.Duration;
  */
 public class CellSocietyView {
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
-  private static final String DEFAULT_STYLESHEET =
-      "/" + DEFAULT_RESOURCE_PACKAGE.replace(".", "/") + "Default.css";
-  public final String defaultX = "defaultX";
-  public final String defaultY = "defaultY";
-  public final String gap = "gap";
-  public final String secondDelay = "secondDelay";
-  public final String speedUpRate = "speedUpRate";
-  public final String slowDownRate = "slowDownRate";
-  public final String axisStart = "axisStart";
-  public final String axisStep = "axisStep";
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
   private final CellSocietyController myController;
@@ -47,7 +38,6 @@ public class CellSocietyView {
   private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
-  private final ResourceBundle myMagicValues;
   CellSocietyViewComponents myViewComponents;
   private BorderPane root;
   private GridView myGridView;
@@ -60,10 +50,6 @@ public class CellSocietyView {
   private boolean multiGrid;
   private boolean histogramAdded;
   private boolean barChartAdded;
-  private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
-  private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
-  private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
-  private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";

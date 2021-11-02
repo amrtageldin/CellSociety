@@ -2,6 +2,7 @@ package cellsociety.view;
 
 import java.lang.reflect.Method;
 import java.util.Locale.Category;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
