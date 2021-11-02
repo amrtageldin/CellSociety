@@ -48,10 +48,6 @@ public class CellSocietyView {
   private boolean multiGrid;
   private boolean histogramAdded;
   private boolean barChartAdded;
-  private int state0;
-  private int state1;
-  private int state2;
-  private int state3;
   private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
   private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
@@ -193,12 +189,8 @@ public class CellSocietyView {
       }
       myAnimation.play();
       updateStateSeries();
-      if (histogramAdded) {
-        addHistogram();
-      }
-      if (barChartAdded) {
-        addBarChart();
-      }
+      if (histogramAdded) { addHistogram();}
+      if (barChartAdded) { addBarChart(); }
       setupGridPanel();
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
