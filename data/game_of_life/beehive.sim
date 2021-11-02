@@ -4,3 +4,4 @@ Author=John Conway
 Description=Examples of a still-life
 InitialStates=game_of_life/beehive.csv
 StateColors=8A2BE2,006400
+Neighbors=FullNeighbors

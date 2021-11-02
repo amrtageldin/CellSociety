@@ -1,1 +1,2 @@
 Type=GameOfLife
+Neighbors=FullNeighbors

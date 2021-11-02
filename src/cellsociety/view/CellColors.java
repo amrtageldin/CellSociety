@@ -1,5 +1,7 @@
 package cellsociety.view;
 
+import cellsociety.controller.CellSocietyController;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -20,13 +22,11 @@ public class CellColors {
 
   public static final List<Color> FIRE_STATE_COLORS = List.of(
       Color.LIGHTGREY, // empty color
-      Color.LIGHTGREY, // empty color
       Color.RED, // burning color
       Color.GREEN // tree color
   );
 
   public static final List<Color> PERCOLATE_STATE_COLORS = List.of(
-      Color.BLACK, // closed color
       Color.BLACK, // closed color
       Color.BLUE, // percolated color
       Color.WHITE // open color
@@ -51,18 +51,20 @@ public class CellColors {
   private static final String SCHELLING_SEGREGATION = "SchellingSegregation";
   private static final String WA_TOR = "WaTor";
 
-  private final List<Color> colorMap;
+  private final List<Color> defaultColorMap;
+  private final CellSocietyController myController;
 
   /**
    * Constructor that initializes the colorMap for a specific game given the game type.
    *
-   * @param gameType String that represents the game type.
+   * @param controller that represents the game type.
    */
-  public CellColors(String gameType) {
+  public CellColors(CellSocietyController controller) {
     Map<String, List<Color>> map = Map.of(GAME_OF_LIFE, LIFE_STATE_COLORS, FIRE, FIRE_STATE_COLORS,
         PERCOLATION, PERCOLATE_STATE_COLORS, SCHELLING_SEGREGATION, SS_STATE_COLORS, WA_TOR,
         WATOR_COLORS);
-    colorMap = map.get(gameType);
+    defaultColorMap = map.get(controller.getMyGameType());
+    myController = controller;
   }
 
   /**
@@ -71,7 +73,20 @@ public class CellColors {
    * @return map of cell colors.
    */
   public List<Color> getColorMap() {
-    return colorMap;
+    if (myController.getMyParametersMap().containsKey("StateColors")) {
+      return createColorMap(myController.getMyParametersMap().get("StateColors"));
+    } else {
+      return defaultColorMap;
+    }
+  }
+
+  private List<Color> createColorMap(String colorMap) {
+    String[] map = colorMap.split(",");
+    List<Color> result = new ArrayList<>();
+    for (String i : map) {
+      result.add(Color.web(i));
+    }
+    return result;
   }
 
   /**
@@ -81,13 +96,22 @@ public class CellColors {
    */
   public int getRandomCellState(int currState) {
     Random rand = new Random();
-    int upperbound = colorMap.size();
+    int upperbound = getColorMap().size();
     int result = rand.nextInt(upperbound);
     if (result != currState) {
       return result;
     } else {
       return getRandomCellState(currState);
     }
+  }
+
+  /**
+   * Getter that returns the default color map for a game.
+   *
+   * @return List of colors as default for a game.
+   */
+  public List<Color> getDefaultColorMap() {
+    return defaultColorMap;
   }
 
 }
