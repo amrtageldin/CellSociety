@@ -9,6 +9,7 @@ public class GameOfLifeModel extends CellSocietyModel{
 
     private static final String ALIVE = "ALIVE";
     private static final String DEAD = "DEAD";
+    private static final String GAME_ERROR = "GameError";
 
 
     public GameOfLifeModel(String type, Map<String, String> parameters) { super(type, parameters);}

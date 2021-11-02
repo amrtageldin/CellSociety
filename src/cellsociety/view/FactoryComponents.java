@@ -115,8 +115,8 @@ public class FactoryComponents {
     return dropdown;
   }
 
-  public LineChart<Number, Number> makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis) {
-    LineChart<Number, Number> histogram = new LineChart<>(xAxis, yAxis);
+  public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis) {
+    LineChart histogram = new LineChart(xAxis, yAxis);
     histogram.setId(label);
     histogram.setTitle(myResources.getString(label));
     return histogram;
