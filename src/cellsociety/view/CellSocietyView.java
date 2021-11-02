@@ -193,28 +193,48 @@ public class CellSocietyView {
   }
 
   private void pauseAndStep() {
-    step();
-    myAnimation.stop();
-    isPlaying = false;
+    try {
+      step();
+      myAnimation.stop();
+      isPlaying = false;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void togglePlay() {
-    if (isPlaying) {
-      myAnimation.stop();
-    } else {
-      myAnimation.play();
+    try {
+      if (isPlaying) {
+        myAnimation.stop();
+      } else {
+        myAnimation.play();
+      }
+      isPlaying = !isPlaying;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    isPlaying = !isPlaying;
   }
 
   private void speedUp() {
-    myAnimation.setRate(
-        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void slowDown() {
-    myAnimation.setRate(
-        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private VBox setupHistogram() {

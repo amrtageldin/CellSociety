@@ -141,10 +141,21 @@ public class CellSocietyController {
         }
     }
 
+    /**
+     * This method returns all of the counts for each state type present within the Grid.
+     * It is called by the view so a histogram can be created to display cell state counts.
+     * @return cellStateCounts: an int array with a list of all of the counts for different
+     * state types.
+     */
     public int[] getCellStateCounts() {
         return cellStateCounts;
     }
 
+    /**
+     * This keeps track of how many times the step() function has been called in the controller.
+     * The view uses this method to know when to update the histogram.
+     * @return stepCount: the number of calls to step() that have occurred.
+     */
     public double getStepCount() {
         return stepCount;
     }

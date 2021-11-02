@@ -2,7 +2,11 @@ package cellsociety.model;
 
 
 public class Cells {
-
+  /**
+   * This class keeps track of each cell within the game. It holds information
+   * about the cells current state, as well as the state it will become in the
+   * next iteration.
+   */
   private static final int INITIAL_NEXT_STATE = 0;
   private int currentState;
   private Integer myNextState;

@@ -143,4 +143,16 @@ public class CellSocietyControllerTest {
         int cellValue = cell.getCell(0,0).getCurrentState();
         assertEquals(cell.getCell(0,0).getCurrentState(), cellValue);
     }
+
+    @Test
+    void getErrorTest(){
+        myCellSocietyController.loadFileType("data/FOLDER_PURPOSE.md");
+        assertEquals("SimError", myCellSocietyController.getMyError());
+    }
+
+    @Test
+    void getErrorGridTest(){
+        myCellSocietyController.loadFileType("data/game_of_life/blank.csv");
+        assertEquals("InvalidGrid", myCellSocietyController.getMyError());
+    }
 }

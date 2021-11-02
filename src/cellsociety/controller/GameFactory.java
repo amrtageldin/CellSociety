@@ -15,10 +15,10 @@ import java.util.Map;
  * an invalid file is loaded it returns an error to the user.
  */
 public class GameFactory {
-    public static final String TYPE = "Type";
+    private static final String TYPE = "Type";
     private static final String SIM_ERROR = "SimError";
-    private Map<String, String> parametersMap = new HashMap<>();
-    private ErrorFactory myErrorFactory = new ErrorFactory();
+    private final Map<String, String> parametersMap = new HashMap<>();
+    private final ErrorFactory myErrorFactory = new ErrorFactory();
 
     /**
      * This method takes in the loaded .sim file, and parses it to split every parameter

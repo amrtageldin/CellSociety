@@ -3,7 +3,6 @@ package cellsociety.controller;
 import cellsociety.Errors.ErrorFactory;
 import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
-import javafx.scene.control.Cell;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -16,11 +15,11 @@ import java.util.Random;
  * creates is used throughout the program to keep track of every cell within the game.
  */
 public class Grid {
-  public static final String X = "x";
-  private Cells[][] myGrid;
+  private static final String X = "x";
+  private final Cells[][] myGrid;
   private static final String INVALID_GRID = "InvalidGrid";
-  private ErrorFactory myErrorFactory = new ErrorFactory();
-  private ArrayList<Integer> cellStatesList = new ArrayList<>();
+  private final ErrorFactory myErrorFactory = new ErrorFactory();
+  private final ArrayList<Integer> cellStatesList = new ArrayList<>();
 
   /**
    * This is the constructor for the Grid object. It takes in the row and column count,
