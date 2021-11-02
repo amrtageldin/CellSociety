@@ -25,8 +25,8 @@ public class WaTorMovement implements CellSocietyMovement {
     private static final String MOVE = "MOVE";
     private static final int NO_ENERGY = 0;
     private static final int ENERGY_INCREASE = 1;
-    private List<Cells> changedCells;
-    private WaTorDeveloper myDevelopmentStage;
+    private final List<Cells> changedCells;
+    private final WaTorDeveloper myDevelopmentStage;
     private List<Cells> myNeighbors;
     private ResourceBundle myStatesBundle;
 
