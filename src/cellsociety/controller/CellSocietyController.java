@@ -7,9 +7,7 @@ import cellsociety.model.Cells;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.chart.XYChart.Series;
+
 
 /**
  * This is the controller for the CellSociety application. The controller is the only connection point
