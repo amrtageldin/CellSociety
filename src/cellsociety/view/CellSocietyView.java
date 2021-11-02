@@ -242,9 +242,13 @@ public class CellSocietyView {
     BarChart<Category, Number> barchart = myFactoryComponents.makeBarChart("CellStateCount", myFactoryComponents.makeCategoryAxis("CellState"), myFactoryComponents.makeBarChartAxis("NumberOfCells"));
     XYChart.Series state0series = new XYChart.Series();
     XYChart.Series state1series = new XYChart.Series();
+    XYChart.Series state2series = new XYChart.Series();
+    XYChart.Series state3series = new XYChart.Series();
     state0series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_0), myController.getCellStateCounts()[0]));
     state1series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_1), myController.getCellStateCounts()[1]));
-    barchart.getData().addAll(state0series, state1series);
+    state2series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_2), myController.getCellStateCounts()[2]));
+    state3series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_3), myController.getCellStateCounts()[3]));
+    barchart.getData().addAll(state0series, state1series, state2series, state3series);
     barchart.setLegendSide(Side.LEFT);
     vbox.getChildren().add(barchart);
     return vbox;
@@ -263,7 +267,9 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
-    vbox.setId("HistogramPane");
+    if (!histogramAdded) {
+      vbox.setId("HistogramPane");
+    }
     LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
