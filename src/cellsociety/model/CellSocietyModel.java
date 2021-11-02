@@ -3,6 +3,7 @@ package cellsociety.model;
 
 import cellsociety.Errors.ErrorFactory;
 import cellsociety.controller.Grid;
+import cellsociety.neighbors.CellSocietyNeighbors;
 import cellsociety.ruleStructure.CellSocietyRules;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.function.Consumer;
 public abstract class CellSocietyModel {
   private static final String GAME_ERROR = "GameError";
   private CellSocietyRules myRules;
+  private CellSocietyNeighbors myNeighbors;
   private ResourceBundle statesBundle;
   private Map<String, String> myParametersMap;
   private ErrorFactory myErrorFactory;
@@ -22,6 +24,7 @@ public abstract class CellSocietyModel {
     try{
       Object [] paramValuesSub = {myType, myParametersMap};
       myRules = (CellSocietyRules) Class.forName(String.format("cellsociety.ruleStructure.%sRules", myType)).getConstructor(String.class, Map.class).newInstance(paramValuesSub);
+      myNeighbors = (CellSocietyNeighbors) Class.forName(String.format("cellsociety.neighbors.%s", myParametersMap.get("Neighbors"))).getConstructor().newInstance();
       String modelResourceBundleBase = "cellsociety.model.resources.";
       statesBundle = ResourceBundle.getBundle(String.format("%s%sStates", modelResourceBundleBase, myType));
     }
@@ -34,6 +37,8 @@ public abstract class CellSocietyModel {
   public Map<String, String> getMyParameters(){
     return myParametersMap;
   }
+
+  public CellSocietyNeighbors getMyNeighbors() {return myNeighbors;}
 
   public CellSocietyRules getMyRules(){
     if(myRules.getMyErrorFactory().errorExists()){
@@ -50,38 +55,17 @@ public abstract class CellSocietyModel {
 
   protected int quantityOfCellsOfGivenStateInCluster(int state, List<Cells> myRelevantCluster) {
     int runningCountOfState = 0;
-    for (Cells eachCell : myRelevantCluster){
-      if (eachCell.getCurrentState() == state) {
-        runningCountOfState++;
+    try {
+      for (Cells eachCell : myRelevantCluster) {
+        if (eachCell.getCurrentState() == state) {
+          runningCountOfState++;
+        }
       }
+    }
+    catch(Exception e){
+      myErrorFactory.updateError(GAME_ERROR);
     }
     return runningCountOfState;
-  }
-
-
-  protected List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
-    int[] xChanges = new int[]{-1,0,1};
-    int[] yChanges = new int[]{-1,0,1};
-    List<Cells> myCells = new ArrayList<>();
-    for (int i : xChanges){
-      if (rowIsValid(row + i, myGrid)){
-        for (int j : yChanges){
-          if (colIsValid(col + j, myGrid) && !(i == 0 && j == 0)){
-            myCells.add(myGrid.getCell(row + i, col + j));
-          }
-        }
-
-      }
-    }
-    return myCells;
-  }
-
-  protected boolean colIsValid(int col, Grid myGrid) {
-    return col >=0 && col < myGrid.colLength();
-  }
-
-  protected boolean rowIsValid(int row, Grid myGrid) {
-    return row >=0 && row < myGrid.rowLength();
   }
 
 

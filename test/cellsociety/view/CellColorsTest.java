@@ -1,7 +1,6 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.view.cell.CellColors;
 import java.util.List;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -41,7 +40,6 @@ public class CellColorsTest extends DukeApplicationTest {
   @Test
   void getColorMap() {
     List<Color> colorMap = myCellColors.getColorMap();
-    System.out.println(myCellColors.getColorMap());
     assertEquals(colorMap, LIFE_STATE_COLORS);
   }
 

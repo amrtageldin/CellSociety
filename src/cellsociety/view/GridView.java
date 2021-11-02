@@ -2,8 +2,6 @@ package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import cellsociety.controller.Grid;
-import cellsociety.view.cell.CellColors;
-import cellsociety.view.cell.CellView;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
@@ -28,11 +26,13 @@ public class GridView {
   private final List<Color> stateColors;
   private final CellColors myCellColors;
   private final CellView myCellView;
+  private final Boolean isGridVisible;
 
   public final String gap = "gap";
   public final String screenWidth = "screenWidth";
   public final String screenHeight = "screenHeight";
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+
 
   /**
    * Constructor that initializes the Grid.
@@ -40,6 +40,11 @@ public class GridView {
    * @param controller CellSocietyController that provides grid parsed from csv file.
    */
   public GridView(CellSocietyController controller) {
+    if (controller.getMyParametersMap().containsKey("GridVisible")) {
+      isGridVisible = Boolean.getBoolean(controller.getMyParametersMap().get("GridVisible"));
+    } else {
+      isGridVisible = true;
+    }
     myGrid = controller.getMyGrid();
     myPaneNodes = new Polygon[myGrid.rowLength()][myGrid.colLength()];
     myCellColors = new CellColors(controller);
@@ -58,7 +63,7 @@ public class GridView {
     pane.setId("Grid");
     pane.setVgap(Integer.parseInt(myMagicValues.getString(gap)));
     pane.setHgap(Integer.parseInt(myMagicValues.getString(gap)));
-    pane.setGridLinesVisible(true);
+    pane.setGridLinesVisible(isGridVisible);
     drawGrid();
     return pane;
   }

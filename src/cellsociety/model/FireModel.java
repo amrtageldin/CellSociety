@@ -17,7 +17,7 @@ public class FireModel extends CellSocietyModel{
 
   @Override
   public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-    List<Cells> myNeighbors = generateNeighbors(row,col, myGrid);
+    List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row,col, myGrid);
     int initialState = Integer.parseInt(getStatesBundle().getString(BURNING));
     int quantityOfBurningCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
     int randomlyGeneratedNumber = (int) Math.floor(Math.random() * SCALE_FACTOR) * quantityOfBurningCells;
@@ -37,25 +37,6 @@ public class FireModel extends CellSocietyModel{
   }
 
 
-  @Override
-  protected List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
-    int[] xChanges = new int[]{-1,1};
-    List<Cells> myCells = new ArrayList<>();
-    for (int i : xChanges){
-      if (rowIsValid(row + i, myGrid)){
-            myCells.add(myGrid.getCell(row+i, col));
-        }
-      }
 
-    int[] yChanges = new int[]{-1,1};
-    for (int j : yChanges){
-      if (colIsValid(col + j, myGrid)){
-        myCells.add(myGrid.getCell(row,col+j));
-      }
-    }
-
-
-    return myCells;
-  }
 
 }

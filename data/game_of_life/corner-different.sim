@@ -3,3 +3,4 @@ Title=CornerDifferent
 Author=John Conway
 Description=Examples of a active changes at the edges
 InitialStates=game_of_life/corner-different.csv
+Neighbors=FullNeighbors

@@ -1,4 +1,4 @@
-package cellsociety.view.cell;
+package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import java.util.Map;
@@ -8,10 +8,11 @@ import javafx.scene.shape.Polygon;
 
 /**
  * @author Evelyn Cupil-Garcia
- *
+ * <p>
  * Class that implements the shape type for a cell in a game.
  */
 public class CellView {
+
   CellSocietyController myController;
   ResourceBundle myMagicValues;
 
@@ -27,13 +28,22 @@ public class CellView {
 
   /**
    * Constructor that initializes the controller and magic values.
-   * @param controller
+   *
+   * @param controller to get information on cell shape.
    */
   public CellView(CellSocietyController controller) {
     myController = controller;
     myMagicValues = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "MagicValues");
   }
 
+  /**
+   * Draws the cell based on user's input in sim file or does the default which is a square.
+   *
+   * @param x x-location of the cell
+   * @param y y-location of the cell
+   * @param r radius of the cell
+   * @return cell created at a certain x/y location with a radius if applicable
+   */
   public Polygon drawCell(double x, double y, double r) {
     if (myController.getMyParametersMap().containsKey("CellShape")) {
       return determineCell(myController.getMyParametersMap().get("CellShape"), x, y, r);
@@ -42,7 +52,7 @@ public class CellView {
     }
   }
 
-  public Polygon determineCell(String cellShape, double x, double y, double r) {
+  private Polygon determineCell(String cellShape, double x, double y, double r) {
     Map<String, Polygon> map = Map.of(HEXAGON, drawHexagon(x, y), SQUARE, drawSquare(x, y, r),
         TRIANGLE, drawTriangle(x, y, r));
     if (map.containsKey(cellShape)) {
@@ -52,7 +62,7 @@ public class CellView {
     }
   }
 
-  public Polygon drawHexagon(double x, double y) {
+  private Polygon drawHexagon(double x, double y) {
     Polygon hexagon = new Polygon();
     double TILE_WIDTH = Double.parseDouble(myMagicValues.getString(tileWidth));
     double radius = Double.parseDouble(myMagicValues.getString(r));
@@ -68,16 +78,16 @@ public class CellView {
     return hexagon;
   }
 
-  public Polygon drawSquare(double x, double y, double r) {
+  private Polygon drawSquare(double x, double y, double r) {
     Polygon square = new Polygon();
     square.getPoints().addAll(x, y, x, y + r, x + r, y + r, x + r, y);
     return square;
   }
 
-  public Polygon drawTriangle(double x, double y, double r) {
+  private Polygon drawTriangle(double x, double y, double r) {
     double half = Double.parseDouble(myMagicValues.getString(oneHalf));
     Polygon triangle = new Polygon();
-    triangle.getPoints().addAll(x, y, x + r * half, y + r * half, x + r , y);
+    triangle.getPoints().addAll(x, y, x + r * half, y + r * half, x + r, y);
     return triangle;
   }
 }

@@ -1,4 +1,4 @@
-package cellsociety.view.cell;
+package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
 import java.util.ArrayList;
@@ -103,6 +103,14 @@ public class CellColors {
     } else {
       return getRandomCellState(currState);
     }
+  }
+
+  /**
+   * Getter that returns the default color map for a game.
+   * @return List of colors as default for a game.
+   */
+  public List<Color> getDefaultColorMap() {
+    return defaultColorMap;
   }
 
 }

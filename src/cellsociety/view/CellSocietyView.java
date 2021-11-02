@@ -10,8 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -29,7 +27,7 @@ import javafx.util.Duration;
  * <p>
  * Class that displays the UI components for all Cell Society Game types.
  * TODO: Missing double screen functionality, missing different grid types
- *  
+ *
  */
 public class CellSocietyView {
 
@@ -47,10 +45,10 @@ public class CellSocietyView {
   private HBox multiGridPanel;
   private boolean multiGrid;
   private boolean histogramAdded;
-  private XYChart.Series series0 = new XYChart.Series();
-  private XYChart.Series series1 = new XYChart.Series();
-  private XYChart.Series series2 = new XYChart.Series();
-  private XYChart.Series series3 = new XYChart.Series();
+  private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -176,17 +174,22 @@ public class CellSocietyView {
   }
 
   private void step() {
-    if (myController != null) {
-      myController.step();
-      errorCheck();
-      myAnimation.stop();
+    try {
+      if (myController != null) {
+        myController.step();
+        errorCheck();
+        myAnimation.stop();
+      }
+      myAnimation.play();
+      updateStateSeries();
+      if (histogramAdded) {
+        addHistogram();
+      }
+      setupGridPanel();
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    myAnimation.play();
-    updateStateSeries();
-    if (histogramAdded) {
-      addHistogram();
-    }
-    setupGridPanel();
   }
 
   private void pauseAndStep() {
@@ -205,8 +208,13 @@ public class CellSocietyView {
   }
 
   private void speedUp() {
-    myAnimation.setRate(
-        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void slowDown() {
@@ -217,7 +225,7 @@ public class CellSocietyView {
   private VBox setupHistogram() {
     VBox vbox = new VBox();
     vbox.setId("HistogramPane");
-    LineChart histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
+    LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
     histogram.getData().add(series2);
@@ -231,30 +239,38 @@ public class CellSocietyView {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
     int axisGap = Integer.parseInt(myMagicValues.getString(gap));
-    NumberAxis xAxis = myFactoryComponents.makeAxis("StepCount", axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
-    return xAxis;
+    return myFactoryComponents.makeAxis("StepCount", axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
   }
 
   private NumberAxis setupHistogramYAxis() {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
-    NumberAxis yAxis = myFactoryComponents.makeAxis("CellStateCount", axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
-    return yAxis;
+    return myFactoryComponents.makeAxis("CellStateCount", axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
   }
 
   private void addHistogram() {
-    root.setLeft(setupHistogram());
-    histogramAdded = true;
+    try {
+      root.setLeft(setupHistogram());
+      histogramAdded = true;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void updateStateSeries() {
     double stepCount = myController.getStepCount();
-    series0.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[0]));
-    series1.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[1]));
-    series2.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[2]));
-    series3.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[3]));
+    series0.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0]));
+    series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
+    series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
+    series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
   }
 
+  /**
+   * Getter method that returns the GridView.
+   *
+   * @return GridView.
+   */
   public GridView getMyGridView() {
     return myGridView;
   }
