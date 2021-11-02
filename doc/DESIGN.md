@@ -4,11 +4,7 @@ Amr Tagel-Din, Reya Magan, Evelyn Cupil-Garcia, Luke Josephy
 
 ## Team Roles and Responsibilities
 
-<<<<<<< HEAD
-* Team Member #1: Reya Magan
-=======
  * Team Member #1: Reya Magan
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 
 Involved with the backend. Implemented the Schelling and WaTor games, and pair programmed on the GameOfLife game.
 Also implemented neighbor policies, as well as random cell configuration. Pair programmed the rule set up. Created the parsing mechanisms for the .sim and .csv files, and used reflection for both classes and methods to call the relevant ones.
@@ -17,27 +13,12 @@ the rule structure to call relevant methods within Schelling and Fire games to s
 (note: Amr and Reya did lots of Peer programming)
 
 
-<<<<<<< HEAD
-* Team Member #2: Amr-Tagel Din
-  Involved with the backend. Implemented the Percolation and Fire games, and pair programmed on the GameOfLife game. Worked on neighbor policies (refactoring to reduce redundancy in those classes).
-  Set up rule property files to read in ">, <, eq" symbols to call relevant Rules classes to automatically run classes to determine how a cell's state should change. Created a Grid class to hold the 2D array
-  of cells, and to "hide" the data structure across all other classes. Used reflection for both classes and methods to call the relevant ones, and refactored a lot to include
-  consumers + abstract methods wherever possible.
-  (note: Amr and Reya did lots of Peer programming)
-
-* Team Member #3: Lucas Josephy
-  Involved with the frontend. Implemented BarCharts, Histogram, animation, colormodes, and split other responsibilities as they appeared with Evelyn.
-
-* Team Member #4: Evelyn CG
-  Involved with the frontend. Implemented Grid, CellView, testing, and split other repsonsibilities as they appeared with Luke.
-=======
  * Team Member #2: Amr-Tagel Din 
    Involved with the backend. Implemented the Percolation and Fire games, and pair programmed on the GameOfLife game. Worked on neighbor policies (refactoring to reduce redundancy in those classes).
    Set up rule property files to read in ">, <, eq" symbols to call relevant Rules classes to automatically run classes to determine how a cell's state should change. Created a Grid class to hold the 2D array
    of cells, and to "hide" the data structure across all other classes. Used reflection for both classes and methods to call the relevant ones, and refactored a lot to include
    consumers + abstract methods wherever possible.
    (note: Amr and Reya did lots of Peer programming)
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 
  * Team Member #3: Lucas Josephy 
 Involved with the frontend. Implemented BarCharts, Histogram, animation, colormodes, and split other responsibilities as they appeared with Evelyn.
@@ -47,42 +28,31 @@ Involved with the frontend. Implemented Grid, CellView, testing, and split other
 
    
 ## Design goals
-<<<<<<< HEAD
-Our main design goal was to make our program closed to modification, but open to extension.
-We wanted to make each part of our application as abstract as possible, so if any changes were to be
-added they could easily be implemented without having to change any major aspect of the code.
-=======
+O
 Our main design goal was to make our program closed to modification, but open to extension. 
 We wanted to make each part of our application as abstract as possible, so if any changes were to be
 added they could easily be implemented without having to change any major aspect of the code. 
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 We did this through creating abstractions/interfaces for all of our high-level classes.
 
 
 #### What Features are Easy to Add
 
-<<<<<<< HEAD
 Our design choices made a lot of features simple to add. We were able to implement each game to full
 functionality by having the abstract CellSocietyModel, CellSocietyRules, and Rules classes.
 We also utilized the CellSocietyMovement interface well to deal with cell movement in the WaTor and
 Schelling games. We also created strong property resource files that allowed us to use reflection to
-=======
 Our design choices made a lot of features simple to add. We were able to implement each game to full 
 functionality by having the abstract CellSocietyModel, CellSocietyRules, and Rules classes. 
 We also utilized the CellSocietyMovement interface well to deal with cell movement in the WaTor and 
 Schelling games. We also created strong property resource files that allowed us to use reflection to 
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 run all of the required rules. Finally we had an abstract Neighbors class that allowed us to deal
 with multiple kinds of neighbors.
 
 
 ## High-level Design
 The view prompts the user to upload a sim and csv, which then prompts the controller to generate
-<<<<<<< HEAD
-a game and a grid. View then makes the controller step through the game. Each step calls upon the
-=======
+
 a game and a grid. View then makes the controller step through the game. Each step calls upon the 
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 model of the game, which holds some of the logic of generating the next state (for example: if 0
 stay 0, if 1 check the rules.). For some of the more advanced games the cellMovement class is used
 to dictate these rules further. These checks are done using consumers.
@@ -110,11 +80,8 @@ By only making square cells, we were able to heavily expand upon the neighbors s
 we had a more concrete basis; by choosing to prioritize the square class we were able to have this
 specific cell shape but extremely flexible, rather than having multiple relatively rigid cell shapes.
 
-<<<<<<< HEAD
-More grid combinations are now possible by purposefully leaving out sim and csv matching error
-=======
+
 More grid combinations are now possible by purposefully leaving out sim and csv matching error 
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 handling.
 
 ## Significant differences from Original Plan
@@ -130,20 +97,6 @@ movement to decrease redundancy.
 
 ## New Features HowTo
 
-<<<<<<< HEAD
-If we wanted to add a new game to this design, it would be fairly straightforward to do so!
-First, we would need to set up the data files for this game (the .sim and .csv files).
-We would populate these with any relevant parameters and initial state information.
-Then, we would need to create a game model class for this game that would extend the abstract game
-model class and be called using reflection within the controller. We would also initialize its own
-CellSocietyRules class as well. We would need to create its state properties file as well its rules
-file. Finally, if this game were to involve cellular movement such as Schelling and WaTor did, then
-we would also add a class that implemented the CellSocietyMovement interface.
-
-If we wanted to add a new neighbor configuration, this would be very simple. We would set it up as
-an extended class from the abstract CellSocietyNeighbors class. We would implement the
-generateNeighbors method for this new type, and then add the title of this class to .sim files that
-=======
 If we wanted to add a new game to this design, it would be fairly straightforward to do so! 
 First, we would need to set up the data files for this game (the .sim and .csv files). 
 We would populate these with any relevant parameters and initial state information. 
@@ -156,7 +109,6 @@ we would also add a class that implemented the CellSocietyMovement interface.
 If we wanted to add a new neighbor configuration, this would be very simple. We would set it up as 
 an extended class from the abstract CellSocietyNeighbors class. We would implement the 
 generateNeighbors method for this new type, and then add the title of this class to .sim files that 
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 want to use this type of Neighbor configuration.
 
 
@@ -165,7 +117,6 @@ New types of neighbors
 New types of rules
 New games, within pre-existing game classes or as their own game
 new Initial cell state setups
-<<<<<<< HEAD
 
 Adding to factory classes
 Creating new types of Cells
@@ -174,15 +125,5 @@ Creating new types of Cells
 #### Other Features not yet Done
 Different shape for grids
 edge policies
-
-=======
-Adding to factory classes
-Creating new types of Cells
-
-
-#### Other Features not yet Done
-Different shape for grids
-edge policies
->>>>>>> a840b9ed4aab9713eae6bdacc45848940c23d3f6
 Split screen feature not fully functional
 Uploading images for cells
