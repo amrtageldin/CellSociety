@@ -1,9 +1,8 @@
-package cellsociety.neighbors;
+package cellsociety.model.neighbors;
 
 import cellsociety.controller.Grid;
 import cellsociety.model.Cells;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FullNeighbors extends CellSocietyNeighbors{

@@ -1,4 +1,4 @@
-package cellsociety.neighbors;
+package cellsociety.model.neighbors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
