@@ -197,6 +197,7 @@ public class CellSocietyView {
       }
       setupGridPanel();
     } catch (Exception e) {
+      System.out.println(e);
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
     }

@@ -310,4 +310,28 @@ public class CellSocietyViewTest extends DukeApplicationTest {
 
   }
 
+  /**
+   * Test that checks that the bar graph is populated when a game is started.
+   */
+  @Test
+  public void checkBarGraph() {
+    loadFiles();
+    clickOn(myStart);
+    ComboBox<String> options = lookup("#DropDownDefault").query();
+    select(options, "Light Mode");
+    select(options, "Dark Mode");
+    select(options, "Light Mode");
+    select(options, "Dark Mode");
+    select(options, "Light Mode");
+    select(options, "Dark Mode");
+    select(options, "Light Mode");
+    select(options, "Dark Mode");
+    Node histogramButton = lookup("#CheckBarChart").query();
+    clickOn(histogramButton);
+    Node myAboutPane = lookup("#BarChartPane").query();
+    assertTrue(myAboutPane.isVisible());
+  }
+
+
+
 }
