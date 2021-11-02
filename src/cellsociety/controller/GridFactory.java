@@ -8,6 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
 
+/**
+ * This class takes in a csv file, and parses it to initialize the Grid for the CellSociety
+ * game. It creates a Grid object to be used throughout the game to update cells and their states.
+ * It assumes a valid CSV file is loaded, but returns errors to the user for any invalid files.
+ */
 public class GridFactory {
     private static final String FIRE = "Fire_Spread";
     private static final String INVALID_GRID = "InvalidGrid";
@@ -27,6 +32,11 @@ public class GridFactory {
     private String myValueSet;
     private Map<String, String> gameStates;
 
+    /**
+     * A constructor for the GridFactory class, it sets up the gameStates map which contains a key
+     * of each game, and a value of the possible states within that game. It is used by the Grid
+     * to initialize cells that are not already specified in a CSV file.
+     */
     public GridFactory(){
         gameStates = Map.of(WA_TOR, WA_TOR_STATES,
                 FIRE, FIRE_STATES,
@@ -36,7 +46,8 @@ public class GridFactory {
     }
     /**
      * This method initially sets up the grid that has a state value for each cell. It reads in
-     * a .csv file to find the number of rows and columns in the grid, and what the initial state
+     * a .csv file to find the number of rows and columns in the grid, and
+     * then calls the Grid class to initialize the cells within the grid based on what the initial state
      * of each cell is.
      * @param file: .csv file that contains grid row/column numbers as well as initial state for each
      *            cell
@@ -82,5 +93,12 @@ public class GridFactory {
         myGrid.getCellStates(myValueSet);
     }
 
+    /**
+     * This method returns the GridFactory class's instance of ErrorFactory,
+     * which holds information as to whether or not an error exists, and if it does
+     * exist - what the error is. It is used by the controller to keep track of any errors that
+     * show up while loading the .sim file.
+     * @return myErrorFactory: the error information for the GridFactory class
+     */
     public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 }

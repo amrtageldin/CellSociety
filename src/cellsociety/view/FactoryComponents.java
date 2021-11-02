@@ -77,7 +77,7 @@ public class FactoryComponents {
               m.invoke(cell);
             }
             catch (Exception e) {
-              throw new RuntimeException("Improper Configuration", e);
+              return;
             }
           }
         }

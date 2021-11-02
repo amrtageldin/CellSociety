@@ -26,8 +26,8 @@ import javafx.util.Duration;
  * @author Luke Josephy
  * <p>
  * Class that displays the UI components for all Cell Society Game types.
- * TODO: Missing double screen functionality
- *  
+ * TODO: Missing double screen functionality, missing different grid types
+ *
  */
 public class CellSocietyView {
 
@@ -74,7 +74,6 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
-
     myViewComponents = new CellSocietyViewComponents(language, this);
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
@@ -193,30 +192,19 @@ public class CellSocietyView {
     }
   }
 
-
   private void pauseAndStep() {
-    try {
-      step();
-      myAnimation.stop();
-      isPlaying = false;
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
+    step();
+    myAnimation.stop();
+    isPlaying = false;
   }
 
   private void togglePlay() {
-    try {
-      if (isPlaying) {
-        myAnimation.stop();
-      } else {
-        myAnimation.play();
-      }
-      isPlaying = !isPlaying;
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+    if (isPlaying) {
+      myAnimation.stop();
+    } else {
+      myAnimation.play();
     }
+    isPlaying = !isPlaying;
   }
 
   private void speedUp() {
@@ -230,13 +218,8 @@ public class CellSocietyView {
   }
 
   private void slowDown() {
-    try {
-      myAnimation.setRate(
-          myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
+    myAnimation.setRate(
+        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
   private VBox setupHistogram() {
