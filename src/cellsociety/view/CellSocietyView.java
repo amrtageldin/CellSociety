@@ -267,7 +267,9 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
-    vbox.setId("HistogramPane");
+    if (root.getTop().getId()=="MainPane") {
+      vbox.setId("HistogramPane");
+    }
     LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
