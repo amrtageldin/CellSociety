@@ -117,11 +117,10 @@ public class FactoryComponents {
     return dropdown;
   }
 
-  public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis, Series cellStateData) {
+  public LineChart makeHistogram(String label, NumberAxis xAxis, NumberAxis yAxis) {
     LineChart histogram = new LineChart(xAxis, yAxis);
     histogram.setId(label);
-    histogram.setTitle(label);
-    histogram.getData().add(cellStateData);
+    histogram.setTitle(myResources.getString(label));
     return histogram;
   }
 

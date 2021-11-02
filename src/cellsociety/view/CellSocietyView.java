@@ -5,8 +5,14 @@ import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,9 +27,8 @@ import javafx.util.Duration;
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
- * Class that sets up the display for all Cell Society Game types.
- * TODO: Missing double screen functionality,error message handling,
- *  about section parsing to display, missing color choosing for cell state.
+ * Class that displays the UI components for all Cell Society Game types.
+ * TODO: Missing double screen functionality, missing different grid types
  *
  */
 public class CellSocietyView {
@@ -34,16 +39,27 @@ public class CellSocietyView {
   private final CellSocietyController myController;
   CellSocietyViewComponents myViewComponents;
   private GridView myGridView;
+  private GridView mySecondGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
   private HBox gridPanel;
+  private HBox multiGridPanel;
+  private boolean multiGrid;
+  private boolean histogramAdded;
+  private XYChart.Series series0 = new XYChart.Series();
+  private XYChart.Series series1 = new XYChart.Series();
+  private XYChart.Series series2 = new XYChart.Series();
+  private XYChart.Series series3 = new XYChart.Series();
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
+  public final String gap = "gap";
   public final String secondDelay = "secondDelay";
   public final String speedUpRate = "speedUpRate";
   public final String slowDownRate = "slowDownRate";
+  public final String axisStart = "axisStart";
+  public final String axisStep = "axisStep";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -88,30 +104,64 @@ public class CellSocietyView {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(myStage);
-    myController.loadFileType(selectedFile.toString());
+    try {
+      myController.loadFileType(selectedFile.toString());
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
+      error.show();
+    }
     if(myAnimation != null){
       togglePlay();
     }
+    errorCheck();
   }
 
   private void startGame() {
-    if (!gridLoaded) {
-      gridPanel = new HBox();
-      gridPanel.setId("GridPanel");
-      gridPanel.getChildren().add(setupGridSection());
-      root.setCenter(gridPanel);
-      startSimulation();
-      gridLoaded = true;
+    try {
+      if (gridLoaded) {
+        addGrid();
+        multiGrid = true;
+      }
+      else {
+        setupGridPanel();
+        startSimulation();
+        gridLoaded = true;
+      }
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
+  }
+
+  private void setupGridPanel() {
+    if (multiGrid) {
+      addGrid();
     }
     else {
-      togglePlay();
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
       gridPanel.getChildren().add(setupGridSection());
-      togglePlay();
+    }
+  }
+
+  private void addGrid() {
+    if (!gridLoaded) {
+      multiGridPanel = new HBox();
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+    } else {
+      multiGridPanel = gridPanel;
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().add(setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+      gridLoaded = false;
     }
   }
 
   private void startSimulation() {
-    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
+    root.setRight(myViewComponents.populateAboutSection(myController));
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -121,16 +171,22 @@ public class CellSocietyView {
         new KeyFrame(Duration.seconds(Double.parseDouble(myMagicValues.getString(secondDelay))),
             e -> step()));
     myAnimation.play();
+    errorCheck();
     isPlaying = true;
   }
 
   private void step() {
     if (myController != null) {
       myController.step();
+      errorCheck();
       myAnimation.stop();
     }
     myAnimation.play();
-    root.setCenter(setupGridSection());
+    setupGridPanel();
+    updateStateSeries();
+    if (histogramAdded) {
+      addHistogram();
+    }
   }
 
   private void pauseAndStep() {
@@ -151,12 +207,49 @@ public class CellSocietyView {
   private void speedUp() {
     myAnimation.setRate(
         myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-    System.out.println("Sped up!");
   }
 
   private void slowDown() {
     myAnimation.setRate(
         myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+  }
+
+  private VBox setupHistogram() {
+    VBox vbox = new VBox();
+    LineChart histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
+    histogram.getData().add(series0);
+    histogram.getData().add(series1);
+    histogram.setLegendSide(Side.LEFT);
+    vbox.getChildren().add(histogram);
+    return vbox;
+  }
+
+  private NumberAxis setupHistogramXAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
+    int axisGap = Integer.parseInt(myMagicValues.getString(gap));
+    NumberAxis xAxis = new NumberAxis(axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
+    return xAxis;
+  }
+
+  private NumberAxis setupHistogramYAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
+    NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
+    return yAxis;
+  }
+
+  private void addHistogram() {
+    root.setLeft(setupHistogram());
+    histogramAdded = true;
+  }
+
+  private void updateStateSeries() {
+    double stepCount = myController.getStepCount();
+    series0.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[0]));
+    series1.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[1]));
+    series2.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[2]));
+    series3.getData().add(new XYChart.Data(stepCount, myController.getCellStateCounts()[3]));
   }
 
   public GridView getMyGridView() {
@@ -169,6 +262,27 @@ public class CellSocietyView {
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
+  }
+
+  private VBox setupFirstGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    vbox.getChildren().add(myGridView.setupGrid());
+    return vbox;
+  }
+
+  private VBox setupSecondGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    mySecondGridView = new GridView(myController);
+    vbox.getChildren().add(mySecondGridView.setupGrid());
+    return vbox;
+  }
+
+  private void errorCheck(){
+    if(myController.getErrorExists()){
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
+    }
   }
 
   /**

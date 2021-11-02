@@ -100,6 +100,14 @@ public class GridView {
     return Math.min(width, height);
   }
 
+  public int getTotalCells() {
+    return (int) myGrid.rowLength()* myGrid.colLength();
+  }
+
+  public int getColLength() {
+    return myGrid.colLength();
+  }
+
   public Shape[][] getMyPaneNodes() {
     return myPaneNodes;
   }
