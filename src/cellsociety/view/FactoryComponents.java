@@ -129,6 +129,7 @@ public class FactoryComponents {
     return axis;
   }
 
+
   public Alert createErrorMessage(String id, String content) {
     Alert error = new Alert(Alert.AlertType.ERROR);
     error.setHeaderText(myResources.getString(id));

@@ -134,8 +134,9 @@ public class CellSocietyViewComponents {
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", myCellSocietyView);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", myCellSocietyView);
     Node histogramButton = myFactoryComponents.makeButton("CheckHistogram", myCellSocietyView);
+    Node barChartButton = myFactoryComponents.makeButton("CheckBarChart", myCellSocietyView);
     livePanel.getChildren()
-        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, histogramButton);
+        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, histogramButton, barChartButton);
     return livePanel;
   }
 
@@ -156,7 +157,9 @@ public class CellSocietyViewComponents {
       }
       root.getTop().setId(colorMode + "MainPane");
       root.getRight().setId(colorMode + "AboutPane");
-      root.getLeft().setId(colorMode + "HistogramPane");
+      if (root.getLeft()!=null) {
+        root.getLeft().setId(colorMode + "HistogramPane");
+      }
       root.setId(colorMode);
     };
     dropdown.setOnAction(event);
