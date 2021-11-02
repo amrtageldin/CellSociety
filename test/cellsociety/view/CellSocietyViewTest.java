@@ -7,6 +7,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 import java.io.File;
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
@@ -236,19 +237,14 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   /**
-   * TODO: Testing that when we click on a cell, the state changes
-   */
-  @Test
-  public void checkCellClickedAction() {
-
-  }
-
-  /**
-   * TODO: Testing that the about section populates when a game is uploaded
+   * Test that checks that the about pane is populated.
    */
   @Test
   public void checkAboutSection() {
-
+    loadFiles();
+    clickOn(myStart);
+    Node myAboutPane = lookup("#AboutPane").query();
+    assertTrue(myAboutPane.isVisible());
   }
 
   /**
