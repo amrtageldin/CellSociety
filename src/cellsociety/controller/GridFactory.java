@@ -1,10 +1,8 @@
 package cellsociety.controller;
 
 import cellsociety.Errors.ErrorFactory;
-import cellsociety.model.Cells;
 import com.opencsv.CSVReader;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
 
@@ -25,12 +23,13 @@ public class GridFactory {
     private static final String PERCOLATION = "percolation";
     private static final String SCHELLING_SEGREGATION = "schelling_segregation";
     private static final String SCHELLING_SEGREGATION_STATES = "0,2,3";
+    private static final int INVALID = 0;
     private ErrorFactory myErrorFactory = new ErrorFactory();
     private Grid myGrid;
     private String rowCount;
     private String colCount;
     private String myValueSet;
-    private Map<String, String> gameStates;
+    private final Map<String, String> gameStates;
 
     /**
      * A constructor for the GridFactory class, it sets up the gameStates map which contains a key
@@ -62,7 +61,8 @@ public class GridFactory {
             initializeGrid();
             myGrid.initializeCells(csvReader);
         }
-        catch(FileNotFoundException e){
+        catch(Exception e){
+           myGrid = new Grid(INVALID,INVALID);
            myGrid.getMyErrorFactory().updateError(INVALID_GRID);
            myErrorFactory = myGrid.getMyErrorFactory();
         }
