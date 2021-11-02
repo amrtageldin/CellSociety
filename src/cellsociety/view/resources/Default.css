@@ -136,15 +136,15 @@
   -fx-alignment: center;
   -fx-spacing: 20;
   -fx-font-family: "Segoe UI Semibold";
-  text_color: black;
   -fx-background-color: #ffffff;
 }
 
 #DarkModeHistogramPane {
   -fx-alignment: center;
   -fx-spacing: 20;
+  -fx-text-background-color: lightgray;
+  -fx-text-fill: white;
   -fx-font-family: "Segoe UI Semibold";
-  text_color: white;
   -fx-background-color: #3f3f47;
 }
 
@@ -152,7 +152,6 @@
   -fx-alignment: center;
   -fx-spacing: 20;
   -fx-font-family: "Segoe UI Semibold";
-  text_color: black;
   -fx-background-color: #0462b5;
 }
 

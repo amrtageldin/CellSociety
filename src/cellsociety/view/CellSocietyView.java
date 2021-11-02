@@ -220,6 +220,8 @@ public class CellSocietyView {
     LineChart histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
+    histogram.getData().add(series2);
+    histogram.getData().add(series3);
     histogram.setLegendSide(Side.LEFT);
     vbox.getChildren().add(histogram);
     return vbox;
