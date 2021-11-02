@@ -13,17 +13,18 @@ import javafx.scene.shape.Polygon;
  */
 public class CellView {
 
+  CellSocietyController myController;
+  ResourceBundle myMagicValues;
+
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   public static final String TRIANGLE = "Triangle";
   public static final String SQUARE = "Square";
   public static final String HEXAGON = "Hexagon";
-  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private final static String r = "r";
   private final static String n = "n";
   private final static String tileWidth = "tileWidth";
   private final static String oneHalf = "half";
   private final static String num = "const";
-  CellSocietyController myController;
-  ResourceBundle myMagicValues;
 
   /**
    * Constructor that initializes the controller and magic values.

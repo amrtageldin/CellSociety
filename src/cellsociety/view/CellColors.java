@@ -107,7 +107,6 @@ public class CellColors {
 
   /**
    * Getter that returns the default color map for a game.
-   *
    * @return List of colors as default for a game.
    */
   public List<Color> getDefaultColorMap() {
