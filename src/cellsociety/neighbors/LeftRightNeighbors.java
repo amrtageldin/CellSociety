@@ -11,12 +11,13 @@ public class LeftRightNeighbors extends CellSocietyNeighbors{
     public LeftRightNeighbors(){super();}
 
     public List<Cells> generateNeighbors(int row, int col, Grid myGrid) {
+        List<Cells> myCells = new ArrayList<>();
         int[] yChanges = new int[]{-1,1};
         for (int j : yChanges){
             if (colIsValid(col + j, myGrid)){
-                addToMyCells(myGrid.getCell(row,col+j));
+                myCells.add(myGrid.getCell(row,col+j));
             }
         }
-        return getMyCells();
+        return myCells;
     }
 }

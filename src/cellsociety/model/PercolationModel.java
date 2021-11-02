@@ -16,17 +16,18 @@ public class PercolationModel extends CellSocietyModel{
 
   @Override
   public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-    int initialState = bundleToInteger(PERCOLATED);
-    int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, neighborGenerator(row,col,myGrid));
+    List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row,col, myGrid);
+    int initialState = Integer.parseInt(getStatesBundle().getString(PERCOLATED));
+    int quantityOfPercolatedCells = quantityOfCellsOfGivenStateInCluster(initialState, myNeighbors);
 
-    Integer open = bundleToInteger(OPEN);
-    Integer closed = bundleToInteger(CLOSED);
-    Integer percolated = bundleToInteger(PERCOLATED);
+    Integer open = Integer.parseInt(getStatesBundle().getString(OPEN));
+    Integer closed = Integer.parseInt(getStatesBundle().getString(CLOSED));
+    Integer percolated = Integer.parseInt(getStatesBundle().getString(PERCOLATED));
 
     Map<Integer, Consumer<Integer>> intMap = Map.of(closed, integers -> myCell.setMyNextState(closed),
         percolated, integers-> myCell.setMyNextState(percolated),
         open, integers ->  myCell.setMyNextState((getMyRules().generateNextState(quantityOfPercolatedCells, myCell.getCurrentState()))
-        ));
+    ));
 
     this.consumerGenerateNextState(myCell.getCurrentState(), intMap.get(myCell.getCurrentState()));
   }
