@@ -1,5 +1,6 @@
 package cellsociety.view;
 
+import cellsociety.controller.CellSocietyController;
 import java.util.List;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -26,8 +27,10 @@ public class CellColorsTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    String gameType = "GameOfLife";
-    myCellColors = new CellColors(gameType);
+    CellSocietyController controller = new CellSocietyController();
+    controller.loadFileType("data/game_of_life/blinkers.csv");
+    controller.loadFileType("data/game_of_life/blinkers.sim");
+    myCellColors = new CellColors(controller);
   }
 
   /**
@@ -37,7 +40,6 @@ public class CellColorsTest extends DukeApplicationTest {
   @Test
   void getColorMap() {
     List<Color> colorMap = myCellColors.getColorMap();
-    System.out.println(myCellColors.getColorMap());
     assertEquals(colorMap, LIFE_STATE_COLORS);
   }
 

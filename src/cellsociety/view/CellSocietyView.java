@@ -1,56 +1,68 @@
 package cellsociety.view;
 
 import cellsociety.controller.CellSocietyController;
+import java.io.File;
+import java.util.Locale.Category;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.Objects;
 import javafx.util.Duration;
 
 /**
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
- * Class that sets up the display for all Cell Society Game types.
- * TODO: Missing double screen functionality, Controller connection for the sliders for specific games,
- *  error message handling, about section parsing to display, missing color choosing for cell state.
- *  Would refactor to remove the setup methods into a different class called CellSocietyViewComponents.
- *  
+ * Class that displays the UI components for all Cell Society Game types.
+ * TODO: Missing double screen functionality, missing different grid types
  */
 public class CellSocietyView {
 
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
-  private BorderPane root;
   private final CellSocietyController myController;
+  private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
+  CellSocietyViewComponents myViewComponents;
+  private BorderPane root;
   private GridView myGridView;
+  private GridView mySecondGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
+  private boolean gridLoaded;
+  private HBox gridPanel;
+  private HBox multiGridPanel;
+  private boolean multiGrid;
+  private boolean histogramAdded;
+  private boolean barChartAdded;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
-  public final String maxValue = "maxValue";
+  public final String gap = "gap";
   public final String secondDelay = "secondDelay";
   public final String speedUpRate = "speedUpRate";
   public final String slowDownRate = "slowDownRate";
-  public final String minPercent = "minPercent";
-  public final String maxPercent = "maxPercent";
-  public final String incrementValue = "incrementValue";
+  public final String axisStart = "axisStart";
+  public final String axisStep = "axisStep";
+  public final String state_0 = "state_0";
+  public final String state_1 = "state_1";
+  public final String state_2 = "state_2";
+  public final String state_3 = "state_3";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -67,6 +79,7 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
+    myViewComponents = new CellSocietyViewComponents(language, this);
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
     myStage = stage;
@@ -80,8 +93,8 @@ public class CellSocietyView {
    */
   public Scene setupDisplay() {
     root = new BorderPane();
-    root.setTop(setupTopText());
-    root.setRight(setupAboutSection());
+    root.setTop(myViewComponents.setupTopText(myStage, root));
+    root.setRight(myViewComponents.setupAboutSection());
     root.setId("Main");
     Scene scene = new Scene(root, Integer.parseInt(myMagicValues.getString(defaultX)),
         Integer.parseInt(myMagicValues.getString(defaultY)));
@@ -90,73 +103,66 @@ public class CellSocietyView {
     return scene;
   }
 
-  private Node setupGameModePanel() {
-    VBox panel = new VBox();
-    panel.getChildren().addAll(setupTopButtonPanel(), setupBottomButtonPanel());
-    return panel;
-  }
-
-  private HBox setupTopButtonPanel() {
-    HBox setupPanel = new HBox();
-    setupPanel.setId("TopButtonPanel");
-    Node simulationType = myFactoryComponents.makeButton("SimulationType", this);
-    Node initialGrid = myFactoryComponents.makeButton("InitialGrid", this);
-    Node playButton = myFactoryComponents.makeButton("Play", this);
-    setupPanel.getChildren().addAll(simulationType, initialGrid, playButton, setupColorOptions());
-    return setupPanel;
-  }
-
-  private HBox setupBottomButtonPanel() {
-    HBox livePanel = new HBox();
-    livePanel.setId("BottomButtonPanel");
-    Node animationButton = myFactoryComponents.makeButton("Start/Pause", this);
-    Node stepButton = myFactoryComponents.makeButton("Step", this);
-    Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", this);
-    Node slowDownButton = myFactoryComponents.makeButton("SlowDown", this);
-    livePanel.getChildren()
-        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, setupFirePanel(),
-            setupCellStatePanel());
-    return livePanel;
-  }
-
-  private VBox setupFirePanel() {
-    VBox panel = new VBox();
-    panel.setId("FirePanel");
-    Node fireLabel = myFactoryComponents.makeLabel("FireLabel");
-    Slider fireSlider = myFactoryComponents.makeSlider("FireSlider",
-        Integer.parseInt(myMagicValues.getString(minPercent)),
-        Integer.parseInt(myMagicValues.getString(maxPercent)),
-        Integer.parseInt(myMagicValues.getString(incrementValue)));
-    panel.getChildren().addAll(fireLabel, fireSlider);
-    return panel;
-  }
-
-  private VBox setupCellStatePanel() {
-    VBox panel = new VBox();
-    panel.setId("CellStatePanel");
-    Node cellStateLabel = myFactoryComponents.makeLabel("CellStateLabel");
-    Slider cellStateSlider = myFactoryComponents.makeSlider("CellStateSlider",
-        Integer.parseInt(myMagicValues.getString(minPercent)),
-        Integer.parseInt(myMagicValues.getString(maxPercent)),
-        Integer.parseInt(myMagicValues.getString(incrementValue)));
-    panel.getChildren().addAll(cellStateLabel, cellStateSlider);
-    return panel;
-  }
-
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(myStage);
-    myController.loadFileType(selectedFile.toString());
+    try {
+      myController.loadFileType(selectedFile.toString());
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
+      error.show();
+    }
+    if (myAnimation != null) {
+      togglePlay();
+    }
+    errorCheck();
   }
 
   private void startGame() {
-    root.setCenter(setupGridSection());
-    startSimulation();
+    try {
+      if (gridLoaded) {
+        addGrid();
+        multiGrid = true;
+      } else {
+        setupGridPanel();
+        startSimulation();
+        gridLoaded = true;
+      }
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
+  }
+
+  private void setupGridPanel() {
+    if (multiGrid) {
+      addGrid();
+    } else {
+      gridPanel = new HBox();
+      gridPanel.setId("GridPanel");
+      root.setCenter(gridPanel);
+      gridPanel.getChildren().add(setupGridSection());
+    }
+  }
+
+  private void addGrid() {
+    if (!gridLoaded) {
+      multiGridPanel = new HBox();
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+    } else {
+      multiGridPanel = gridPanel;
+      multiGridPanel.setId("GridPanel");
+      multiGridPanel.getChildren().add(setupSecondGridSection());
+      root.setCenter(multiGridPanel);
+      gridLoaded = false;
+    }
   }
 
   private void startSimulation() {
-    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
+    root.setRight(myViewComponents.populateAboutSection(myController));
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -166,92 +172,192 @@ public class CellSocietyView {
         new KeyFrame(Duration.seconds(Double.parseDouble(myMagicValues.getString(secondDelay))),
             e -> step()));
     myAnimation.play();
+    errorCheck();
     isPlaying = true;
   }
 
   private void step() {
-    if (myController != null) {
-      myController.step();
-      myAnimation.stop();
+    try {
+      if (myController != null) {
+        myController.step();
+        errorCheck();
+        myAnimation.stop();
+      }
+      myAnimation.play();
+      updateStateSeries();
+      if (histogramAdded) { addHistogram();}
+      if (barChartAdded) { addBarChart(); }
+      setupGridPanel();
+    } catch (Exception e) {
+      System.out.println(e);
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    myAnimation.play();
-    root.setCenter(setupGridSection());
   }
 
   private void pauseAndStep() {
-    step();
-    myAnimation.stop();
-    isPlaying = false;
+    try {
+      step();
+      myAnimation.stop();
+      isPlaying = false;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void togglePlay() {
-    if (isPlaying) {
-      myAnimation.stop();
-    } else {
-      myAnimation.play();
+    try {
+      if (isPlaying) {
+        myAnimation.stop();
+      } else {
+        myAnimation.play();
+      }
+      isPlaying = !isPlaying;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
     }
-    isPlaying = !isPlaying;
   }
 
   private void speedUp() {
-    myAnimation.setRate(
-        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void slowDown() {
-    myAnimation.setRate(
-        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    try {
+      myAnimation.setRate(
+          myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
+  private VBox setupBarChart() {
+    VBox vbox = new VBox();
+    vbox.setId("BarChartPane");
+    BarChart<Category, Number> barchart = myFactoryComponents.makeBarChart("CellStateCount", myFactoryComponents.makeCategoryAxis("CellState"), myFactoryComponents.makeBarChartAxis("NumberOfCells"));
+    XYChart.Series state0series = new XYChart.Series();
+    XYChart.Series state1series = new XYChart.Series();
+    XYChart.Series state2series = new XYChart.Series();
+    XYChart.Series state3series = new XYChart.Series();
+    state0series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_0), myController.getCellStateCounts()[0]));
+    state1series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_1), myController.getCellStateCounts()[1]));
+    state2series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_2), myController.getCellStateCounts()[2]));
+    state3series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_3), myController.getCellStateCounts()[3]));
+    barchart.getData().addAll(state0series, state1series, state2series, state3series);
+    barchart.setLegendSide(Side.LEFT);
+    vbox.getChildren().add(barchart);
+    return vbox;
+  }
+
+  private void addBarChart() {
+    try {
+      root.setLeft(setupBarChart());
+      barChartAdded = true;
+      histogramAdded = false;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
+  }
+
+  private VBox setupHistogram() {
+    VBox vbox = new VBox();
+    if (root.getTop().getId()=="MainPane") {
+      vbox.setId("HistogramPane");
+    }
+    LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
+    histogram.getData().add(series0);
+    histogram.getData().add(series1);
+    histogram.getData().add(series2);
+    histogram.getData().add(series3);
+    histogram.setLegendSide(Side.LEFT);
+    vbox.getChildren().add(histogram);
+    return vbox;
+  }
+
+  private NumberAxis setupHistogramXAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
+    int axisGap = Integer.parseInt(myMagicValues.getString(gap));
+    return myFactoryComponents.makeAxis("StepCount", axisLowerBound,
+        myController.getStepCount() + axisGap, axisTickMarks);
+  }
+
+  private NumberAxis setupHistogramYAxis() {
+    double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
+    double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
+    return myFactoryComponents.makeAxis("CellStateCount", axisLowerBound,
+        myGridView.getTotalCells(), axisTickMarks);
+  }
+
+  private void addHistogram() {
+    try {
+      root.setLeft(setupHistogram());
+      histogramAdded = true;
+      barChartAdded = false;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
+  }
+
+  private void updateStateSeries() {
+    double stepCount = myController.getStepCount();
+    series0.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0]));
+    myFactoryComponents.nameSeries("Series0", series0);
+    series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
+    myFactoryComponents.nameSeries("Series1", series1);
+    series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
+    myFactoryComponents.nameSeries("Series2", series2);
+    series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
+    myFactoryComponents.nameSeries("Series3", series3);
+  }
+
+  /**
+   * Getter method that returns the GridView.
+   *
+   * @return GridView.
+   */
   public GridView getMyGridView() {
     return myGridView;
   }
 
-  private Node setupTopText() {
+  private VBox setupGridSection() {
     VBox vbox = new VBox();
-    Node displayLabel = myFactoryComponents.makeLabel("DisplayLabel");
-    vbox.setId("MainPane");
-    vbox.getChildren().addAll(displayLabel, setupGameModePanel());
-    vbox.setMaxHeight(myStage.getHeight() / 4);
+    vbox.setId("Grid");
+    myGridView = new GridView(myController);
+    vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
   }
 
-  private Label setupAboutSection() {
-    Label bottomText = myFactoryComponents.makeLabel("StartingAbout");
-    bottomText.setId("AboutPane");
-    bottomText.setMaxSize(Integer.parseInt(myMagicValues.getString(maxValue)),
-        Integer.parseInt(myMagicValues.getString(maxValue)));
-    return bottomText;
-  }
-
-  private HBox setupGridSection() {
-    HBox gridPanel = new HBox();
+  private VBox setupFirstGridSection() {
     VBox vbox = new VBox();
-    gridPanel.setId("GridPanel");
-    vbox.setId("GridPanel");
-    myGridView = new GridView(myController);
+    vbox.setId("Grid");
     vbox.getChildren().add(myGridView.setupGrid());
-    gridPanel.getChildren().add(vbox);
-    return gridPanel;
+    return vbox;
   }
 
-  private ComboBox<String> setupColorOptions() {
-    String[] options = {"LightMode", "DarkMode", "BDMode"};
-    ComboBox<String> colorOptions = myFactoryComponents.makeDropDownMenu("DropDownDefault",
-        options);
-    setupDropDownCommands(colorOptions);
-    return colorOptions;
+  private VBox setupSecondGridSection() {
+    VBox vbox = new VBox();
+    vbox.setId("Grid");
+    mySecondGridView = new GridView(myController);
+    vbox.getChildren().add(mySecondGridView.setupGrid());
+    return vbox;
   }
 
-  private void setupDropDownCommands(ComboBox<String> dropdown) {
-    EventHandler<ActionEvent> event = event1 -> {
-      String colorMode = dropdown.getValue();
-      colorMode = colorMode.replace(" ", "");
-      root.getTop().setId(colorMode + "MainPane");
-      root.getRight().setId(colorMode + "AboutPane");
-      root.setId(colorMode);
-    };
-    dropdown.setOnAction(event);
+  private void errorCheck() {
+    if (myController.getErrorExists()) {
+      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
+    }
   }
 
   /**

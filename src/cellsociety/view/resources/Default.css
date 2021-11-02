@@ -19,29 +19,28 @@
 #AboutPane {
   -fx-background-color: lightblue;
   -fx-text-fill: black;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-font-size: 12;
 }
 
 #BlueDevilModeAboutPane {
   -fx-background-color: #2427bf;
   -fx-text-fill: white;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: white;
+  -fx-font-size: 12;
 }
 
 #DarkModeAboutPane {
   -fx-background-color: #262b33;
   -fx-text-fill: white;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: white;
+  -fx-font-size: 12;
 }
 
 #LightModeAboutPane {
   -fx-background-color: #f5f5ff;
   -fx-text-fill: black;
-  -fx-font-size: 20;
-  -fx-alignment: center;
+  -fx-text-background-color: black;
+  -fx-font-size: 12;
 }
 
 .gridPane {
@@ -119,6 +118,52 @@
 
 #GridPanel {
   -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+#HistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-background-color: lightblue;
+}
+
+#BarChartPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-background-color: lightblue;
+}
+
+
+#CellStateCount {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+#LightModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #ffffff;
+}
+
+#DarkModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-text-background-color: lightgray;
+  -fx-text-fill: white;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #3f3f47;
+}
+
+#BlueDevilModeHistogramPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-background-color: #0462b5;
+}
+
+#Grid {
+  -fx-alignment: center;
 }
 
 #FireLabel {
@@ -136,3 +181,14 @@
   -fx-background-radius: 8px;
   -fx-text-alignment: center;
 }
+
+#CellStatesOverTime {
+  -fx-font-size: 13;
+  -fx-alignment: center;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-text-alignment: center;
+}
+
+
