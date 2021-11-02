@@ -47,6 +47,7 @@ public class CellSocietyView {
   private HBox multiGridPanel;
   private boolean multiGrid;
   private boolean histogramAdded;
+  private boolean barChartAdded;
   private int state0;
   private int state1;
   private int state2;
@@ -64,6 +65,10 @@ public class CellSocietyView {
   public final String slowDownRate = "slowDownRate";
   public final String axisStart = "axisStart";
   public final String axisStep = "axisStep";
+  public final String state_0 = "state_0";
+  public final String state_1 = "state_1";
+  public final String state_2 = "state_2";
+  public final String state_3 = "state_3";
 
   private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
   private static final String DEFAULT_STYLESHEET =
@@ -191,6 +196,9 @@ public class CellSocietyView {
       if (histogramAdded) {
         addHistogram();
       }
+      if (barChartAdded) {
+        addBarChart();
+      }
       setupGridPanel();
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
@@ -232,10 +240,25 @@ public class CellSocietyView {
     VBox vbox = new VBox();
     vbox.setId("BarChartPane");
     BarChart<Category, Number> barchart = myFactoryComponents.makeBarChart("CellStateCount", myFactoryComponents.makeCategoryAxis("CellState"), myFactoryComponents.makeBarChartAxis("NumberOfCells"));
-    //barchart.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0])
+    XYChart.Series state0series = new XYChart.Series();
+    XYChart.Series state1series = new XYChart.Series();
+    state0series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_0), myController.getCellStateCounts()[0]));
+    state1series.getData().add(new XYChart.Data<>(myMagicValues.getString(state_1), myController.getCellStateCounts()[1]));
+    barchart.getData().addAll(state0series, state1series);
+    barchart.setLegendSide(Side.LEFT);
+    vbox.getChildren().add(barchart);
     return vbox;
   }
 
+  private void addBarChart() {
+    try {
+      root.setLeft(setupBarChart());
+      barChartAdded = true;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
+  }
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
@@ -279,10 +302,6 @@ public class CellSocietyView {
     series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
     series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
     series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
-    state0 = myController.getCellStateCounts()[0];
-    state1 = myController.getCellStateCounts()[1];
-    state2 = myController.getCellStateCounts()[2];
-    state3 = myController.getCellStateCounts()[3];
   }
 
   /**
