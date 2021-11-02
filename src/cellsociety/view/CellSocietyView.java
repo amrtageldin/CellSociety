@@ -18,9 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.Objects;
 import javafx.util.Duration;
 
 /**
@@ -29,15 +26,30 @@ import javafx.util.Duration;
  * <p>
  * Class that displays the UI components for all Cell Society Game types.
  * TODO: Missing double screen functionality, missing different grid types
- *
  */
 public class CellSocietyView {
 
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+  private static final String DEFAULT_STYLESHEET =
+      "/" + DEFAULT_RESOURCE_PACKAGE.replace(".", "/") + "Default.css";
+  public final String defaultX = "defaultX";
+  public final String defaultY = "defaultY";
+  public final String gap = "gap";
+  public final String secondDelay = "secondDelay";
+  public final String speedUpRate = "speedUpRate";
+  public final String slowDownRate = "slowDownRate";
+  public final String axisStart = "axisStart";
+  public final String axisStep = "axisStep";
   private final FactoryComponents myFactoryComponents;
   private final Stage myStage;
-  private BorderPane root;
   private final CellSocietyController myController;
+  private final XYChart.Series<Number, Number> series0 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
+  private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
+  private final ResourceBundle myMagicValues;
   CellSocietyViewComponents myViewComponents;
+  private BorderPane root;
   private GridView myGridView;
   private GridView mySecondGridView;
   private Timeline myAnimation;
@@ -115,7 +127,7 @@ public class CellSocietyView {
       Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
       error.show();
     }
-    if(myAnimation != null){
+    if (myAnimation != null) {
       togglePlay();
     }
     errorCheck();
@@ -126,8 +138,7 @@ public class CellSocietyView {
       if (gridLoaded) {
         addGrid();
         multiGrid = true;
-      }
-      else {
+      } else {
         setupGridPanel();
         startSimulation();
         gridLoaded = true;
@@ -141,8 +152,7 @@ public class CellSocietyView {
   private void setupGridPanel() {
     if (multiGrid) {
       addGrid();
-    }
-    else {
+    } else {
       gridPanel = new HBox();
       gridPanel.setId("GridPanel");
       root.setCenter(gridPanel);
@@ -292,13 +302,15 @@ public class CellSocietyView {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = Double.parseDouble(myMagicValues.getString(axisStep));
     int axisGap = Integer.parseInt(myMagicValues.getString(gap));
-    return myFactoryComponents.makeAxis("StepCount", axisLowerBound, myController.getStepCount()+axisGap, axisTickMarks);
+    return myFactoryComponents.makeAxis("StepCount", axisLowerBound,
+        myController.getStepCount() + axisGap, axisTickMarks);
   }
 
   private NumberAxis setupHistogramYAxis() {
     double axisLowerBound = Double.parseDouble(myMagicValues.getString(axisStart));
     double axisTickMarks = (double) myGridView.getTotalCells() / myGridView.getColLength();
-    return myFactoryComponents.makeAxis("CellStateCount", axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
+    return myFactoryComponents.makeAxis("CellStateCount", axisLowerBound,
+        myGridView.getTotalCells(), axisTickMarks);
   }
 
   private void addHistogram() {
@@ -356,8 +368,8 @@ public class CellSocietyView {
     return vbox;
   }
 
-  private void errorCheck(){
-    if(myController.getErrorExists()){
+  private void errorCheck() {
+    if (myController.getErrorExists()) {
       myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
     }
   }

@@ -19,19 +19,18 @@ import javafx.scene.shape.Shape;
  */
 public class GridView {
 
+  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+  public final String gap = "gap";
+  public final String screenWidth = "screenWidth";
+  public final String screenHeight = "screenHeight";
   private final Grid myGrid;
   private final Shape[][] myPaneNodes;
-  private GridPane pane;
   private final ResourceBundle myMagicValues;
   private final List<Color> stateColors;
   private final CellColors myCellColors;
   private final CellView myCellView;
   private final Boolean isGridVisible;
-
-  public final String gap = "gap";
-  public final String screenWidth = "screenWidth";
-  public final String screenHeight = "screenHeight";
-  private static final String DEFAULT_RESOURCE_PACKAGE = "cellsociety.view.resources.";
+  private GridPane pane;
 
 
   /**
@@ -71,7 +70,7 @@ public class GridView {
   private void drawGrid() {
     for (int i = 0; i < myGrid.rowLength(); i++) {
       for (int j = 0; j < myGrid.colLength(); j++) {
-        int currState = myGrid.getCell(i,j).getCurrentState();
+        int currState = myGrid.getCell(i, j).getCurrentState();
         Polygon cell = myCellView.drawCell(i, j, findCellDimension());
         cell.setFill(stateColors.get(currState));
         setCellClickAction(cell, i, j);
@@ -83,8 +82,8 @@ public class GridView {
 
   private void setCellClickAction(Polygon cell, int i, int j) {
     EventHandler<MouseEvent> event = event1 -> {
-      int setState = myCellColors.getRandomCellState(myGrid.getCell(i,j).getCurrentState());
-      myGrid.getCell(i,j).setCurrentState(setState);
+      int setState = myCellColors.getRandomCellState(myGrid.getCell(i, j).getCurrentState());
+      myGrid.getCell(i, j).setCurrentState(setState);
       Polygon newCell = myCellView.drawCell(i, j, findCellDimension());
       newCell.setFill(myCellColors.getColorMap().get(setState));
       myPaneNodes[i][j] = newCell;
@@ -101,7 +100,7 @@ public class GridView {
   }
 
   public int getTotalCells() {
-    return (int) myGrid.rowLength()* myGrid.colLength();
+    return myGrid.rowLength() * myGrid.colLength();
   }
 
   public int getColLength() {
