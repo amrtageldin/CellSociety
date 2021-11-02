@@ -18,17 +18,17 @@ public class SchellingSegregationModel extends CellSocietyModel{
 
     @Override
     public void setNextState(Cells myCell, int row, int col, Grid myGrid){
-        List<Cells> myNeighbors = getMyNeighbors().generateNeighbors(row, col, myGrid);
-        int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), myNeighbors);
+        List<Cells> myNeighbors = neighborGenerator(row,col,myGrid);
+        int numSameCells = quantityOfCellsOfGivenStateInCluster(myCell.getCurrentState(), neighborGenerator(row,col,myGrid));
         double propSameCells = percentSameNeighbors(numSameCells, myNeighbors);
         int state = getMyRules().generateNextState((int) (
-                SCALE_FACTOR*propSameCells), myCell.getCurrentState());
+            SCALE_FACTOR*propSameCells), myCell.getCurrentState());
         mySchellingSegregationMovement.setInitialParameters(myCell, myGrid, myNeighbors, getStatesBundle(), getMyParameters());
         mySchellingSegregationMovement.checkState(myCell, state);
     }
 
     private double percentSameNeighbors(int sameCells, List<Cells> neighbors){
-        neighbors.removeIf(c -> c.getCurrentState() == Integer.parseInt(getStatesBundle().getString(EMPTY)));
+        neighbors.removeIf(c -> c.getCurrentState() == bundleToInteger(EMPTY));
         int neighborsLeft = neighbors.size();
         return ((double) sameCells /neighborsLeft);
     }
