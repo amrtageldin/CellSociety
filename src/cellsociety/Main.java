@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   public static final String TITLE = "Cell Society";
-  public static final String LANGUAGE = "English";
+  public static final String LANGUAGE = "Spanish";
 
   /**
    * Organize display of game in a scene and start the game.
