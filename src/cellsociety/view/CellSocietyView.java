@@ -254,6 +254,7 @@ public class CellSocietyView {
     try {
       root.setLeft(setupBarChart());
       barChartAdded = true;
+      histogramAdded = false;
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
@@ -290,6 +291,7 @@ public class CellSocietyView {
     try {
       root.setLeft(setupHistogram());
       histogramAdded = true;
+      barChartAdded = false;
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();

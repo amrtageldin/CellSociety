@@ -127,6 +127,12 @@
   -fx-background-color: lightblue;
 }
 
+#BarChartPane {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+  -fx-background-color: lightblue;
+}
+
 
 #CellStateCount {
   -fx-alignment: center;
