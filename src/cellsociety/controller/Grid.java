@@ -15,7 +15,7 @@ import java.util.Random;
  * creates is used throughout the program to keep track of every cell within the game.
  */
 public class Grid {
-  public static final String X = "x";
+  private static final String X = "x";
   private final Cells[][] myGrid;
   private static final String INVALID_GRID = "InvalidGrid";
   private final ErrorFactory myErrorFactory = new ErrorFactory();

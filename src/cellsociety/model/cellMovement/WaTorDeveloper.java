@@ -24,8 +24,8 @@ public class WaTorDeveloper {
     private static final int REPRODUCTION_INITIAL = 0;
     private static final int NO_ENERGY = 0;
     private static final int ENERGY_DECREASE = -1;
-    public static final String REPRODUCTION_KEY = "ReproductionMax";
-    public static final String ENERGY_KEY = "EnergyInitial";
+    private static final String REPRODUCTION_KEY = "ReproductionMax";
+    private static final String ENERGY_KEY = "EnergyInitial";
     private int REPRODUCTION_MAX;
     private int ENERGY_INITIAL;
     private ResourceBundle statesBundle;
