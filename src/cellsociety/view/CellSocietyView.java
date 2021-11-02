@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -45,11 +46,11 @@ public class CellSocietyView {
   private HBox gridPanel;
   private HBox multiGridPanel;
   private boolean multiGrid;
+  private boolean histogramAdded;
   private XYChart.Series series0 = new XYChart.Series();
   private XYChart.Series series1 = new XYChart.Series();
   private XYChart.Series series2 = new XYChart.Series();
   private XYChart.Series series3 = new XYChart.Series();
-  private XYChart.Series stepSeries = new XYChart.Series();
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -182,6 +183,9 @@ public class CellSocietyView {
     myAnimation.play();
     setupGridPanel();
     updateStateSeries();
+    if (histogramAdded) {
+      addHistogram();
+    }
   }
 
   private void pauseAndStep() {
@@ -217,12 +221,15 @@ public class CellSocietyView {
     NumberAxis yAxis = new NumberAxis(axisLowerBound, myGridView.getTotalCells(), axisTickMarks);
     LineChart histogram = myFactoryComponents.makeHistogram("Cell States over Time", xAxis, yAxis);
     histogram.getData().add(series0);
+    histogram.getData().add(series1);
+    histogram.setLegendSide(Side.LEFT);
     vbox.getChildren().add(histogram);
     return vbox;
   }
 
   private void addHistogram() {
     root.setLeft(setupHistogram());
+    histogramAdded = true;
   }
 
   private void updateStateSeries() {
