@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -109,6 +110,11 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkBlueDevilBackgroundMode() {
+    loadFiles();
+    clickOn(myStart);
+    clickOn(myPause);
+    Node histogramButton = lookup("#CheckHistogram").query();
+    clickOn(histogramButton);
     ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "BlueDevilMode";
@@ -121,6 +127,11 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkDarkBackgroundMode() {
+    loadFiles();
+    clickOn(myStart);
+    clickOn(myPause);
+    Node histogramButton = lookup("#CheckHistogram").query();
+    clickOn(histogramButton);
     ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "DarkMode";
@@ -133,6 +144,11 @@ public class CellSocietyViewTest extends DukeApplicationTest {
    */
   @Test
   public void checkLightBackgroundMode() {
+    loadFiles();
+    clickOn(myStart);
+    clickOn(myPause);
+    Node histogramButton = lookup("#CheckHistogram").query();
+    clickOn(histogramButton);
     ComboBox<String> options = lookup("#DropDownDefault").query();
     BorderPane pane = lookup("#Main").query();
     final String CSS_CLASS = "LightMode";
@@ -237,7 +253,7 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   /**
-   * Test that checks that the about pane is populated.
+   * Test that checks that the About section is populated.
    */
   @Test
   public void checkAboutSection() {
@@ -248,26 +264,49 @@ public class CellSocietyViewTest extends DukeApplicationTest {
   }
 
   /**
-   * TODO: Testing that color on a grid is not the default
+   * Testing that color on a grid is not the default if the sim file has its own colors.
    */
   @Test
   public void checkCellColor() {
-
+    File csvFile = new File("data/game_of_life/beehive.csv");
+    File simFile = new File("data/game_of_life/beehive.sim");
+    controller.loadFileType(csvFile.toString());
+    controller.loadFileType(simFile.toString());
+    clickOn(myStart);
+    clickOn(myPause);
+    Shape[][] grid = display.getMyGridView().getMyPaneNodes();
+    Paint cellColor = grid[0][0].getFill();
+    CellColors myCellColors = new CellColors(controller);
+    Paint defaultCellColor = myCellColors.getDefaultColorMap().get(controller.getMyGrid().getCell(0,0).getCurrentState());
+    assertNotEquals(cellColor, defaultCellColor);
   }
 
   /**
-   * TODO: Testing that the shape of the grid is different based on parameter
+   * Testing that the shape of the grid is different based on parameter.
    */
   @Test
   public void checkCellShape() {
-
+    loadFiles();
+    clickOn(myStart);
+    clickOn(myPause);
+    Shape[][] grid = display.getMyGridView().getMyPaneNodes();
+    CellView myCellView = new CellView(controller);
+    Shape actualCell = grid[0][0];
+    Shape expectedCell = myCellView.drawCell(0, 0, Math.min(grid.length, grid[0].length));
+    assertEquals(actualCell.toString(), expectedCell.toString());
   }
 
   /**
-   * TODO: Histogram testing
+   * Test that checks that the Histogram is populated when a game is started.
    */
   @Test
   public void checkHistogram() {
+    loadFiles();
+    clickOn(myStart);
+    Node histogramButton = lookup("#CheckHistogram").query();
+    clickOn(histogramButton);
+    Node myAboutPane = lookup("#HistogramPane").query();
+    assertTrue(myAboutPane.isVisible());
 
   }
 

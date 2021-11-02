@@ -267,8 +267,13 @@ public class CellSocietyView {
   }
 
   private void addHistogram() {
-    root.setLeft(setupHistogram());
-    histogramAdded = true;
+    try {
+      root.setLeft(setupHistogram());
+      histogramAdded = true;
+    } catch (Exception e) {
+      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
+      error.show();
+    }
   }
 
   private void updateStateSeries() {

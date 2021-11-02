@@ -6,17 +6,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.sound.sampled.Line;
 
 /**
  * @author Evelyn Cupil-Garcia
@@ -33,8 +28,6 @@ public class CellSocietyViewComponents {
   private VBox myAboutPanel;
 
   public final String maxValue = "maxValue";
-  public final String axisStart = "axisStart";
-  public final String axisStep = "axisStep";
 
   public final Map<String, String> colorMap = Map.of("Modooscuro", "DarkMode", "Modobajo",
       "LightMode",
