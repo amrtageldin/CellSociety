@@ -6,15 +6,21 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javax.sound.sampled.Line;
 
 /**
  * @author Evelyn Cupil-Garcia
+ * @author Luke Josephy
  * <p>
  * Class that uses FactoryComponents class to create the panels and UI components that are displayed
  * in the game.
@@ -27,6 +33,8 @@ public class CellSocietyViewComponents {
   private VBox myAboutPanel;
 
   public final String maxValue = "maxValue";
+  public final String axisStart = "axisStart";
+  public final String axisStep = "axisStep";
 
   public final Map<String, String> colorMap = Map.of("Modooscuro", "DarkMode", "Modobajo",
       "LightMode",
@@ -132,8 +140,9 @@ public class CellSocietyViewComponents {
     Node stepButton = myFactoryComponents.makeButton("Step", myCellSocietyView);
     Node speedUpButton = myFactoryComponents.makeButton("SpeedUp", myCellSocietyView);
     Node slowDownButton = myFactoryComponents.makeButton("SlowDown", myCellSocietyView);
+    Node histogramButton = myFactoryComponents.makeButton("CheckHistogram", myCellSocietyView);
     livePanel.getChildren()
-        .addAll(animationButton, stepButton, speedUpButton, slowDownButton);
+        .addAll(animationButton, stepButton, speedUpButton, slowDownButton, histogramButton);
     return livePanel;
   }
 

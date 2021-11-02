@@ -7,6 +7,9 @@ import cellsociety.model.Cells;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 
 /**
  * This is the controller for the CellSociety application. The controller is the only connection point
@@ -26,6 +29,8 @@ public class CellSocietyController {
     private static final String FILE_TYPE = "FileType";
     private String error;
     private boolean errorExists;
+    private int[] cellStateCounts;
+    private double stepCount;
 
     /**
      * Constructor for controller within CellSociety. Initializes controller as well as relevant variables
@@ -119,18 +124,28 @@ public class CellSocietyController {
                 checkErrors(myModel.getMyErrorFactory());
             }
         }
+        stepCount++;
         updateGrid();
     }
 
-    private void updateGrid(){
+    private void updateGrid() {
+        cellStateCounts = new int[4];
         for (int i = 0; i < myGrid.rowLength(); i++) {
             for (int j = 0; j < myGrid.colLength(); j++) {
-                Cells thisCell = myGrid.getCell(i,j);
+                Cells thisCell = myGrid.getCell(i, j);
                 thisCell.updateMyCurrentState();
+                cellStateCounts[thisCell.getCurrentState()]++;
             }
         }
     }
 
+    public int[] getCellStateCounts() {
+        return cellStateCounts;
+    }
+
+    public double getStepCount() {
+        return stepCount;
+    }
 
     private void checkErrors(ErrorFactory error){
         if(error.errorExists()){
