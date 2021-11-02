@@ -3,10 +3,13 @@ package cellsociety.ruleStructure;
 import cellsociety.Errors.ErrorFactory;
 import cellsociety.rule.Rule;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Cell Society Rules; this is the abstract class that uses a resource bundle file to generate
+ * the 'rule' attributes associated with a model
+ */
 abstract public class CellSocietyRules {
     private static final String METHOD_RULE = "METHOD";
     private static final String RULE_ERROR = "RuleError";
@@ -21,6 +24,11 @@ abstract public class CellSocietyRules {
 
     protected String parameter;
 
+    /**
+     * Initialize rules, parameterMap, errorFactory, and value bundles
+     * @param myType the Type of program, ex: "Fire", "GameOfLife"
+     * @param parameters store parameters, such as type of neighbors or percent
+     */
     public CellSocietyRules(String myType, Map<String, String> parameters){
         myRules = new ArrayList<>();
         myParametersMap = parameters;
@@ -70,8 +78,14 @@ abstract public class CellSocietyRules {
 
     }
 
-    public Integer generateNextState(int quantityOfLivingCells, int currentState) {
-        return generatedStateRunThroughRules(quantityOfLivingCells, currentState);
+    /**
+     * Return the new state for the cell we're looking at
+     * @param quantityOfRelevantCells the number of cells we've previously deemed meet a condition
+     * @param currentState the current state of the cell
+     * @return the new state of the cell
+     */
+    public Integer generateNextState(int quantityOfRelevantCells, int currentState) {
+        return generatedStateRunThroughRules(quantityOfRelevantCells, currentState);
     }
 
     protected Integer generatedStateRunThroughRules(int quantityOfPercolatedCells, int currentState) {
@@ -94,6 +108,10 @@ abstract public class CellSocietyRules {
         valueBundle = initializeBundle(modelResourceBundleBase, String.format("%sStates", base));
     }
 
+    /**
+     * If an error is reached, use this to call on that error
+     * @return The errorFactory/message
+     */
     public ErrorFactory getMyErrorFactory(){ return myErrorFactory;}
 
 }
