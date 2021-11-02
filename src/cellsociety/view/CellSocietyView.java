@@ -267,9 +267,7 @@ public class CellSocietyView {
 
   private VBox setupHistogram() {
     VBox vbox = new VBox();
-    if (!histogramAdded) {
-      vbox.setId("HistogramPane");
-    }
+    vbox.setId("HistogramPane");
     LineChart<Number, Number> histogram = myFactoryComponents.makeHistogram("CellStatesOverTime", setupHistogramXAxis(), setupHistogramYAxis());
     histogram.getData().add(series0);
     histogram.getData().add(series1);
@@ -307,9 +305,13 @@ public class CellSocietyView {
   private void updateStateSeries() {
     double stepCount = myController.getStepCount();
     series0.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[0]));
+    myFactoryComponents.nameSeries("Series0", series0);
     series1.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[1]));
+    myFactoryComponents.nameSeries("Series1", series1);
     series2.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[2]));
+    myFactoryComponents.nameSeries("Series2", series2);
     series3.getData().add(new XYChart.Data<>(stepCount, myController.getCellStateCounts()[3]));
+    myFactoryComponents.nameSeries("Series3", series3);
   }
 
   /**
