@@ -1,13 +1,8 @@
 package cellsociety.model;
 
 import cellsociety.controller.CellSocietyController;
-import cellsociety.controller.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -24,23 +19,23 @@ public class GameOfLifeModelTest {
 
     @BeforeEach
     void setUp(){
-        myCellSocietyController = new CellSocietyController();
+         myCellSocietyController = new CellSocietyController();
     }
 
     @Test
     void getNextStateTest() {
         g = getMyModel("test");
-        Grid myGrid = myCellSocietyController.getMyGrid();
-        g.setNextState(myGrid.getCell(0,1), 0, 1, myGrid);
-        assertEquals(g.getNextState(myGrid.getCell(0,1)), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        g.setNextState(cell[0][1], 0, 1, cell);
+        assertEquals(g.getNextState(cell[0][1]), 1);
     }
 
     @Test
     void getNextStateFailTest(){
         try {
             g = getMyModel("blank");
-            Grid myGrid = myCellSocietyController.getMyGrid();
-            g.setNextState(myGrid.getCell(0,1), 0, 1, myGrid);
+            Cells[][] cell = myCellSocietyController.getMyGrid();
+            g.setNextState(cell[0][1], 0, 1, cell);
         }
         catch (Exception e){
             assert(true);
@@ -50,81 +45,79 @@ public class GameOfLifeModelTest {
     @Test
     void updateAllCellsTest(){
             g = getMyModel("test");
-        Grid myGrid = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
             myCellSocietyController.step();
-            assertEquals(g.getNextState(myGrid.getCell(0,1)), 1);
+            assertEquals(g.getNextState(cell[0][1]), 1);
     }
 
     @Test
     void updateAllCellsToadTest(){
         g = getMyModel("toad");
-        Grid myGrid = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertEquals(g.getNextState(myGrid.getCell(2,1)), 1);
+        assertEquals(g.getNextState(cell[2][1]), 1);
     }
 
     @Test
     void updateAllCellsBeeHiveTest(){
         g = getMyModel("beehive");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertEquals(g.getNextState(cell.getCell(2,1)), cell.getCell(2,1).getCurrentState());
+        assertEquals(g.getNextState(cell[2][1]), cell[2][1].getCurrentState());
     }
 
     @Test
     void updateAllCellsCornerSameTest(){
         g = getMyModel("corner-same");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertEquals(g.getNextState(cell.getCell(0,0)), cell.getCell(0,0).getCurrentState());
+        assertEquals(g.getNextState(cell[0][0]), cell[0][0].getCurrentState());
     }
 
     @Test
     void updateAllCellsCornerDifferentTest(){
         g = getMyModel("corner-different");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertEquals(g.getNextState(cell.getCell(0,0)), 0);
+        assertEquals(g.getNextState(cell[0][0]), 0);
     }
     @Test
     void updateAllCellsFailTest(){
         g = getMyModel("test");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertEquals(g.getNextState(cell.getCell(0,1)), 1);
+        assertEquals(g.getNextState(cell[0][1]), 1);
     }
 
     @Test
     void updateAllCellsToadFailTest(){
         g = getMyModel("toad");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertNotEquals(g.getNextState(cell.getCell(2,2)), 1);
+        assertNotEquals(g.getNextState(cell[2][2]), 1);
     }
 
     @Test
     void updateAllCellsBeeHiveFailTest(){
         g = getMyModel("beehive");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertNotEquals(g.getNextState(cell.getCell(2,1)), 0);
+        assertNotEquals(g.getNextState(cell[2][1]), 0);
     }
 
     @Test
     void updateAllCellsCornerSameFailTest(){
         g = getMyModel("corner-same");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertNotEquals(g.getNextState(cell.getCell(0,0)), 0);
+        assertNotEquals(g.getNextState(cell[0][0]), 0);
     }
 
     @Test
     void updateAllCellsCornerDifferentFailTest(){
         g = getMyModel("corner-different");
-        Grid cell = myCellSocietyController.getMyGrid();
+        Cells[][] cell = myCellSocietyController.getMyGrid();
         myCellSocietyController.step();
-        assertNotEquals(g.getNextState(cell.getCell(0,1)), 1);
+        assertNotEquals(g.getNextState(cell[0][1]), 1);
     }
-
-
 }

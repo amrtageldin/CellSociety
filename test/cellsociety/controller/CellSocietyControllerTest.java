@@ -20,73 +20,73 @@ public class CellSocietyControllerTest {
     @Test
     void gridSetUpPassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/blinkers.csv");
-        Grid testCells = new Grid(10,10);
-        testCells.setCell(0,0,new Cells(0));
-        assertEquals(myCellSocietyController.getMyGrid().getCell(0,0).getCurrentState(), testCells.getCell(0,0).getCurrentState());
+        Cells[][] testCells = new Cells[10][10];
+        testCells[0][0] = new Cells(0);
+        assertEquals(myCellSocietyController.getMyGrid()[0][0].getCurrentState(), testCells[0][0].getCurrentState());
     }
 
     @Test
     void gridSetUpToadPassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/toad.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertEquals(cell.getCell(2,2).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertEquals(cell[2][2].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpBeeHivePassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/beehive.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertEquals(cell.getCell(1,2).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertEquals(cell[1][2].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpCornerSamePassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/corner-same.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertEquals(cell.getCell(0,0).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertEquals(cell[0][0].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpCornerDifferentPassTest(){
         myCellSocietyController.loadFileType("data/game_of_life/corner-different.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertEquals(cell.getCell(0,0).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertEquals(cell[0][0].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpFailTest(){
         myCellSocietyController.loadFileType("data/game_of_life/blinkers.csv");
-        Grid testCells = new Grid(10,10);
-        testCells.setCell(0,0, new Cells(1));
-        assertNotEquals(myCellSocietyController.getMyGrid().getCell(0,0).getCurrentState(), testCells.getCell(0,0).getCurrentState());
+        Cells[][] testCells = new Cells[10][10];
+        testCells[0][0] = new Cells(1);
+        assertNotEquals(myCellSocietyController.getMyGrid()[0][0].getCurrentState(), testCells[0][0].getCurrentState());
     }
 
     @Test
     void gridSetUpToadFailTest(){
         myCellSocietyController.loadFileType("data/game_of_life/toad.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertNotEquals(cell.getCell(2,1).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertNotEquals(cell[2][1].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpBeeHiveFailTest(){
         myCellSocietyController.loadFileType("data/game_of_life/beehive.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertNotEquals(cell.getCell(2,2).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertNotEquals(cell[2][2].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpCornerSameFailTest(){
         myCellSocietyController.loadFileType("data/game_of_life/corner-same.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertNotEquals(cell.getCell(0,4).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertNotEquals(cell[0][4].getCurrentState(), 1);
     }
 
     @Test
     void gridSetUpCornerDifferentFailTest(){
         myCellSocietyController.loadFileType("data/game_of_life/corner-different.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        assertNotEquals(cell.getCell(0,2).getCurrentState(), 1);
+        Cells[][] cell = myCellSocietyController.getMyGrid();
+        assertNotEquals(cell[0][2].getCurrentState(), 1);
     }
 
     @Test
@@ -134,25 +134,5 @@ public class CellSocietyControllerTest {
             assert(true);
         }
 
-    }
-
-    @Test
-    void makeRandomGridTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/random.csv");
-        Grid cell = myCellSocietyController.getMyGrid();
-        int cellValue = cell.getCell(0,0).getCurrentState();
-        assertEquals(cell.getCell(0,0).getCurrentState(), cellValue);
-    }
-
-    @Test
-    void getErrorTest(){
-        myCellSocietyController.loadFileType("data/FOLDER_PURPOSE.md");
-        assertEquals("SimError", myCellSocietyController.getMyError());
-    }
-
-    @Test
-    void getErrorGridTest(){
-        myCellSocietyController.loadFileType("data/game_of_life/blank.csv");
-        assertEquals("InvalidGrid", myCellSocietyController.getMyError());
     }
 }

@@ -1,8 +1,0 @@
-Type=WaTor
-Title=FiveReproductionThreeEnergy
-Author=Reya Magan
-Description=Sharks and Fish can reproduce after 5 chrona, sharks start with 3 energy
-InitialStates=wa_tor/random.csv
-ReproductionMax=5
-EnergyInitial=3
-Neighbors=LeftRightNeighbors

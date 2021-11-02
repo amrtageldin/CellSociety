@@ -1,23 +1,22 @@
 package cellsociety.ruleStructure;
 
-
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-/**
- * Fire Rules; generate the rule that determines if the randomly number we generated is enough to
- * deem our current cell's next state burned
- */
 public class FireRules extends CellSocietyRules {
+  private String probPercent;
 
-  /**
-   * Initialize the FireRules
-   *
-   * @param type       use String "Percolation" to create the rules
-   * @param parameters parameter to deem threshold for if a fire burns or not
-   */
-  public FireRules(String type, Map<String, String> parameters) {
-    super(type, parameters);
+  public FireRules(String myType){
+    super(myType);
   }
+
+  protected void probabilityCheck(){
+    parameter = "10"; // changeLater
+  }
+
+
 
 
 }

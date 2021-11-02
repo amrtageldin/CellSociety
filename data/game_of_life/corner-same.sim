@@ -3,4 +3,3 @@ Title=CornerSame
 Author=John Conway
 Description=Examples of a still-life at the edges
 InitialStates=game_of_life/corner-same.csv
-Neighbors=FullNeighbors
