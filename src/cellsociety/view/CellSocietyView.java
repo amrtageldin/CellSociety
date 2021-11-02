@@ -223,7 +223,6 @@ public class CellSocietyView {
     try {
       myAnimation.setRate(
           myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-      System.out.println("Sped up!");
     } catch (Exception e) {
       Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
       error.show();
