@@ -6,7 +6,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,9 +21,10 @@ import javafx.util.Duration;
  * @author Evelyn Cupil-Garcia
  * @author Luke Josephy
  * <p>
- * Class that displays the UI components for all Cell Society Game types.
- * TODO: Missing double screen functionality
- *  
+ * Class that sets up the display for all Cell Society Game types.
+ * TODO: Missing double screen functionality,error message handling,
+ *  about section parsing to display, missing color choosing for cell state.
+ *
  */
 public class CellSocietyView {
 
@@ -33,13 +34,10 @@ public class CellSocietyView {
   private final CellSocietyController myController;
   CellSocietyViewComponents myViewComponents;
   private GridView myGridView;
-  private GridView mySecondGridView;
   private Timeline myAnimation;
   private boolean isPlaying;
   private boolean gridLoaded;
   private HBox gridPanel;
-  private HBox multiGridPanel;
-  private boolean multiGrid;
 
   public final String defaultX = "defaultX";
   public final String defaultY = "defaultY";
@@ -62,7 +60,6 @@ public class CellSocietyView {
    */
   public CellSocietyView(CellSocietyController controller, String language,
       Stage stage) {
-
     myViewComponents = new CellSocietyViewComponents(language, this);
     myController = controller;
     myFactoryComponents = new FactoryComponents(language);
@@ -91,64 +88,30 @@ public class CellSocietyView {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(new File("data/")); //just adding for test purposes
     File selectedFile = fileChooser.showOpenDialog(myStage);
-    try {
-      myController.loadFileType(selectedFile.toString());
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidFile", "InvalidFileMessage");
-      error.show();
-    }
+    myController.loadFileType(selectedFile.toString());
     if(myAnimation != null){
       togglePlay();
     }
-    errorCheck();
   }
 
   private void startGame() {
-    try {
-      if (gridLoaded) {
-//        addGrid();
-        multiGrid = true;
-      }
-      else {
-        setupGridPanel();
-        startSimulation();
-        gridLoaded = true;
-      }
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
-  }
-
-  private void setupGridPanel() {
-    if (multiGrid) {
-//      addGrid();
-    }
-    else {
+    if (!gridLoaded) {
       gridPanel = new HBox();
       gridPanel.setId("GridPanel");
-      root.setCenter(gridPanel);
       gridPanel.getChildren().add(setupGridSection());
+      root.setCenter(gridPanel);
+      startSimulation();
+      gridLoaded = true;
+    }
+    else {
+      togglePlay();
+      gridPanel.getChildren().add(setupGridSection());
+      togglePlay();
     }
   }
 
-//  private void addGrid() {
-//    if (!gridLoaded) {
-//      multiGridPanel = new HBox();
-//      multiGridPanel.setId("GridPanel");
-//      multiGridPanel.getChildren().addAll(setupFirstGridSection(), setupSecondGridSection());
-//      root.setCenter(multiGridPanel);
-//    } else {
-//      multiGridPanel = gridPanel;
-//      multiGridPanel.setId("GridPanel");
-//      multiGridPanel.getChildren().add(setupSecondGridSection());
-//      root.setCenter(multiGridPanel);
-//      gridLoaded = false;
-//    }
-//  }
-
   private void startSimulation() {
-    root.setRight(myViewComponents.populateAboutSection(myController));
+    myFactoryComponents.setLabel((Label) root.getRight(), myController.getMyGameType());
     if (myAnimation != null) {
       myAnimation.stop();
     }
@@ -158,84 +121,44 @@ public class CellSocietyView {
         new KeyFrame(Duration.seconds(Double.parseDouble(myMagicValues.getString(secondDelay))),
             e -> step()));
     myAnimation.play();
-    errorCheck();
     isPlaying = true;
   }
 
   private void step() {
-    try {
-      if (myController != null) {
-        myController.step();
-        errorCheck();
-        myAnimation.stop();
-      }
-      myAnimation.play();
-      setupGridPanel();
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+    if (myController != null) {
+      myController.step();
+      myAnimation.stop();
     }
+    myAnimation.play();
+    root.setCenter(setupGridSection());
   }
 
-
   private void pauseAndStep() {
-    try {
-      step();
-      myAnimation.stop();
-      isPlaying = false;
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
+    step();
+    myAnimation.stop();
+    isPlaying = false;
   }
 
   private void togglePlay() {
-    try {
-      if (isPlaying) {
-        myAnimation.stop();
-      } else {
-        myAnimation.play();
-      }
-      isPlaying = !isPlaying;
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
+    if (isPlaying) {
+      myAnimation.stop();
+    } else {
+      myAnimation.play();
     }
+    isPlaying = !isPlaying;
   }
 
   private void speedUp() {
-    try {
-      myAnimation.setRate(
-          myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
-      System.out.println("Sped up!");
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
+    myAnimation.setRate(
+        myAnimation.getRate() * Double.parseDouble(myMagicValues.getString(speedUpRate)));
+    System.out.println("Sped up!");
   }
 
   private void slowDown() {
-    try {
-      myAnimation.setRate(
-          myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
-    } catch (Exception e) {
-      Alert error = myFactoryComponents.createErrorMessage("InvalidGame", "InvalidGameMessage");
-      error.show();
-    }
+    myAnimation.setRate(
+        myAnimation.getRate() - Double.parseDouble(myMagicValues.getString(slowDownRate)));
   }
 
-<<<<<<< HEAD
-  /**
-   * Getter method that returns the GridView.
-   *
-   * @return GridView.
-   */
-=======
-  private void addHistogram() {
-    root.setLeft(myViewComponents.setupHistogram(myController.getCellStateSeries()));
-  }
-
->>>>>>> 56caaf79648cb8bb532fc6b9398dd5d43cdf49e3
   public GridView getMyGridView() {
     return myGridView;
   }
@@ -246,44 +169,6 @@ public class CellSocietyView {
     myGridView = new GridView(myController);
     vbox.getChildren().add(myGridView.setupGrid());
     return vbox;
-  }
-
-<<<<<<< HEAD
-//  private VBox setupFirstGridSection() {
-//    VBox vbox = new VBox();
-//    vbox.setId("Grid");
-//    vbox.getChildren().add(myGridView.setupGrid());
-//    return vbox;
-//  }
-//
-//  private VBox setupSecondGridSection() {
-//    VBox vbox = new VBox();
-//    vbox.setId("Grid");
-//    mySecondGridView = new GridView(myController);
-//    vbox.getChildren().add(mySecondGridView.setupGrid());
-//    return vbox;
-//  }
-=======
-  private VBox setupFirstGridSection() {
-    VBox vbox = new VBox();
-    vbox.setId("Grid");
-    vbox.getChildren().add(myGridView.setupGrid());
-    return vbox;
-  }
-
-  private VBox setupSecondGridSection() {
-    VBox vbox = new VBox();
-    vbox.setId("Grid");
-    mySecondGridView = new GridView(myController);
-    vbox.getChildren().add(mySecondGridView.setupGrid());
-    return vbox;
-  }
->>>>>>> 56caaf79648cb8bb532fc6b9398dd5d43cdf49e3
-
-  private void errorCheck(){
-    if(myController.getErrorExists()){
-      myFactoryComponents.createErrorMessage("InvalidFile", myController.getMyError());
-    }
   }
 
   /**
